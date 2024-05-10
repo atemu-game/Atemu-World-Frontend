@@ -1,7 +1,8 @@
+import IncentivePage from '@/layouts/IncentivesPage';
 import React from 'react';
 
 const Incentive = () => {
-  return <div>Incentive</div>;
+  return <IncentivePage />;
 };
 
 export default Incentive;

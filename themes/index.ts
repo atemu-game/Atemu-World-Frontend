@@ -51,11 +51,26 @@ const Button: ComponentStyleConfig = {
     },
   },
 };
+const Text: ComponentStyleConfig = {
+  variants: {
+    title: {
+      fontSize: '1.5rem',
+      fontWeight: 700,
+      textTransform: 'uppercase',
+    },
+    sub_title: {
+      fontSize: 'lg',
+      fontWeight: 700,
+      textTransform: 'uppercase',
+    },
+  },
+};
 const theme = extendTheme({
   colors,
   styles,
   components: {
     Button,
+    Text,
   },
 });
 

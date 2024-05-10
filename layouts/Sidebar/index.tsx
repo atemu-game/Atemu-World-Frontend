@@ -4,6 +4,8 @@ import HomeIcon from '@/public/assets/icons/home.svg';
 import IncentiveIcon from '@/public/assets/icons/incentive_token.svg';
 import LanguageIcon from '@/public/assets/icons/language.svg';
 import LeaderIcon from '@/public/assets/icons/leaderboard.svg';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 interface ListPageProps {
   link: string;
@@ -23,7 +25,7 @@ const Sidebar = () => {
       label: 'Incentives',
     },
     {
-      link: '/incentives',
+      link: '/trade-zone',
       icon: LanguageIcon,
       label: 'Trade-zone',
     },
@@ -33,6 +35,7 @@ const Sidebar = () => {
       label: 'Incentives',
     },
   ];
+  const path = usePathname();
   return (
     <Box
       display="flex"
@@ -44,18 +47,31 @@ const Sidebar = () => {
       borderRightColor="divider.100"
     >
       {ListPage.map((item, index) => {
+        const pageActive = (): boolean => {
+          if (item.link === '/') {
+            //home
+            return item.link === path;
+          } else {
+            if (path.includes(item.link)) {
+              return path.includes(item.link);
+            }
+          }
+          return false;
+        };
         return (
-          <Box
-            key={index}
-            display="flex"
-            alignItems="center"
-            flexDirection="column"
-          >
-            <Icon as={item.icon} height={6} width={6} />
-            <Text fontSize="lg" fontWeight={700}>
-              {item.label}
-            </Text>
-          </Box>
+          <Link href={item.link} key={index}>
+            <Box display="flex" alignItems="center" flexDirection="column">
+              <Icon
+                as={item.icon}
+                height={6}
+                width={6}
+                fillOpacity={pageActive() ? 1 : 0.5}
+              />
+              <Text fontSize="lg" fontWeight={700}>
+                {item.label}
+              </Text>
+            </Box>
+          </Link>
         );
       })}
     </Box>
