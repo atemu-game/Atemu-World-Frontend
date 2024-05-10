@@ -20,11 +20,12 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
           w="full"
           display="flex"
           as="article"
-          flexDirection="column"
           overflow="clip"
         >
           <Sidebar />
-          <Flex as="main">{children}</Flex>
+          <Flex as="main" padding={4}>
+            {children}
+          </Flex>
         </Container>
       </Flex>
     </>

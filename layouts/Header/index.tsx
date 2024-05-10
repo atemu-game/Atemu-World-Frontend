@@ -3,7 +3,13 @@ import React from 'react';
 import LogoIcon from '@/public/logo.svg';
 const Header = () => {
   return (
-    <HStack justifyContent="space-between" as="header" padding={5}>
+    <HStack
+      justifyContent="space-between"
+      as="header"
+      padding={5}
+      borderBottom="1px solid"
+      borderBottomColor="divider.100"
+    >
       <HStack>
         <LogoIcon />
         <Text fontSize="24px" fontWeight={700} textTransform="uppercase">
@@ -11,8 +17,15 @@ const Header = () => {
         </Text>
       </HStack>
       <HStack>
-        <Button>Invite</Button>
-        <Button>Connect</Button>
+        <Button
+          variant="primary"
+          sx={{
+            borderColor: 'secondary.100',
+          }}
+        >
+          Invite
+        </Button>
+        <Button variant="primary">Connect</Button>
       </HStack>
     </HStack>
   );

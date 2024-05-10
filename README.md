@@ -1,5 +1,5 @@
-# Card YOLO
-
+# Card Game
+Card Game Flex 
 
 
 ## Description
@@ -11,7 +11,7 @@ To use this project, follow these steps:
 
 ## Usage
 
-To use the Card YOLO project, follow these steps:
+To use the Card  project, follow these steps:
 
 
 ## Contributing
