@@ -26,7 +26,7 @@ interface Configuration {
   sound: boolean;
 }
 export const WalletContext = createContext<IWalletConnectionProps>(initalValue);
-const APP_NAME = 'StarkArcade_Teris';
+const APP_NAME = 'Card_Flex';
 const ProviderWalletContext = ({ children }: PropsWithChildren) => {
   const { address: addressWallet, status: statusWallet } = useAccount();
   const [config, setConfig] = useLocalStorage<Configuration>(

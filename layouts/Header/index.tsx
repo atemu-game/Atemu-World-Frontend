@@ -1,6 +1,7 @@
-import { Button, HStack, Text } from '@chakra-ui/react';
+import { Button, HStack, Icon, Text } from '@chakra-ui/react';
 import React from 'react';
 import LogoIcon from '@/public/logo.svg';
+import StarkNetIcon from '@/public/assets/token/starknet.svg';
 import ConnectWallet from '@/components/ConnectWallet';
 import { useWalletContext } from '@/providers/ProviderContext';
 import ProfileAccount from '@/components/Account/ProfileAccount';
@@ -20,7 +21,7 @@ const Header = () => {
           - the supreme card trading game
         </Text>
       </HStack>
-      <HStack>
+      <HStack gap={3}>
         <Button
           variant="primary"
           sx={{
@@ -28,6 +29,9 @@ const Header = () => {
           }}
         >
           Invite
+        </Button>
+        <Button variant="primary" rightIcon={<Icon as={StarkNetIcon} />}>
+          100
         </Button>
         {address ? <ProfileAccount /> : <ConnectWallet />}
       </HStack>

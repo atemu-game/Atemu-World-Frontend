@@ -65,12 +65,49 @@ const Text: ComponentStyleConfig = {
     },
   },
 };
+
+export const Menu: ComponentStyleConfig = {
+  variants: {
+    profile: {
+      list: {
+        padding: 4,
+        border: 'none',
+        borderRadius: '0',
+        bg: 'gray.800',
+        // transform: 'translate3d(13px, 26px, 0px)!important',
+      },
+      item: {
+        bg: 'inherit',
+        color: 'gray.200',
+        px: 2,
+        py: 3,
+        display: 'flex',
+        gap: 4,
+        _hover: {
+          background: 'gray.700',
+        },
+      },
+      command: {
+        opacity: '0.8',
+        fontFamily: 'mono',
+        fontSize: 'sm',
+        letterSpacing: 'tighter',
+        pl: '4',
+      },
+      divider: {
+        my: '4',
+      },
+    },
+  },
+};
+
 const theme = extendTheme({
   colors,
   styles,
   components: {
     Button,
     Text,
+    Menu,
   },
 });
 
