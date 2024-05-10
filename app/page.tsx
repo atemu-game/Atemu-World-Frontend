@@ -1,3 +1,7 @@
 export default function Home() {
-  return <>Main Layout</>;
+  return (
+    <>
+      <p>Main Layout</p>
+    </>
+  );
 }

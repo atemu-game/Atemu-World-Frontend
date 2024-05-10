@@ -1,28 +1,41 @@
 import { extendTheme } from '@chakra-ui/react';
+import { color } from 'framer-motion';
 const colors = {
   primary: {
-    100: '#f7fafc',
-    200: '#edf2f7',
-    300: '#e2e8f0',
-    400: '#cbd5e0',
-    500: '#a0aec0',
-    600: '#718096',
-    700: '#4a5568',
-    800: '#2d3748',
-    900: '#1a202c',
+    100: '#FFD91A',
+  },
+  shader: {
+    50: '#FFFBE8',
+    100: '#FFF7D1',
+    200: '#FFF0A3',
+    300: '#FFE876',
+    400: '#FFE148',
+    500: '#FFD91A',
+    600: '#CCAE15',
+    700: '#998210',
+    800: '#66570A',
+    900: '#332B05',
   },
   secondary: {
-    100: '#edf2f7',
-    200: '#e2e8f0',
-    300: '#cbd5e0',
-    400: '#a0aec0',
-    500: '#718096',
-    600: '#4a5568',
-    700: '#2d3748',
-    800: '#1a202c',
-    900: '#171923',
+    100: '#FFF734',
+    200: '#EF46BA',
+    300: '#FF5050',
+    400: '#2FD3B5',
+    500: '#844CFE',
+  },
+  body: '#0D0E13',
+};
+const styles = {
+  global: {
+    body: {
+      background: colors.body,
+      color: 'white',
+    },
   },
 };
-const theme = extendTheme({});
+const theme = extendTheme({
+  colors,
+  styles,
+});
 
 export default theme;
