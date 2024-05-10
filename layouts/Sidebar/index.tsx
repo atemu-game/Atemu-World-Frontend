@@ -60,13 +60,17 @@ const Sidebar = () => {
         };
         return (
           <Link href={item.link} key={index}>
-            <Box display="flex" alignItems="center" flexDirection="column">
-              <Icon
-                as={item.icon}
-                height={6}
-                width={6}
-                fillOpacity={pageActive() ? 1 : 0.5}
-              />
+            <Box
+              display="flex"
+              alignItems="center"
+              flexDirection="column"
+              transition="all 0.3s"
+              opacity={pageActive() ? 1 : 0.5}
+              _hover={{
+                opacity: 1,
+              }}
+            >
+              <Icon as={item.icon} height={6} width={6} />
               <Text fontSize="lg" fontWeight={700}>
                 {item.label}
               </Text>

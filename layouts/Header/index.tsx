@@ -1,7 +1,11 @@
 import { Button, HStack, Text } from '@chakra-ui/react';
 import React from 'react';
 import LogoIcon from '@/public/logo.svg';
+import ConnectWallet from '@/components/ConnectWallet';
+import { useWalletContext } from '@/providers/ProviderContext';
+import ProfileAccount from '@/components/Account/ProfileAccount';
 const Header = () => {
+  const { address } = useWalletContext();
   return (
     <HStack
       justifyContent="space-between"
@@ -25,7 +29,7 @@ const Header = () => {
         >
           Invite
         </Button>
-        <Button variant="primary">Connect</Button>
+        {address ? <ProfileAccount /> : <ConnectWallet />}
       </HStack>
     </HStack>
   );
