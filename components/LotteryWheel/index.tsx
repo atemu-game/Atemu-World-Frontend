@@ -230,7 +230,12 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
   }, []);
   return (
     <>
-      <Box width="500px" height="500px" id="chart-wheel" ref={trigger}></Box>
+      <Box
+        width={{ lg: '500px', base: '300px' }}
+        height={{ lg: '500px', base: '300px' }}
+        id="chart-wheel"
+        ref={trigger}
+      ></Box>
       <Button onClick={findTheWinner}>Spin</Button>
     </>
   );

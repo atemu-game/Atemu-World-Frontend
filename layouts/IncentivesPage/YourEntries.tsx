@@ -35,9 +35,19 @@ const YourEntries = () => {
       <Text textTransform="uppercase" variant="sub_title">
         Your entries
       </Text>
-      <Flex gap={8}>
+      <Flex
+        gap={8}
+        flexWrap={{
+          md: 'nowrap',
+          base: 'wrap',
+        }}
+      >
         <Box>
-          <HStack justifyContent="space-between" mb={4}>
+          <HStack
+            justifyContent="space-between"
+            mb={4}
+            flexWrap={{ md: 'nowrap', base: 'wrap' }}
+          >
             <Text variant="sub_title">Points entry per round</Text>
             <Flex gap={3}>
               {ListOption.map((option, index) => {
@@ -62,7 +72,7 @@ const YourEntries = () => {
           />
         </Box>
 
-        <Box>
+        <Box width={{ md: 'auto', base: 'full' }}>
           <HStack justifyContent="space-between" mb={4}>
             <Text variant="sub_title">Number of rounds</Text>
             <Button variant="primary">Max</Button>

@@ -70,10 +70,22 @@ const IncentivePage = () => {
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
-      <HStack alignItems="flex-start" gap={4} justifyContent="space-between">
+      <HStack
+        alignItems="flex-start"
+        gap={4}
+        justifyContent="space-between"
+        flexWrap={{
+          xl: 'nowrap',
+          base: 'wrap',
+        }}
+      >
         <Flex flexDirection="column" gap={4} width="full">
-          <Flex gap={4} justifyContent="space-between">
-            <Box minWidth="325px" height="full">
+          <Flex
+            gap={4}
+            justifyContent="space-between"
+            flexWrap={{ lg: 'nowrap', base: 'wrap-reverse' }}
+          >
+            <Box minWidth={{ lg: '325px', base: 'full' }} height="full">
               <CurrentPlayer listPlayer={CurentPlayerMock} />
             </Box>
 
