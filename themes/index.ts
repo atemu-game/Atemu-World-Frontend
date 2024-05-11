@@ -1,28 +1,138 @@
-import { extendTheme } from '@chakra-ui/react';
-const colors = {
+import { ComponentStyleConfig, extendTheme } from '@chakra-ui/react';
+export const colors = {
   primary: {
-    100: '#f7fafc',
-    200: '#edf2f7',
-    300: '#e2e8f0',
-    400: '#cbd5e0',
-    500: '#a0aec0',
-    600: '#718096',
-    700: '#4a5568',
-    800: '#2d3748',
-    900: '#1a202c',
+    100: '#FFD91A',
   },
+  divider: {
+    100: '#3A3A3C',
+  },
+  // shader: {
+  //   50: '#FFFBE8',
+  //   100: '#FFF7D1',
+  //   200: '#FFF0A3',
+  //   300: '#FFE876',
+  //   400: '#FFE148',
+  //   500: '#FFD91A',
+  //   600: '#CCAE15',
+  //   700: '#998210',
+  //   800: '#66570A',
+  //   900: '#332B05',
+  // },
   secondary: {
-    100: '#edf2f7',
-    200: '#e2e8f0',
-    300: '#cbd5e0',
-    400: '#a0aec0',
-    500: '#718096',
-    600: '#4a5568',
-    700: '#2d3748',
-    800: '#1a202c',
-    900: '#171923',
+    100: '#FFF734',
+    200: '#EF46BA',
+    300: '#FF5050',
+    400: '#2FD3B5',
+    500: '#844CFE',
+  },
+  body: '#0D0E13',
+};
+const styles = {
+  global: {
+    body: {
+      background: colors.body,
+      color: 'rgba(255, 255, 255, 0.5)',
+    },
   },
 };
-const theme = extendTheme({});
+
+const Button: ComponentStyleConfig = {
+  variants: {
+    primary: {
+      color: 'white',
+      border: '1px solid',
+      borderColor: 'divider.100',
+      borderRadius: '0',
+      fontsize: 'lg',
+      fontWeight: 700,
+      _hover: {
+        opacity: 0.8,
+      },
+    },
+  },
+};
+const Text: ComponentStyleConfig = {
+  variants: {
+    title: {
+      fontSize: '1.5rem',
+      fontWeight: 700,
+      textTransform: 'uppercase',
+      mb: 4,
+      color: 'white',
+    },
+    sub_title: {
+      fontSize: 'lg',
+      fontWeight: 700,
+      textTransform: 'uppercase',
+      color: 'white',
+    },
+  },
+};
+
+export const Menu: ComponentStyleConfig = {
+  variants: {
+    profile: {
+      list: {
+        padding: 4,
+        border: 'none',
+        borderRadius: '0',
+        bg: 'gray.800',
+        // transform: 'translate3d(13px, 26px, 0px)!important',
+      },
+      item: {
+        bg: 'inherit',
+        color: 'gray.200',
+        px: 2,
+        py: 3,
+        display: 'flex',
+        gap: 4,
+        _hover: {
+          background: 'gray.700',
+        },
+      },
+      command: {
+        opacity: '0.8',
+        fontFamily: 'mono',
+        fontSize: 'sm',
+        letterSpacing: 'tighter',
+        pl: '4',
+      },
+      divider: {
+        my: '4',
+      },
+    },
+  },
+};
+const Input: ComponentStyleConfig = {
+  variants: {
+    primary: {
+      field: {
+        border: '1px solid',
+        borderColor: 'divider.100',
+        borderRadius: '0',
+        bg: 'inherit',
+        _placeholder: {
+          color: 'rgba(255, 255, 255, 0.5)',
+        },
+        _hover: {
+          borderColor: 'secondary.400',
+        },
+        _focus: {
+          borderColor: 'secondary.400',
+        },
+      },
+    },
+  },
+};
+const theme = extendTheme({
+  colors,
+  styles,
+  components: {
+    Button,
+    Text,
+    Menu,
+    Input,
+  },
+});
 
 export default theme;
