@@ -15,6 +15,7 @@ const TradeZonePage = () => {
         justifyContent="space-between"
         border="1px solid"
         borderColor="divider.100"
+        flexWrap="wrap"
       >
         <Box>
           <Text fontWeight="bold" color="secondary.400">
@@ -50,7 +51,11 @@ const TradeZonePage = () => {
           Stop
         </Button>
       </HStack>
-      <HStack alignItems="flex-start" gap={4}>
+      <HStack
+        alignItems="flex-start"
+        gap={4}
+        flexWrap={{ xl: 'nowrap', base: 'wrap' }}
+      >
         <SettingRpc />
         <MonitorTrade />
       </HStack>

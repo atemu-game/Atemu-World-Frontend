@@ -18,7 +18,7 @@ const MonitorTrade = () => {
             padding={4}
             gap={4}
             width="full"
-            flexWrap={{ xl: 'nowrap', md: 'wrap' }}
+            flexWrap={{ xl: 'nowrap', base: 'wrap' }}
           >
             <Box>
               <Text variant="sub_title" mb={2}>
@@ -45,8 +45,19 @@ const MonitorTrade = () => {
               <Text variant="sub_title" mb={2}>
                 Your Scret Key
               </Text>
-              <HStack padding={2} border="1px solid" borderColor="divider.100">
-                <Text>
+              <HStack
+                padding={2}
+                border="1px solid"
+                borderColor="divider.100"
+                flexWrap={{
+                  md: 'nowrap',
+                  base: 'wrap',
+                }}
+              >
+                <Text
+                  textOverflow="ellipsis"
+                  maxWidth={{ lg: 'full', base: '300px' }}
+                >
                   suiprivkey1qpdr8cdecfxnvllwz7trdq5lkwvhkhwwsnzwzc3r890ulhpga3u62v6rw4m
                 </Text>
                 <CopyClipBoard
@@ -70,7 +81,11 @@ const MonitorTrade = () => {
                 placeholder="Import your private key here"
                 variant="primary"
               />
-              <Button variant="primary" borderColor="white" minWidth="200px">
+              <Button
+                variant="primary"
+                borderColor="white"
+                minWidth={{ md: '200px', base: 'fit-content' }}
+              >
                 Import
               </Button>
             </HStack>
@@ -117,7 +132,7 @@ const MonitorTrade = () => {
             </Box>
             <Button
               variant="primary"
-              minW="200px"
+              minWidth={{ md: '200px', base: 'fit-content' }}
               color="secondary.400"
               borderColor="secondary.400"
             >

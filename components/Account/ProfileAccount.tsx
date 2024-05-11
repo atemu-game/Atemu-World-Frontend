@@ -16,6 +16,7 @@ import CopyClipBoard from '../CopyClipboard/CopyClipBoard';
 
 import LinkIcon from '@/public/assets/icons/link.svg';
 import SettingIcon from '@/public/assets/icons/setting.svg';
+import StarkNetIcon from '@/public/assets/token/starknet.svg';
 import QuestIcon from '@/public/assets/icons/quest.svg';
 import LogoutIcon from '@/public/assets/icons/logout.svg';
 import { ellipseMiddle } from '@/utils/formatAddress';
@@ -56,6 +57,31 @@ const ProfileAccount = () => {
                 aria-label="Copy Current Address"
               />
             </HStack>
+            <MenuItem
+              display={{
+                base: 'block',
+                md: 'none',
+              }}
+            >
+              <Button
+                variant="primary"
+                sx={{
+                  borderColor: 'secondary.100',
+                }}
+              >
+                Invite
+              </Button>
+            </MenuItem>
+            <MenuItem
+              display={{
+                base: 'block',
+                md: 'none',
+              }}
+            >
+              <Button variant="primary" rightIcon={<Icon as={StarkNetIcon} />}>
+                100
+              </Button>
+            </MenuItem>
             <MenuItem isDisabled>
               <Icon as={SettingIcon} />
               <Text>Profile Setting</Text>

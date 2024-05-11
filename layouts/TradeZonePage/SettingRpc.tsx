@@ -21,7 +21,8 @@ const SettingRpc = () => {
         padding={4}
         border="1px solid"
         borderColor="divider.100"
-        maxW="400px"
+        maxW={{ lg: '400px', base: 'full' }}
+        width={'full'}
         display="flex"
         flexDirection="column"
         gap={6}
