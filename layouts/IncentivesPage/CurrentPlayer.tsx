@@ -1,17 +1,47 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, HStack, Skeleton, Text } from '@chakra-ui/react';
 import React from 'react';
+import { PlayerProps } from '.';
+import { colors } from '@/themes';
+import { ellipseMiddle } from '@/utils/formatAddress';
 
-const CurrentPlayer = () => {
-  const MockData = [
-    {
-      address:
-        '0x062823bA9dd9953f97FF04F820631e4a17ef295AECbb86c8b324011f6Cc3A21a',
-      totalPoint: 20000,
-    },
-  ];
+interface IProps {
+  listPlayer: PlayerProps[];
+}
+const CurrentPlayer = ({ listPlayer }: IProps) => {
+  const randomColor = colors.secondary;
+
   return (
-    <Box>
-      <Text variant="title">5 players</Text>
+    <Box padding={4} border="1px solid" borderColor="divider.100" width="324px">
+      <Text variant="sub_title">{listPlayer.length} players</Text>
+      {listPlayer.map((player, index: number) => (
+        <HStack
+          key={index}
+          p={4}
+          mt={4}
+          justifyContent="space-between"
+          borderRight="4px solid"
+          borderRightColor={`${
+            colors.secondary[(index * 100) as keyof typeof colors.secondary]
+          }`}
+        >
+          <HStack>
+            <Skeleton>
+              <Box w="52px" h="52px"></Box>
+            </Skeleton>
+            <Box>
+              <Text fontWeight={700}>
+                {ellipseMiddle(player.address, 5, 5)}
+              </Text>
+              <Text>{player.pointTotal}</Text>
+            </Box>
+          </HStack>
+
+          <Box textAlign="right">
+            <Text fontWeight={700}>{player.percentage} %</Text>
+            <Text>{player.pointEntry / 1000}k Points</Text>
+          </Box>
+        </HStack>
+      ))}
     </Box>
   );
 };

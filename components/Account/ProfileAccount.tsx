@@ -1,11 +1,11 @@
 import { useWalletContext } from '@/providers/ProviderContext';
-
 import React from 'react';
 import AccountJazzicon from '../Avatar/AvatarJazzicon';
 import {
   Box,
   Button,
   HStack,
+  Icon,
   Menu,
   MenuButton,
   MenuItem,
@@ -13,11 +13,15 @@ import {
   Text,
 } from '@chakra-ui/react';
 import CopyClipBoard from '../CopyClipboard/CopyClipBoard';
-import { ellipseMiddle } from '@/utils/formatAddress';
 
+import LinkIcon from '@/public/assets/icons/link.svg';
+import SettingIcon from '@/public/assets/icons/setting.svg';
+import QuestIcon from '@/public/assets/icons/quest.svg';
+import LogoutIcon from '@/public/assets/icons/logout.svg';
+import { ellipseMiddle } from '@/utils/formatAddress';
 // Profile Account After Connected
 const ProfileAccount = () => {
-  const { address } = useWalletContext();
+  const { address, disconnectWallet } = useWalletContext();
   return (
     <>
       {address && (
@@ -37,7 +41,7 @@ const ProfileAccount = () => {
           >
             <Box>1000 PTS</Box>
           </MenuButton>
-          <MenuList minW="450px">
+          <MenuList minW="300px">
             <HStack my={6}>
               <AccountJazzicon
                 address={address}
@@ -52,8 +56,21 @@ const ProfileAccount = () => {
                 aria-label="Copy Current Address"
               />
             </HStack>
-            <MenuItem>
-              <Text>Account Information</Text>
+            <MenuItem isDisabled>
+              <Icon as={SettingIcon} />
+              <Text>Profile Setting</Text>
+            </MenuItem>
+            <MenuItem isDisabled>
+              <Icon as={QuestIcon} />
+              <Text>Quest Programs</Text>
+            </MenuItem>
+            <MenuItem isDisabled>
+              <Icon as={LinkIcon} />
+              <Text>Referral Link</Text>
+            </MenuItem>
+            <MenuItem onClick={disconnectWallet}>
+              <Icon as={LogoutIcon} />
+              <Text>Disconnect</Text>
             </MenuItem>
           </MenuList>
         </Menu>

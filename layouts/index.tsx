@@ -1,5 +1,5 @@
 'use client';
-import { Container, Flex } from '@chakra-ui/react';
+import { Box, Container, Flex } from '@chakra-ui/react';
 import React, { PropsWithChildren } from 'react';
 import Header from './Header';
 
@@ -11,22 +11,12 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
       <Flex width="full" flexDirection="column">
         <Header />
 
-        <Container
-          px={{
-            base: 3,
-            md: 4,
-          }}
-          maxWidth="container.2xl"
-          w="full"
-          display="flex"
-          as="article"
-          overflow="clip"
-        >
+        <Flex>
           <Sidebar />
-          <Flex as="main" padding={4}>
+          <Box padding={4} flex={1} width="full">
             {children}
-          </Flex>
-        </Container>
+          </Box>
+        </Flex>
       </Flex>
     </>
   );

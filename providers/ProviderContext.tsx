@@ -28,7 +28,12 @@ interface Configuration {
 export const WalletContext = createContext<IWalletConnectionProps>(initalValue);
 const APP_NAME = 'Card_Flex';
 const ProviderWalletContext = ({ children }: PropsWithChildren) => {
-  const { address: addressWallet, status: statusWallet } = useAccount();
+  const {
+    address: addressWallet,
+    status: statusWallet,
+    isReconnecting,
+    isConnecting,
+  } = useAccount();
   const [config, setConfig] = useLocalStorage<Configuration>(
     APP_NAME,
     {
@@ -41,12 +46,12 @@ const ProviderWalletContext = ({ children }: PropsWithChildren) => {
   const [address, setAddress] = React.useState(config.address);
   const [chain_id, setChainId] = React.useState(config.chain_id);
   const [sound, setSound] = React.useState(config.sound);
-  const { connect, connectors } = useConnect();
+  const { connect, connectors, connector } = useConnect();
 
   /// Custom
   const connectWallet = async (index: number) => {
-    await connect({ connector: connectors[index] });
-    await setChainId(index);
+    connect({ connector: connectors[index] });
+    setChainId(index);
   };
   const disconnectWallet = () => {
     setConfig({ address: undefined, chain_id: undefined, sound: true });
@@ -63,14 +68,15 @@ const ProviderWalletContext = ({ children }: PropsWithChildren) => {
     const handleReConenct = async () => {
       if (address && statusWallet === 'disconnected' && chain_id != undefined) {
         try {
-          await connect({ connector: connectors[chain_id] });
+          connect({ connector: connectors[chain_id] });
         } catch (error) {
-          disconnectWallet();
+          await disconnectWallet();
         }
       }
     };
     handleReConenct();
   }, [address, chain_id]);
+  console.log('Reconnect', isReconnecting, isConnecting);
   return (
     <WalletContext.Provider
       value={{ sound, address, chain_id, connectWallet, disconnectWallet }}

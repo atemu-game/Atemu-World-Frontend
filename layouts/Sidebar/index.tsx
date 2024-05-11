@@ -32,7 +32,7 @@ const Sidebar = () => {
     {
       link: '/leaderboard',
       icon: LeaderIcon,
-      label: 'Incentives',
+      label: 'LeaderBoard',
     },
   ];
   const path = usePathname();
@@ -65,9 +65,9 @@ const Sidebar = () => {
               alignItems="center"
               flexDirection="column"
               transition="all 0.3s"
-              opacity={pageActive() ? 1 : 0.5}
+              color={pageActive() ? 'white' : 'inherit'}
               _hover={{
-                opacity: 1,
+                color: 'white',
               }}
             >
               <Icon as={item.icon} height={6} width={6} />

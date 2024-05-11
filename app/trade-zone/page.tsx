@@ -1,7 +1,8 @@
+import TradeZonePage from '@/layouts/TradeZonePage';
 import React from 'react';
 
 const TradeZone = () => {
-  return <div>TradeZone</div>;
+  return <TradeZonePage />;
 };
 
 export default TradeZone;

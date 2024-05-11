@@ -17,7 +17,13 @@ const Header = () => {
     >
       <HStack>
         <LogoIcon />
-        <Text fontSize="24px" fontWeight={700} textTransform="uppercase">
+        <Text
+          fontSize="24px"
+          fontWeight={700}
+          textTransform="uppercase"
+          color="
+        white"
+        >
           - the supreme card trading game
         </Text>
       </HStack>

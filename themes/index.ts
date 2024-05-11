@@ -1,5 +1,5 @@
 import { ComponentStyleConfig, extendTheme } from '@chakra-ui/react';
-const colors = {
+export const colors = {
   primary: {
     100: '#FFD91A',
   },
@@ -31,7 +31,7 @@ const styles = {
   global: {
     body: {
       background: colors.body,
-      color: 'white',
+      color: 'rgba(255, 255, 255, 0.5)',
     },
   },
 };
@@ -57,11 +57,14 @@ const Text: ComponentStyleConfig = {
       fontSize: '1.5rem',
       fontWeight: 700,
       textTransform: 'uppercase',
+      mb: 4,
+      color: 'white',
     },
     sub_title: {
       fontSize: 'lg',
       fontWeight: 700,
       textTransform: 'uppercase',
+      color: 'white',
     },
   },
 };
@@ -100,7 +103,27 @@ export const Menu: ComponentStyleConfig = {
     },
   },
 };
-
+const Input: ComponentStyleConfig = {
+  variants: {
+    primary: {
+      field: {
+        border: '1px solid',
+        borderColor: 'divider.100',
+        borderRadius: '0',
+        bg: 'inherit',
+        _placeholder: {
+          color: 'rgba(255, 255, 255, 0.5)',
+        },
+        _hover: {
+          borderColor: 'secondary.400',
+        },
+        _focus: {
+          borderColor: 'secondary.400',
+        },
+      },
+    },
+  },
+};
 const theme = extendTheme({
   colors,
   styles,
@@ -108,6 +131,7 @@ const theme = extendTheme({
     Button,
     Text,
     Menu,
+    Input,
   },
 });
 

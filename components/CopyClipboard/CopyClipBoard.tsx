@@ -22,8 +22,8 @@ const CopyClipBoard = ({ context, w, h, ...rest }: CopyClipBoardProps) => {
         variant="unstyled"
         minWidth="unset"
         height="auto"
-        color="white"
         cursor="pointer"
+        color={hasCopied ? 'white' : 'inherit'}
         onClick={e => {
           e.preventDefault();
           onCopy();
