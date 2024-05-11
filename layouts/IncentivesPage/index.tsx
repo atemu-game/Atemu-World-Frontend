@@ -7,11 +7,13 @@ import {
   HStack,
   Image,
   Text,
+  VStack,
 } from '@chakra-ui/react';
 import React from 'react';
 import CurrentPlayer from './CurrentPlayer';
 import YourEntries from './YourEntries';
-import CurrentRound from './CurrentRound';
+
+import LotteryWheel from '@/components/LotteryWheel';
 export interface PlayerProps {
   address: string;
   pointTotal: number;
@@ -22,10 +24,10 @@ const IncentivePage = () => {
   const CurentPlayerMock: PlayerProps[] = [
     {
       address:
-        '0x014841C8012702aCB28A9a5777d27bc84e086f892E709E17Ce5273840F2a6494',
+        '0x014841C8012702aCB28A9a5777d27bc84e086f892E709E17Ce5273840F2a3456',
       pointTotal: 12000,
       pointEntry: 5000,
-      percentage: 15,
+      percentage: 25,
     },
     {
       address:
@@ -36,24 +38,24 @@ const IncentivePage = () => {
     },
     {
       address:
-        '0x014841C8012702aCB28A9a5777d27bc84e086f892E709E17Ce5273840F2a6494',
+        '0x014841C8012702aCB28A9a5777d27bc84e086f892E709E17Ce5273840F2affff',
       pointTotal: 12000,
       pointEntry: 5000,
-      percentage: 15,
+      percentage: 5,
     },
     {
       address:
-        '0x014841C8012702aCB28A9a5777d27bc84e086f892E709E17Ce5273840F2a6494',
+        '0x014841C8012702aCB28A9a5777d27bc84e086f892E709E17Ce5273840F2a8888',
       pointTotal: 12000,
       pointEntry: 5000,
-      percentage: 15,
+      percentage: 10,
     },
     {
       address:
-        '0x014841C8012702aCB28A9a5777d27bc84e086f892E709E17Ce5273840F2a6494',
+        '0x014841C8012702aCB28A9a5777d27bc84e086f892E709E17Ce5273840F2a9999',
       pointTotal: 12000,
       pointEntry: 5000,
-      percentage: 15,
+      percentage: 45,
     },
   ];
 
@@ -70,14 +72,27 @@ const IncentivePage = () => {
       <Text variant="title">Fuel</Text>
       <HStack alignItems="flex-start" gap={4} justifyContent="space-between">
         <Flex flexDirection="column" gap={4} width="full">
-          <Flex>
-            <CurrentPlayer listPlayer={CurentPlayerMock} />
-            <CurrentRound />
+          <Flex gap={4} justifyContent="space-between">
+            <Box minWidth="325px" height="full">
+              <CurrentPlayer listPlayer={CurentPlayerMock} />
+            </Box>
+
+            <Box
+              padding={4}
+              border="1px solid"
+              borderColor="divider.100"
+              width="full"
+            >
+              <Text variant="title">Current Round</Text>
+              <VStack>
+                <LotteryWheel dataSeries={CurentPlayerMock} />
+              </VStack>
+            </Box>
           </Flex>
 
           <YourEntries />
         </Flex>
-        <Flex flexDirection="column" gap={4} width="340px">
+        <Flex flexDirection="column" gap={4} width="380px">
           <Box border="1px solid" borderColor="divider.100">
             <Box padding={4}>
               <HStack justifyContent="space-between" mb={5}>
@@ -118,7 +133,7 @@ const IncentivePage = () => {
 
           <Box border="1px solid" borderColor="divider.100" padding={4}>
             <Text variant="title">Card Prize</Text>
-            <Image src="/assets/arts/back_side.svg" />
+            <Image src="/assets/arts/back_side.svg" aria-label="ss" />
             <Flex gap={3} flexWrap="wrap" mt={4}>
               {ListTestAtrr.map((attr, index) => {
                 return (

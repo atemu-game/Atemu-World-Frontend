@@ -8,10 +8,8 @@ interface IProps {
   listPlayer: PlayerProps[];
 }
 const CurrentPlayer = ({ listPlayer }: IProps) => {
-  const randomColor = colors.secondary;
-
   return (
-    <Box padding={4} border="1px solid" borderColor="divider.100" width="324px">
+    <Box padding={4} border="1px solid" borderColor="divider.100">
       <Text variant="sub_title">{listPlayer.length} players</Text>
       {listPlayer.map((player, index: number) => (
         <HStack
