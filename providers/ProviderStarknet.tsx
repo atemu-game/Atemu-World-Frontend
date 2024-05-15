@@ -17,9 +17,8 @@ const ProviderStarknet = ({ children }: PropsWithChildren) => {
 
   const provider = jsonRpcProvider({ rpc });
   const connectors = [
-    new InjectedConnector({ options: { id: 'braavos', name: 'Braavos' } }),
     new InjectedConnector({ options: { id: 'argentX', name: 'Argent X' } }),
-    new WebWalletConnector({ url: 'https://web.argent.xyz' }),
+    new InjectedConnector({ options: { id: 'braavos', name: 'Braavos' } }),
     new ArgentMobileConnector(),
   ];
   return (

@@ -51,6 +51,18 @@ const Header = () => {
         </Text>
       </HStack>
       <HStack gap={3}>
+        <Link href="https://yugioh-web-seven.vercel.app/" target="_blank">
+          <Button
+            variant="primary"
+            display={{
+              base: 'none',
+              md: 'inline-flex',
+            }}
+          >
+            Demo
+          </Button>
+        </Link>
+
         <Button
           variant="primary"
           sx={{

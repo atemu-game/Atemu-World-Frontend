@@ -29,12 +29,7 @@ interface Configuration {
 export const WalletContext = createContext<IWalletConnectionProps>(initalValue);
 const APP_NAME = 'Card_Flex';
 const ProviderWalletContext = ({ children }: PropsWithChildren) => {
-  const {
-    address: addressWallet,
-    status: statusWallet,
-    isReconnecting,
-    isConnecting,
-  } = useAccount();
+  const { address: addressWallet, status: statusWallet } = useAccount();
   const [config, setConfig] = useLocalStorage<Configuration>(
     APP_NAME,
     {
@@ -42,12 +37,22 @@ const ProviderWalletContext = ({ children }: PropsWithChildren) => {
       chain_id: undefined,
       sound: false,
     },
-    3 * 60 * 60 * 1000 + Date.now() // 1days
+    3 * 60 * 60 * 1000 + Date.now() // 3 hours
   );
   const [address, setAddress] = React.useState(config.address);
   const [chain_id, setChainId] = React.useState(config.chain_id);
   const [sound, setSound] = React.useState(config.sound);
-  const { connect, connectors, connector, pendingConnector } = useConnect();
+  const {
+    connect,
+    connectors,
+    connector,
+    isSuccess,
+    isPending,
+    isIdle,
+    isError,
+    isPaused,
+  } = useConnect();
+
   const toast = useToast();
 
   const disconnectWallet = () => {
@@ -59,13 +64,8 @@ const ProviderWalletContext = ({ children }: PropsWithChildren) => {
   const connectWallet = async (index: number) => {
     try {
       connect({ connector: connectors[index] });
-      const userAddress = await connector?.account();
-      if (userAddress?.address) {
-        setChainId(index);
-      }
-      if (!userAddress && !pendingConnector) {
-        disconnectWallet();
-      }
+
+      setChainId(index);
     } catch (error) {
       toast({
         title: 'Reject Connect',
@@ -87,11 +87,12 @@ const ProviderWalletContext = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const handleReConenct = async () => {
       if (address && statusWallet === 'disconnected' && chain_id != undefined) {
-        connectWallet(chain_id);
+        console.log('Reconnect wallet', address, chain_id);
+        connect({ connector: connectors[chain_id] });
       }
     };
     handleReConenct();
-  }, [address, chain_id]);
+  }, []);
 
   return (
     <WalletContext.Provider

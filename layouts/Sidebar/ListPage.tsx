@@ -2,6 +2,8 @@ import React from 'react';
 import HomeIcon from '@/public/assets/icons/home.svg';
 import IncentiveIcon from '@/public/assets/icons/incentive_token.svg';
 import LanguageIcon from '@/public/assets/icons/language.svg';
+import FuelIcon from '@/public/assets/icons/gas.svg';
+import ExplorerIcon from '@/public/assets/icons/explore.svg';
 import LeaderIcon from '@/public/assets/icons/leaderboard.svg';
 import { usePathname } from 'next/navigation';
 
@@ -25,14 +27,26 @@ const ListPage = ({ sx }: IProps) => {
       label: 'Home',
     },
     {
+      link: '/fuel',
+      icon: FuelIcon,
+      label: 'Fuel',
+    },
+    {
+      link: '/explorer',
+      icon: ExplorerIcon,
+      label: 'Explorer',
+    },
+    {
       link: '/incentives',
       icon: IncentiveIcon,
       label: 'Incentives',
+      isDisabled: true,
     },
     {
       link: '/trade-zone',
       icon: LanguageIcon,
       label: 'Trade-zone',
+      isDisabled: true,
     },
     {
       link: '/leaderboard',

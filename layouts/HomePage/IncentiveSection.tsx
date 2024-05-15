@@ -20,10 +20,10 @@ const IncentiveSection = () => {
     },
   ];
   return (
-    <>
+    <Box>
       <Text variant="title">Incentives</Text>
-      <Flex flexWrap={{ md: 'nowrap', base: 'wrap' }} gap={6}>
-        {ListContent.map((item, index) => (
+      <Flex flexWrap={{ lg: 'nowrap', base: 'wrap' }} gap={6}>
+        {ListContent.map(item => (
           <Box
             key={item.title}
             background={`url('${item.image.src}')`}
@@ -54,7 +54,7 @@ const IncentiveSection = () => {
           </Box>
         ))}
       </Flex>
-    </>
+    </Box>
   );
 };
 

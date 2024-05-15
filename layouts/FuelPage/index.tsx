@@ -20,7 +20,7 @@ export interface PlayerProps {
   pointEntry: number;
   percentage?: number;
 }
-const IncentivePage = () => {
+const FuelPage = () => {
   const CurentPlayerMock: PlayerProps[] = [
     {
       address:
@@ -174,4 +174,4 @@ const IncentivePage = () => {
   );
 };
 
-export default IncentivePage;
+export default FuelPage;

@@ -10,7 +10,10 @@ import FadeInVisible from '@/components/Animation/FadeInVisible';
 
 const HomePage = () => {
   return (
-    <Flex flexDirection="column" gap={10}>
+    <Flex
+      flexDirection="column"
+      gap={{ lg: '100px', md: '40px', base: '24px' }}
+    >
       <Image
         src="/assets/arts/home_bg.svg"
         objectFit="cover"
@@ -23,7 +26,6 @@ const HomePage = () => {
       <FadeInVisible>
         <DescriptionSection />
       </FadeInVisible>
-
       <FadeInVisible>
         <video width="full" height="700px" controls>
           <source src="/assets/videos/demo.mp4" type="video/mp4" />
@@ -32,8 +34,11 @@ const HomePage = () => {
       </FadeInVisible>
       <FadeInVisible>
         <HowToPlaySection />
+      </FadeInVisible>
+      <FadeInVisible>
         <BettingSection />
       </FadeInVisible>
+
       <FadeInVisible>
         <CardTypeSection />
       </FadeInVisible>

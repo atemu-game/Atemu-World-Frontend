@@ -4,7 +4,7 @@ import React from 'react';
 import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
 
-const TradeZonePage = () => {
+const ExplorerPage = () => {
   return (
     <Box>
       <Text variant="title">Explorer</Text>
@@ -63,4 +63,4 @@ const TradeZonePage = () => {
   );
 };
 
-export default TradeZonePage;
+export default ExplorerPage;
