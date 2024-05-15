@@ -11,9 +11,9 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
       <Flex width="full" flexDirection="column">
         <Header />
 
-        <Flex>
+        <Flex width="full" position="sticky">
           <Sidebar />
-          <Box padding={4} flex={1} width="full">
+          <Box padding={4} flex={1} width="full" as="main" overflow="clip">
             {children}
           </Box>
         </Flex>

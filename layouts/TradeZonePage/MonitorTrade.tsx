@@ -10,7 +10,7 @@ const MonitorTrade = () => {
   const { address } = useWalletContext();
   return (
     <>
-      {address && (
+      {address ? (
         <Flex flexDirection="column" gap={4} width="full">
           <Flex
             border="1px solid"
@@ -140,6 +140,8 @@ const MonitorTrade = () => {
             </Button>
           </HStack>
         </Flex>
+      ) : (
+        <Text variant="sub_title">Please connect your wallet</Text>
       )}
     </>
   );

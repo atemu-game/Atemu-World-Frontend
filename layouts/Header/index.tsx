@@ -1,11 +1,12 @@
-import { Box, Button, HStack, Icon, Text } from '@chakra-ui/react';
+import { Box, Button, HStack, Text } from '@chakra-ui/react';
 import React from 'react';
-import LogoIcon from '@/public/logo.svg';
-import StarkNetIcon from '@/public/assets/token/starknet.svg';
+import LogoIcon from '@/public/assets/logo/atemu_logo_long.svg';
+
 import ConnectWallet from '@/components/ConnectWallet';
 import { useWalletContext } from '@/providers/ProviderContext';
 import ProfileAccount from '@/components/Account/ProfileAccount';
 import PageDrawer from '../Sidebar/PageDrawer';
+import Link from 'next/link';
 const Header = () => {
   const { address } = useWalletContext();
   return (
@@ -13,6 +14,10 @@ const Header = () => {
       justifyContent="space-between"
       as="header"
       padding={5}
+      position="sticky"
+      top={0}
+      zIndex={99}
+      background="body"
       borderBottom="1px solid"
       borderBottomColor="divider.100"
     >
@@ -31,7 +36,10 @@ const Header = () => {
           md: 'flex',
         }}
       >
-        <LogoIcon />
+        <Link href="/">
+          <LogoIcon />
+        </Link>
+
         <Text
           fontSize="24px"
           fontWeight={700}
@@ -55,16 +63,7 @@ const Header = () => {
         >
           Invite
         </Button>
-        <Button
-          variant="primary"
-          rightIcon={<Icon as={StarkNetIcon} />}
-          display={{
-            base: 'none',
-            md: 'inline-flex',
-          }}
-        >
-          100
-        </Button>
+
         {address ? <ProfileAccount /> : <ConnectWallet />}
       </HStack>
     </HStack>

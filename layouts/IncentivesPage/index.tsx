@@ -145,7 +145,12 @@ const IncentivePage = () => {
 
           <Box border="1px solid" borderColor="divider.100" padding={4}>
             <Text variant="title">Card Prize</Text>
-            <Image src="/assets/arts/back_side.svg" aria-label="ss" />
+            <Image
+              border="1px solid"
+              borderColor="divider.100"
+              src="/assets/arts/back_card.png"
+              aria-label="Back Side Card"
+            />
             <Flex gap={3} flexWrap="wrap" mt={4}>
               {ListTestAtrr.map((attr, index) => {
                 return (

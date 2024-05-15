@@ -20,11 +20,28 @@ import StarkNetIcon from '@/public/assets/token/starknet.svg';
 import QuestIcon from '@/public/assets/icons/quest.svg';
 import LogoutIcon from '@/public/assets/icons/logout.svg';
 import { ellipseMiddle } from '@/utils/formatAddress';
+import { useBalance } from '@starknet-react/core';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
+
 // Profile Account After Connected
 const ProfileAccount = () => {
   const { address, disconnectWallet } = useWalletContext();
+  const { data } = useBalance({
+    address,
+    token: CONTRACT_ADDRESS.STRK,
+  });
   return (
     <>
+      <Button
+        variant="primary"
+        rightIcon={<Icon as={StarkNetIcon} />}
+        display={{
+          base: 'none',
+          md: 'inline-flex',
+        }}
+      >
+        {data?.formatted ? data.formatted : '0'}
+      </Button>
       {address && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>
           <MenuButton
