@@ -1,4 +1,5 @@
 import useLocalStorage from '@/hooks/useLocalStorage';
+import useSessionStorage from '@/hooks/useSessionStorage';
 import { useToast } from '@chakra-ui/react';
 import { useAccount, useConnect } from '@starknet-react/core';
 import React, {
@@ -30,28 +31,15 @@ export const WalletContext = createContext<IWalletConnectionProps>(initalValue);
 const APP_NAME = 'Card_Flex';
 const ProviderWalletContext = ({ children }: PropsWithChildren) => {
   const { address: addressWallet, status: statusWallet } = useAccount();
-  const [config, setConfig] = useLocalStorage<Configuration>(
-    APP_NAME,
-    {
-      address: undefined,
-      chain_id: undefined,
-      sound: false,
-    },
-    3 * 60 * 60 * 1000 + Date.now() // 3 hours
-  );
+  const [config, setConfig] = useSessionStorage<Configuration>(APP_NAME, {
+    address: undefined,
+    chain_id: undefined,
+    sound: false,
+  });
   const [address, setAddress] = React.useState(config.address);
   const [chain_id, setChainId] = React.useState(config.chain_id);
   const [sound, setSound] = React.useState(config.sound);
-  const {
-    connect,
-    connectors,
-    connector,
-    isSuccess,
-    isPending,
-    isIdle,
-    isError,
-    isPaused,
-  } = useConnect();
+  const { connect, connectors } = useConnect();
 
   const toast = useToast();
 

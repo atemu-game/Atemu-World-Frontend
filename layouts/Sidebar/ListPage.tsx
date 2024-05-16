@@ -80,6 +80,7 @@ const ListPage = ({ sx }: IProps) => {
                   flexDirection="column"
                   transition="all 0.3s"
                   cursor="not-allowed"
+                  {...sx}
                 >
                   <Icon as={item.icon} height={6} width={6} />
                   <Text fontSize="lg" fontWeight={700}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import LogoLong from '@/public/assets/logo/atemu_logo_long.svg';
 import LogoShort from '@/public/assets/logo/atemu_logo.svg';
-import { Flex, Icon, VStack, Text } from '@chakra-ui/react';
+import { Icon, VStack, Text } from '@chakra-ui/react';
 const DescriptionSection = () => {
   const ListContent = [
     "In the ancient land of Kemet, Pharaoh Atemu ruled with wisdom and might. Renowned as a master beast summoner, Atemu's prowess was unparalleled. Yet, his ambition led him to seek eternal life. One fateful night, he journeyed into the underworld to strike a deal with Anubis, the God of Death.Atemu reached Anubis's throne and boldly proposed, Grant me eternal life and rule, and I shall best you in any fight with my beasts.Intrigued by the pharaoh's reputation, Anubis agreed, conjuring a game of summoning beasts through enchanted cards. Defeat me, and your wish is granted. Lose, and you serve me eternally, Anubis declared.",
@@ -12,23 +12,21 @@ const DescriptionSection = () => {
     'For thousands of years, the legacy of Atemu continued, his soul eternally battling within the game, shaping the fates of those who dared to summon him.',
   ];
   return (
-    <>
-      <VStack>
-        <Icon as={LogoShort} height="86px" width="auto" />
-        <Icon as={LogoLong} height="180px" width="auto" />
-        <VStack gap={6}>
-          {ListContent.map((item, index) => (
-            <Text
-              textAlign="center"
-              key={`Content Description ${index}`}
-              variant="secondary"
-            >
-              {item}
-            </Text>
-          ))}
-        </VStack>
+    <VStack>
+      <Icon as={LogoShort} height={{ md: '86px', base: '42px' }} width="auto" />
+      <Icon as={LogoLong} height={{ md: '180px', base: '90px' }} width="auto" />
+      <VStack gap={6}>
+        {ListContent.map((item, index) => (
+          <Text
+            textAlign="center"
+            key={`Content Description ${index}`}
+            variant="secondary"
+          >
+            {item}
+          </Text>
+        ))}
       </VStack>
-    </>
+    </VStack>
   );
 };
 
