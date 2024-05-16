@@ -24,6 +24,7 @@ export const colors = {
     300: '#FF5050',
     400: '#2FD3B5',
     500: '#844CFE',
+    600: '#FFCB29',
   },
   body: '#0D0E13',
 };
@@ -65,6 +66,18 @@ const Text: ComponentStyleConfig = {
       fontWeight: 700,
       textTransform: 'uppercase',
       color: 'white',
+    },
+    primary: {
+      color: 'white',
+      fontWeight: 700,
+      textShadow: `0px 0px 12px #FFFFFF80`,
+    },
+
+    secondary: {
+      color: 'secondary.600',
+      fontWeight: 700,
+
+      textShadow: `0px 0px 12px rgba(255, 247, 52, 0.5)`,
     },
   },
 };
