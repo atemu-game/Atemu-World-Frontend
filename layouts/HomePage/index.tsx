@@ -1,5 +1,5 @@
 'use client';
-import { Flex, Image } from '@chakra-ui/react';
+import { Flex, Image, VStack } from '@chakra-ui/react';
 import React from 'react';
 import IncentiveSection from './IncentiveSection';
 import DescriptionSection from './DescriptionSection';
@@ -27,10 +27,12 @@ const HomePage = () => {
         <DescriptionSection />
       </FadeInVisible>
       <FadeInVisible>
-        <video width="full" height="700px" controls>
-          <source src="/assets/videos/demo.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <VStack width="full">
+          <video width="full" height="auto" controls>
+            <source src="/assets/videos/demo.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </VStack>
       </FadeInVisible>
       <FadeInVisible>
         <HowToPlaySection />
