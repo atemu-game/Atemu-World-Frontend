@@ -1,5 +1,5 @@
-# Atemu Card Game of Flex
-The Atemu Card Game of Flex is a provider that allows users to play a card game and earn rewards. It includes features such as trading cards and an explorer for minting transactions.
+# Atemu Frontend
+The Atemu  of Flex is a provider that allows users to play a card game and earn rewards. It includes features such as trading cards and an explorer for minting transactions.
 
 ## Structure
   This section provides an overview of the project's directory structure:
@@ -16,12 +16,12 @@ The Atemu Card Game of Flex is a provider that allows users to play a card game 
 To install the project, follow these steps:
 1. Clone the repository:
   ```
-  git clone https://github.com/Flex-NFT-Marketplace/Card-Game.git
+  git clone https://github.com/Flex-NFT-Marketplace/Atemu-World-Landing-Page.git
   ```
 
 2. Navigate to the project directory:
   ```
-  cd Card-Game
+  cd Atemu-World-Landing-Page
   ```
 
 3. Install the dependencies:
