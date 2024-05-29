@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid, Text } from '@chakra-ui/react';
 import React from 'react';
 import BackGroundImg1 from '@/public/assets/arts/incentive_1.png';
 import BackGroundImg2 from '@/public/assets/arts/incentive_2.png';
@@ -25,10 +25,12 @@ const IncentiveSection = () => {
       <Flex flexWrap={{ lg: 'nowrap', base: 'wrap' }} gap={6}>
         {ListContent.map(item => (
           <Box
+            flexGrow={1}
             key={item.title}
             background={`url('${item.image.src}')`}
             backgroundPosition="center"
             objectFit="cover"
+            width="full"
             height="324px"
             display="flex"
             alignItems="flex-end"

@@ -51,7 +51,7 @@ const Header = () => {
         </Text>
       </HStack>
       <HStack gap={3}>
-        <Link href="https://yugioh-web-seven.vercel.app/" target="_blank">
+        <Link href="https://demo.atemu.xyz/" target="_blank">
           <Button
             variant="primary"
             display={{
