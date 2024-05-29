@@ -1,4 +1,6 @@
 import useLocalStorage from '@/hooks/useLocalStorage';
+import useSessionStorage from '@/hooks/useSessionStorage';
+import { useToast } from '@chakra-ui/react';
 import { useAccount, useConnect } from '@starknet-react/core';
 import React, {
   PropsWithChildren,
@@ -28,36 +30,42 @@ interface Configuration {
 export const WalletContext = createContext<IWalletConnectionProps>(initalValue);
 const APP_NAME = 'Card_Flex';
 const ProviderWalletContext = ({ children }: PropsWithChildren) => {
-  const {
-    address: addressWallet,
-    status: statusWallet,
-    isReconnecting,
-    isConnecting,
-  } = useAccount();
-  const [config, setConfig] = useLocalStorage<Configuration>(
-    APP_NAME,
-    {
-      address: undefined,
-      chain_id: undefined,
-      sound: false,
-    },
-    24 * 60 * 60 * 1000 + Date.now() // 1days
-  );
+  const { address: addressWallet, status: statusWallet } = useAccount();
+  const [config, setConfig] = useSessionStorage<Configuration>(APP_NAME, {
+    address: undefined,
+    chain_id: undefined,
+    sound: false,
+  });
   const [address, setAddress] = React.useState(config.address);
   const [chain_id, setChainId] = React.useState(config.chain_id);
   const [sound, setSound] = React.useState(config.sound);
-  const { connect, connectors, connector } = useConnect();
+  const { connect, connectors } = useConnect();
 
-  /// Custom
-  const connectWallet = async (index: number) => {
-    connect({ connector: connectors[index] });
-    setChainId(index);
-  };
+  const toast = useToast();
+
   const disconnectWallet = () => {
     setConfig({ address: undefined, chain_id: undefined, sound: true });
     setAddress(undefined);
     setChainId(undefined);
   };
+  /// Custom
+  const connectWallet = async (index: number) => {
+    try {
+      connect({ connector: connectors[index] });
+
+      setChainId(index);
+    } catch (error) {
+      toast({
+        title: 'Reject Connect',
+        description: 'You Reject to connect',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      disconnectWallet();
+    }
+  };
+
   useEffect(() => {
     if (addressWallet && addressWallet !== address && chain_id != undefined) {
       setAddress(addressWallet);
@@ -67,16 +75,13 @@ const ProviderWalletContext = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const handleReConenct = async () => {
       if (address && statusWallet === 'disconnected' && chain_id != undefined) {
-        try {
-          connect({ connector: connectors[chain_id] });
-        } catch (error) {
-          await disconnectWallet();
-        }
+        console.log('Reconnect wallet', address, chain_id);
+        connect({ connector: connectors[chain_id] });
       }
     };
     handleReConenct();
-  }, [address, chain_id]);
-  console.log('Reconnect', isReconnecting, isConnecting);
+  }, []);
+
   return (
     <WalletContext.Provider
       value={{ sound, address, chain_id, connectWallet, disconnectWallet }}

@@ -13,7 +13,16 @@ const Sidebar = () => {
       borderRightColor="divider.100"
       display={{ base: 'none', md: 'flex' }}
     >
-      <ListPage />
+      <Box
+        position="sticky"
+        top={100}
+        left={0}
+        flexDir="column"
+        gap={6}
+        display="flex"
+      >
+        <ListPage />
+      </Box>
     </Box>
   );
 };

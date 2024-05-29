@@ -9,6 +9,7 @@ interface IProps {
 }
 const LotteryWheel = ({ dataSeries }: IProps) => {
   const trigger = useRef(null);
+  const [isSpinning, setIsSpinning] = React.useState(false);
   const radToDeg = (r: number) => (r * 180) / Math.PI;
   const findWinner = (data: any) => {
     const sliceSize = 360 / data.length;
@@ -31,6 +32,7 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
   let chart: any;
   const findTheWinner = () => {
     //trigger.current && (trigger.current as any).chart
+
     if (chart) {
       let strengthSlider = 0;
       let dragSlider = 0;
@@ -228,6 +230,7 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
         .add();
     }
   }, []);
+
   return (
     <>
       <Box
@@ -236,7 +239,17 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
         id="chart-wheel"
         ref={trigger}
       ></Box>
-      <Button onClick={findTheWinner}>Spin</Button>
+      <Button
+        variant="primary"
+        onClick={() => {
+          setIsSpinning(() => true);
+          findTheWinner();
+          setIsSpinning(() => false);
+        }}
+        isDisabled={isSpinning}
+      >
+        Spin
+      </Button>
     </>
   );
 };
