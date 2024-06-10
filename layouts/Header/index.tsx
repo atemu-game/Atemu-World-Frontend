@@ -63,20 +63,25 @@ const Header = () => {
           </Button>
         </Link>
 
-        <Button
-          variant="primary"
-          sx={{
-            borderColor: 'secondary.100',
-          }}
-          display={{
-            base: 'none',
-            md: 'inline-flex',
-          }}
-        >
-          Invite
-        </Button>
-
-        {address ? <ProfileAccount /> : <ConnectWallet />}
+        {address ? (
+          <>
+            <Button
+              variant="primary"
+              sx={{
+                borderColor: 'secondary.100',
+              }}
+              display={{
+                base: 'none',
+                md: 'inline-flex',
+              }}
+            >
+              Invite
+            </Button>
+            <ProfileAccount />
+          </>
+        ) : (
+          <ConnectWallet />
+        )}
       </HStack>
     </HStack>
   );

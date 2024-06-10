@@ -1,3 +1,4 @@
+import { RPC_PROVIDER } from '@/utils/constants';
 import { sepolia } from '@starknet-react/chains';
 import {
   InjectedConnector,
@@ -6,12 +7,11 @@ import {
 } from '@starknet-react/core';
 import React, { PropsWithChildren } from 'react';
 import { ArgentMobileConnector } from 'starknetkit/argentMobile';
-import { WebWalletConnector } from 'starknetkit/webwallet';
 
 const ProviderStarknet = ({ children }: PropsWithChildren) => {
   function rpc() {
     return {
-      nodeUrl: 'https://starknet-mainnet.public.blastapi.io/rpc/v0_7',
+      nodeUrl: RPC_PROVIDER.TESTNET,
     };
   }
 

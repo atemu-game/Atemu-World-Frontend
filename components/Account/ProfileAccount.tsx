@@ -40,7 +40,7 @@ const ProfileAccount = () => {
           md: 'inline-flex',
         }}
       >
-        {data?.formatted ? data.formatted : '0'}
+        {data?.formatted ? data.decimals : '0'}
       </Button>
       {address && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>

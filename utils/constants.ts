@@ -14,3 +14,8 @@ export enum CONTRACT_ADDRESS {
 }
 
 export const ACCESS_TOKEN = 'ACCESS_TOKEN';
+
+export enum RPC_PROVIDER {
+  MAINET = 'https://starknet-mainnet.public.blastapi.io/rpc/v0_7',
+  TESTNET = 'https://starknet-sepolia.public.blastapi.io',
+}
