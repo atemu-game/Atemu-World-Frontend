@@ -4,6 +4,7 @@ import {
   InjectedConnector,
   StarknetConfig,
   jsonRpcProvider,
+  publicProvider,
 } from '@starknet-react/core';
 import React, { PropsWithChildren } from 'react';
 import { ArgentMobileConnector } from 'starknetkit/argentMobile';
@@ -25,7 +26,7 @@ const ProviderStarknet = ({ children }: PropsWithChildren) => {
     <>
       <StarknetConfig
         chains={[sepolia]}
-        provider={provider}
+        provider={publicProvider()}
         connectors={connectors}
       >
         {children}

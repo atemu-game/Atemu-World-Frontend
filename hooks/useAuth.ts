@@ -69,7 +69,6 @@ export const useAuth = () => {
       addressWallet != user.userAddress
     ) {
       await verifySignature(account);
-      console.log('RUn 1 End');
     }
   };
 

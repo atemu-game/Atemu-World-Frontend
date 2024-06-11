@@ -19,17 +19,14 @@ import StarkNetIcon from '@/public/assets/token/starknet.svg';
 import QuestIcon from '@/public/assets/icons/quest.svg';
 import LogoutIcon from '@/public/assets/icons/logout.svg';
 import { ellipseMiddle } from '@/utils/formatAddress';
-import { useBalance } from '@starknet-react/core';
-import { CONTRACT_ADDRESS } from '@/utils/constants';
+
 import { useAuth } from '@/hooks/useAuth';
+import { useBalanceStrk } from '@/hooks/useBalanceStrk';
 
 // Profile Account After Connected
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
-  const { data } = useBalance({
-    address: userAddress?.toLowerCase(),
-    token: CONTRACT_ADDRESS.STRK,
-  });
+  const { balanceStrk, isLoading } = useBalanceStrk();
   return (
     <>
       <Button
@@ -40,7 +37,7 @@ const ProfileAccount = () => {
           md: 'inline-flex',
         }}
       >
-        {data?.formatted ? Number.parseFloat(data.formatted).toFixed(2) : '0'}
+        {isLoading ? 'Loading' : <>{balanceStrk ? balanceStrk : '0'}</>}
       </Button>
       {userAddress && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>
