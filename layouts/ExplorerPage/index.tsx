@@ -21,7 +21,7 @@ const ExplorerPage = () => {
           <Text fontWeight="bold" color="secondary.400">
             Running
           </Text>
-          <Text>Status</Text>
+          <Text>Stop</Text>
         </Box>
         <Box>
           <Text fontWeight="bold" color="white">
@@ -47,8 +47,11 @@ const ExplorerPage = () => {
           </Text>
           <Text>Point Balance</Text>
         </Box>
-        <Button variant="primary" borderColor="secondary.300" minW="200px">
+        {/* <Button variant="primary" borderColor="secondary.300" minW="200px">
           Stop
+        </Button> */}
+        <Button variant="primary" minW="200px" borderColor="white">
+          Deposit
         </Button>
       </HStack>
       <HStack

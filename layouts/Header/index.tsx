@@ -66,7 +66,7 @@ const Header = () => {
 
         {userAddress ? (
           <>
-            <Button
+            {/* <Button
               variant="primary"
               sx={{
                 borderColor: 'secondary.100',
@@ -77,7 +77,7 @@ const Header = () => {
               }}
             >
               Invite
-            </Button>
+            </Button> */}
             <ProfileAccount />
           </>
         ) : (

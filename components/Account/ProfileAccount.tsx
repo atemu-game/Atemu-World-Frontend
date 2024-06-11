@@ -40,7 +40,7 @@ const ProfileAccount = () => {
           md: 'inline-flex',
         }}
       >
-        {data?.formatted ? data.decimals : '0'}
+        {data?.formatted ? Number.parseFloat(data.formatted).toFixed(2) : '0'}
       </Button>
       {userAddress && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>
@@ -111,7 +111,11 @@ const ProfileAccount = () => {
               <Icon as={LinkIcon} />
               <Text>Referral Link</Text>
             </MenuItem>
-            <MenuItem onClick={disconnectWallet}>
+            <MenuItem
+              onClick={() => {
+                disconnectWallet();
+              }}
+            >
               <Icon as={LogoutIcon} />
               <Text>Disconnect</Text>
             </MenuItem>

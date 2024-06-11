@@ -14,7 +14,7 @@ import { userSlice } from './user/user-slice';
 import sessionStorage from 'redux-persist/es/storage/session';
 
 const persistConfig = {
-  key: 'root',
+  key: 'atemu',
   storage: sessionStorage,
   version: 1,
   whitelist: ['user', 'prevConnector'],

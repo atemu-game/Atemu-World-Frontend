@@ -75,7 +75,7 @@ const MonitorTrade = () => {
 
           <Box padding={4} border="1px solid" borderColor="divider.100">
             <Text variant="sub_title" mb={2}>
-              Import your private key
+              Import your private key (Current Account)
             </Text>
             <HStack>
               <Input

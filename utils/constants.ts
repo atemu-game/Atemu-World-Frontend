@@ -1,6 +1,6 @@
 export const ListPublicRPC = [
   'https://starknet-sepolia.public.blastapi.io',
-  'https://starknet-sepolia.public.blastapi.io',
+  'https://rpc.starknet-sepolia.lava.build"',
   'https://starknet-sepolia.public.blastapi.io',
   'https://starknet-sepolia.public.blastapi.io',
   'https://starknet-sepolia.public.blastapi.io',
@@ -17,5 +17,5 @@ export const ACCESS_TOKEN = 'ACCESS_TOKEN';
 
 export enum RPC_PROVIDER {
   MAINET = 'https://starknet-mainnet.public.blastapi.io/rpc/v0_7',
-  TESTNET = 'https://starknet-sepolia.public.blastapi.io',
+  TESTNET = 'https://starknet-sepolia.public.blastapi.io/rpc/v0_7',
 }

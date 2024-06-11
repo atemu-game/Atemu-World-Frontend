@@ -27,14 +27,15 @@ const ListPage = ({ sx }: IProps) => {
       label: 'Home',
     },
     {
-      link: '/fuel',
-      icon: FuelIcon,
-      label: 'Fuel',
-    },
-    {
       link: '/explorer',
       icon: ExplorerIcon,
       label: 'Explorer',
+    },
+    {
+      link: '/fuel',
+      icon: FuelIcon,
+      label: 'Fuel',
+      isDisabled: true,
     },
     {
       link: '/incentives',

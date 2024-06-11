@@ -62,7 +62,7 @@ const SettingRpc = () => {
           </Button>
         </Box>
         <Box>
-          <Text variant="sub_title">Restore RPC list</Text>
+          <Text variant="sub_title">Restore RPC list (Default)</Text>
           <Button variant="primary" width="full" borderColor="secondary.100">
             Restore
           </Button>
