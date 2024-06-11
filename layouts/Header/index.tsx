@@ -3,12 +3,13 @@ import React from 'react';
 import LogoIcon from '@/public/assets/logo/atemu_logo_long.svg';
 
 import ConnectWallet from '@/components/ConnectWallet';
-import { useWalletContext } from '@/providers/ProviderContext';
+
 import ProfileAccount from '@/components/Account/ProfileAccount';
 import PageDrawer from '../Sidebar/PageDrawer';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/useAuth';
 const Header = () => {
-  const { address } = useWalletContext();
+  const { userAddress } = useAuth();
   return (
     <HStack
       justifyContent="space-between"
@@ -63,7 +64,7 @@ const Header = () => {
           </Button>
         </Link>
 
-        {address ? (
+        {userAddress ? (
           <>
             <Button
               variant="primary"

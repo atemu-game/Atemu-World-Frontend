@@ -1,4 +1,3 @@
-import { useWalletContext } from '@/providers/ProviderContext';
 import React from 'react';
 import AccountJazzicon from '../Avatar/AvatarJazzicon';
 import {
@@ -22,12 +21,13 @@ import LogoutIcon from '@/public/assets/icons/logout.svg';
 import { ellipseMiddle } from '@/utils/formatAddress';
 import { useBalance } from '@starknet-react/core';
 import { CONTRACT_ADDRESS } from '@/utils/constants';
+import { useAuth } from '@/hooks/useAuth';
 
 // Profile Account After Connected
 const ProfileAccount = () => {
-  const { address, disconnectWallet } = useWalletContext();
+  const { userAddress, disconnectWallet } = useAuth();
   const { data } = useBalance({
-    address,
+    address: userAddress?.toLowerCase(),
     token: CONTRACT_ADDRESS.STRK,
   });
   return (
@@ -42,14 +42,14 @@ const ProfileAccount = () => {
       >
         {data?.formatted ? data.decimals : '0'}
       </Button>
-      {address && (
+      {userAddress && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>
           <MenuButton
             as={Button}
             variant="primary"
             rightIcon={
               <AccountJazzicon
-                address={address}
+                address={userAddress}
                 sx={{
                   height: '2rem',
                   width: '2rem',
@@ -62,16 +62,16 @@ const ProfileAccount = () => {
           <MenuList minW="300px">
             <HStack my={6}>
               <AccountJazzicon
-                address={address}
+                address={userAddress}
                 sx={{
                   height: '3rem',
                   width: '3rem',
                 }}
               />
-              <Text>{ellipseMiddle(address, 10, 10)}</Text>
+              <Text>{ellipseMiddle(userAddress, 10, 10)}</Text>
               <CopyClipBoard
-                context={address}
-                aria-label="Copy Current Address"
+                context={userAddress}
+                aria-label="Copy Current userAddress"
               />
             </HStack>
             <MenuItem

@@ -1,5 +1,6 @@
 import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
-import { useWalletContext } from '@/providers/ProviderContext';
+import { useAuth } from '@/hooks/useAuth';
+
 import { colors } from '@/themes';
 import { convertHex } from '@/utils/convertHex';
 import { ellipseMiddle } from '@/utils/formatAddress';
@@ -7,10 +8,10 @@ import { Box, Button, Flex, HStack, Input, Text } from '@chakra-ui/react';
 import React from 'react';
 
 const MonitorTrade = () => {
-  const { address } = useWalletContext();
+  const { userAddress } = useAuth();
   return (
     <>
-      {address ? (
+      {userAddress ? (
         <Flex flexDirection="column" gap={4} width="full">
           <Flex
             border="1px solid"
@@ -30,10 +31,10 @@ const MonitorTrade = () => {
                 borderColor="divider.100"
                 justifyContent="space-between"
               >
-                <Text>{ellipseMiddle(address, 5, 5)}</Text>
+                <Text>{ellipseMiddle(userAddress, 5, 5)}</Text>
 
                 <CopyClipBoard
-                  context={address}
+                  context={userAddress}
                   aria-label="Copy Stark Address"
                   h={4}
                   w={4}

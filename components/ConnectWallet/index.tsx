@@ -1,4 +1,5 @@
-import { useWalletContext } from '@/providers/ProviderContext';
+import { useAuth } from '@/hooks/useAuth';
+
 import { Button } from '@chakra-ui/react';
 import { useConnect } from '@starknet-react/core';
 import React from 'react';
@@ -8,8 +9,7 @@ import { Connector } from 'starknetkit'; // Import the Connector type from the s
 
 const ConnectWallet = () => {
   const { connectors } = useConnect();
-  const { connectWallet } = useWalletContext();
-
+  const { connectWallet } = useAuth();
   const handleConnectWallet = async () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { starknetkitConnectModal } = useStarknetkitConnectModal({
