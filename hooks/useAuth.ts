@@ -64,11 +64,12 @@ export const useAuth = () => {
     dispatch(setConnector(index));
 
     if (
-      account?.address != user.userAddress &&
-      addressWallet != user.userAddress &&
-      account
+      account &&
+      account.address != user.userAddress &&
+      addressWallet != user.userAddress
     ) {
       await verifySignature(account);
+      console.log('RUn 1 End');
     }
   };
 
@@ -80,38 +81,40 @@ export const useAuth = () => {
     dispatch(setUserLoading(false));
   };
 
-  useEffect(() => {
-    const handleChangeWallet = async () => {
-      if (
-        addressWallet &&
-        addressWallet !== user.userAddress &&
-        user.prevConnector != null &&
-        account
-      ) {
-        await verifySignature(account);
-        // await account;
-      } else if (
-        addressWallet &&
-        account &&
-        account.address !== user.userAddress &&
-        user.userAddress != null
-      ) {
-        await verifySignature(account);
-      }
-    };
-    handleChangeWallet();
-  }, [addressWallet]);
-  useEffect(() => {
-    const handleReConenct = async () => {
-      if (
-        user.userAddress != null &&
-        statusWallet === 'disconnected' &&
-        user.prevConnector != null
-      ) {
-        await connect({ connector: connectors[user.prevConnector] });
-      }
-    };
-    handleReConenct();
-  }, [user.userAddress, user.prevConnector]);
+  // useEffect(() => {
+  //   const handleChangeWallet = async () => {
+  //     if (
+  //       addressWallet &&
+  //       addressWallet !== user.userAddress &&
+  //       user.prevConnector != null &&
+  //       account
+  //     ) {
+  //       console.log('RUn 2 Start');
+  //       await verifySignature(account);
+  //       console.log('RUn 2 End');
+  //       // await account;
+  //     } else if (
+  //       addressWallet &&
+  //       account &&
+  //       account.address !== user.userAddress &&
+  //       user.userAddress != null
+  //     ) {
+  //       await verifySignature(account);
+  //     }
+  //   };
+  //   handleChangeWallet();
+  // }, [addressWallet]);
+  // useEffect(() => {
+  //   const handleReConenct = async () => {
+  //     if (
+  //       user.userAddress != null &&
+  //       statusWallet === 'disconnected' &&
+  //       user.prevConnector != null
+  //     ) {
+  //       await connect({ connector: connectors[user.prevConnector] });
+  //     }
+  //   };
+  //   handleReConenct();
+  // }, [user.userAddress, user.prevConnector]);
   return { ...user, disconnectWallet, connectWallet };
 };

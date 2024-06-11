@@ -1,5 +1,5 @@
 import { Box, Button, HStack, Text } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import LogoIcon from '@/public/assets/logo/atemu_logo_long.svg';
 
 import ConnectWallet from '@/components/ConnectWallet';
@@ -8,8 +8,92 @@ import ProfileAccount from '@/components/Account/ProfileAccount';
 import PageDrawer from '../Sidebar/PageDrawer';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
+import { useAccount, useConnect } from '@starknet-react/core';
+import { useDispatch } from 'react-redux';
+import { AccountInterface } from 'starknet';
+import { axiosHandlerNoBearer } from '@/config/axiosConfig';
+import { ACCESS_TOKEN, RPC_PROVIDER } from '@/utils/constants';
+import { setUserAdress } from '@/redux/user/user-slice';
+import { setCookie } from '@/utils/cookie';
 const Header = () => {
-  const { userAddress } = useAuth();
+  const { userAddress, prevConnector } = useAuth();
+  const { connectors, connect } = useConnect();
+  const {
+    address: addressWallet,
+    status: statusWallet,
+    account,
+  } = useAccount();
+  const dispatch = useDispatch();
+  const verifySignature = async (account: AccountInterface) => {
+    try {
+      if (account) {
+        const { data: dataSignMessage } = await axiosHandlerNoBearer.get(
+          '/authentication/get-nonce',
+          {
+            params: {
+              address: addressWallet,
+            },
+          }
+        );
+
+        const signature = await account.signMessage(
+          dataSignMessage.data.signMessage
+        );
+
+        const { data: dataToken } = await axiosHandlerNoBearer.post(
+          '/authentication/token',
+          {
+            address: addressWallet,
+            signature: signature,
+            rpc: RPC_PROVIDER.TESTNET,
+          }
+        );
+        dispatch(setUserAdress(addressWallet));
+        setCookie({
+          expires: '1d',
+          key: ACCESS_TOKEN,
+          value: dataToken.data.token,
+        });
+      }
+    } catch (error) {
+      console.log('What The Fuck Error', error);
+    }
+  };
+  useEffect(() => {
+    const handleChangeWallet = async () => {
+      if (
+        addressWallet &&
+        addressWallet !== userAddress &&
+        prevConnector != null &&
+        account
+      ) {
+        console.log('RUn 2 Start');
+        await verifySignature(account);
+        console.log('RUn 2 End');
+        // await account;
+      } else if (
+        addressWallet &&
+        account &&
+        account.address !== addressWallet &&
+        userAddress != null
+      ) {
+        await verifySignature(account);
+      }
+    };
+    handleChangeWallet();
+  }, [addressWallet]);
+  useEffect(() => {
+    const handleReConenct = async () => {
+      if (
+        userAddress != null &&
+        statusWallet === 'disconnected' &&
+        prevConnector != null
+      ) {
+        await connect({ connector: connectors[prevConnector] });
+      }
+    };
+    handleReConenct();
+  }, [userAddress, prevConnector]);
   return (
     <HStack
       justifyContent="space-between"
