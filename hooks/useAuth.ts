@@ -11,24 +11,24 @@ import {
   setUserAdress,
   setUserLoading,
 } from '@/redux/user/user-slice';
-import { useEffect } from 'react';
+
 import { AccountInterface } from 'starknet';
+import { useToast } from '@chakra-ui/react';
 
 export const useAuth = () => {
   const user = useTypedSelector(state => state.user);
-  const {
-    address: addressWallet,
-    status: statusWallet,
-    account,
-  } = useAccount();
+  const { address: addressWallet, account } = useAccount();
   const { connect, connectors } = useConnect();
   const dispatch = useDispatch();
   const { disconnect } = useDisconnect();
+  const toast = useToast({
+    position: 'top-right',
+  });
   const verifySignature = async (account: AccountInterface) => {
     try {
       if (account) {
         const { data: dataSignMessage } = await axiosHandlerNoBearer.get(
-          '/authentication/get-nonce',
+          '/authentication/getNonce',
           {
             params: {
               address: addressWallet,
@@ -56,7 +56,13 @@ export const useAuth = () => {
         });
       }
     } catch (error) {
-      console.log('What The Fuck Error', error);
+      toast({
+        title: ' Rejected ',
+        description: 'You Rejected the Signature Request',
+        status: 'info',
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
   const connectWallet = async (index: number) => {
@@ -80,40 +86,5 @@ export const useAuth = () => {
     dispatch(setUserLoading(false));
   };
 
-  // useEffect(() => {
-  //   const handleChangeWallet = async () => {
-  //     if (
-  //       addressWallet &&
-  //       addressWallet !== user.userAddress &&
-  //       user.prevConnector != null &&
-  //       account
-  //     ) {
-  //       console.log('RUn 2 Start');
-  //       await verifySignature(account);
-  //       console.log('RUn 2 End');
-  //       // await account;
-  //     } else if (
-  //       addressWallet &&
-  //       account &&
-  //       account.address !== user.userAddress &&
-  //       user.userAddress != null
-  //     ) {
-  //       await verifySignature(account);
-  //     }
-  //   };
-  //   handleChangeWallet();
-  // }, [addressWallet]);
-  // useEffect(() => {
-  //   const handleReConenct = async () => {
-  //     if (
-  //       user.userAddress != null &&
-  //       statusWallet === 'disconnected' &&
-  //       user.prevConnector != null
-  //     ) {
-  //       await connect({ connector: connectors[user.prevConnector] });
-  //     }
-  //   };
-  //   handleReConenct();
-  // }, [user.userAddress, user.prevConnector]);
   return { ...user, disconnectWallet, connectWallet };
 };

@@ -9,6 +9,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Skeleton,
   Text,
 } from '@chakra-ui/react';
 import CopyClipBoard from '../CopyClipboard/CopyClipBoard';
@@ -21,12 +22,12 @@ import LogoutIcon from '@/public/assets/icons/logout.svg';
 import { ellipseMiddle } from '@/utils/formatAddress';
 
 import { useAuth } from '@/hooks/useAuth';
-import { useBalanceStrk } from '@/hooks/useBalanceStrk';
+import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 
 // Profile Account After Connected
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
-  const { balanceStrk, isLoading } = useBalanceStrk();
+  const { balance, isLoading } = useBalanceCustom({ address: userAddress });
   return (
     <>
       <Button
@@ -37,7 +38,11 @@ const ProfileAccount = () => {
           md: 'inline-flex',
         }}
       >
-        {isLoading ? 'Loading' : <>{balanceStrk ? balanceStrk : '0'}</>}
+        {isLoading ? (
+          <Skeleton>00.000</Skeleton>
+        ) : (
+          <>{balance ? parseFloat(balance).toFixed(3) : '0'}</>
+        )}
       </Button>
       {userAddress && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>

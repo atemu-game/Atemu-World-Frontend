@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Text } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, useToast } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import LogoIcon from '@/public/assets/logo/atemu_logo_long.svg';
 
@@ -24,11 +24,14 @@ const Header = () => {
     account,
   } = useAccount();
   const dispatch = useDispatch();
+  const toast = useToast({
+    position: 'top-right',
+  });
   const verifySignature = async (account: AccountInterface) => {
     try {
       if (account) {
         const { data: dataSignMessage } = await axiosHandlerNoBearer.get(
-          '/authentication/get-nonce',
+          '/authentication/getNonce',
           {
             params: {
               address: addressWallet,
@@ -56,7 +59,13 @@ const Header = () => {
         });
       }
     } catch (error) {
-      console.log('What The Fuck Error', error);
+      toast({
+        title: ' Rejected ',
+        description: 'You Rejected the Signature Request',
+        status: 'info',
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
   useEffect(() => {
@@ -67,10 +76,7 @@ const Header = () => {
         prevConnector != null &&
         account
       ) {
-        console.log('RUn 2 Start');
         await verifySignature(account);
-        console.log('RUn 2 End');
-        // await account;
       } else if (
         addressWallet &&
         account &&
@@ -82,6 +88,7 @@ const Header = () => {
     };
     handleChangeWallet();
   }, [addressWallet]);
+
   useEffect(() => {
     const handleReConenct = async () => {
       if (

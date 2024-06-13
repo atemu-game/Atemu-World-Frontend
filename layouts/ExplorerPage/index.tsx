@@ -1,10 +1,35 @@
 'use client';
-import { Box, Text, HStack, Button } from '@chakra-ui/react';
+import { Box, Text, HStack } from '@chakra-ui/react';
 import React from 'react';
 import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
+import { useAuth } from '@/hooks/useAuth';
 
+import { useWalletAccount } from '@/hooks/useWalletAccount';
+import DespositAccount from './DespositAccount';
+import { useBalanceCustom } from '@/hooks/useBalanceCustom';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
+// TODO MOVE NEW TYPE
+export interface UserWalletProps {
+  payerAddress: string;
+
+  creatorAddress: string;
+
+  feeType: string;
+
+  feeDeploy: number;
+
+  privateKey: string;
+
+  deployHash?: string;
+}
 const ExplorerPage = () => {
+  const { userAddress } = useAuth();
+  const { userWallet } = useWalletAccount();
+  const { balance, fetchBalance } = useBalanceCustom({
+    address: userWallet ? userWallet.payerAddress : '',
+    token: CONTRACT_ADDRESS.ETH,
+  });
   return (
     <Box>
       <Text variant="title">Explorer</Text>
@@ -19,9 +44,9 @@ const ExplorerPage = () => {
       >
         <Box>
           <Text fontWeight="bold" color="secondary.400">
-            Running
+            Stop
           </Text>
-          <Text>Stop</Text>
+          <Text>Status</Text>
         </Box>
         <Box>
           <Text fontWeight="bold" color="white">
@@ -50,9 +75,14 @@ const ExplorerPage = () => {
         {/* <Button variant="primary" borderColor="secondary.300" minW="200px">
           Stop
         </Button> */}
-        <Button variant="primary" minW="200px" borderColor="white">
-          Deposit
-        </Button>
+        {userWallet && (
+          <DespositAccount
+            userWallet={userWallet}
+            refetchBalance={async () => {
+              await fetchBalance();
+            }}
+          />
+        )}
       </HStack>
       <HStack
         alignItems="flex-start"
@@ -60,7 +90,9 @@ const ExplorerPage = () => {
         flexWrap={{ xl: 'nowrap', base: 'wrap' }}
       >
         <SettingRpc />
-        <MonitorTrade />
+        {userAddress && userWallet && (
+          <MonitorTrade userWallet={userWallet} balance={balance} />
+        )}
       </HStack>
     </Box>
   );
