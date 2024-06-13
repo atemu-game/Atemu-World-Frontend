@@ -9,6 +9,7 @@ import { useWalletAccount } from '@/hooks/useWalletAccount';
 import DespositAccount from './DespositAccount';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 import { CONTRACT_ADDRESS } from '@/utils/constants';
+import MintTransfer from './MintTransfer';
 // TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
@@ -73,9 +74,7 @@ const ExplorerPage = () => {
           <Text>Point Balance</Text>
         </Box>
         <HStack gap={3}>
-          <Button variant="primary" borderColor="secondary.300" minW="200px">
-            Start
-          </Button>
+          <MintTransfer />
           {userWallet && (
             <DespositAccount
               refetchWallet={refetchWallet}
