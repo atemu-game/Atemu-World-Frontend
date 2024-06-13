@@ -8,16 +8,21 @@ import { axiosHandler } from '@/config/axiosConfig';
 export const useWalletAccount = () => {
   const { userAddress } = useAuth();
   const [userWallet, setUserWallet] = useState<UserWalletProps>();
+  const handleLoadPrivateKey = async () => {
+    if (userAddress) {
+      const { data: dataWallet } = await axiosHandler.get(
+        '/wallet/getOrCreateWallet'
+      );
+      setUserWallet(() => dataWallet.data);
+    }
+  };
   useEffect(() => {
-    const handleLoadPrivateKey = async () => {
-      if (userAddress) {
-        const { data: dataWallet } = await axiosHandler.get(
-          '/wallet/getOrCreateWallet'
-        );
-        setUserWallet(() => dataWallet.data);
-      }
-    };
     handleLoadPrivateKey();
   }, [userAddress]);
-  return { userWallet };
+  return {
+    userWallet,
+    refetchWallet: async () => {
+      await handleLoadPrivateKey();
+    },
+  };
 };

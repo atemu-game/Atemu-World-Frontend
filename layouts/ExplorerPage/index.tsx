@@ -1,5 +1,5 @@
 'use client';
-import { Box, Text, HStack } from '@chakra-ui/react';
+import { Box, Text, HStack, Button } from '@chakra-ui/react';
 import React from 'react';
 import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
@@ -25,7 +25,7 @@ export interface UserWalletProps {
 }
 const ExplorerPage = () => {
   const { userAddress } = useAuth();
-  const { userWallet } = useWalletAccount();
+  const { userWallet, refetchWallet } = useWalletAccount();
   const { balance, fetchBalance } = useBalanceCustom({
     address: userWallet ? userWallet.payerAddress : '',
     token: CONTRACT_ADDRESS.ETH,
@@ -72,17 +72,20 @@ const ExplorerPage = () => {
           </Text>
           <Text>Point Balance</Text>
         </Box>
-        {/* <Button variant="primary" borderColor="secondary.300" minW="200px">
-          Stop
-        </Button> */}
-        {userWallet && (
-          <DespositAccount
-            userWallet={userWallet}
-            refetchBalance={async () => {
-              await fetchBalance();
-            }}
-          />
-        )}
+        <HStack gap={3}>
+          <Button variant="primary" borderColor="secondary.300" minW="200px">
+            Start
+          </Button>
+          {userWallet && (
+            <DespositAccount
+              refetchWallet={refetchWallet}
+              userWallet={userWallet}
+              refetchBalance={async () => {
+                await fetchBalance();
+              }}
+            />
+          )}
+        </HStack>
       </HStack>
       <HStack
         alignItems="flex-start"

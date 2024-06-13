@@ -6,8 +6,13 @@ import DespositMoneyAccount from './DespositMoneyAccount';
 interface IProps {
   userWallet: UserWalletProps;
   refetchBalance: () => void;
+  refetchWallet: () => void;
 }
-const DespositAccount = ({ userWallet, refetchBalance }: IProps) => {
+const DespositAccount = ({
+  userWallet,
+  refetchBalance,
+  refetchWallet,
+}: IProps) => {
   return (
     <>
       {userWallet.deployHash ? (
@@ -16,7 +21,10 @@ const DespositAccount = ({ userWallet, refetchBalance }: IProps) => {
           refetchBalance={refetchBalance}
         />
       ) : (
-        <DespositDeployAccount userWallet={userWallet} />
+        <DespositDeployAccount
+          userWallet={userWallet}
+          refetchWallet={refetchWallet}
+        />
       )}
     </>
   );

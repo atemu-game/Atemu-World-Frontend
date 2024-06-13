@@ -32,43 +32,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
   });
   const { userAddress } = useAuth();
   const { account } = useAccount();
-  //   const handleDepositMoney = async () => {
-  //     try {
-  //       if (userAddress && account) {
-  //         const provider = new RpcProvider({
-  //           nodeUrl: RPC_PROVIDER.TESTNET,
-  //         });
-  //         const result = await account.execute({
-  //           contractAddress: CONTRACT_ADDRESS.ETH,
-  //           entrypoint: 'transfer',
-  //           calldata: CallData.compile({
-  //             recipient: userWallet.payerAddress,
-  //             amount: uint256.bnToUint256(amountDesposit * 1e18),
-  //           }),
-  //         });
-  //         const txR = await provider.waitForTransaction(result.transaction_hash);
-  //         if (txR.isSuccess()) {
-  //           toast({
-  //             title: 'Success',
-  //             description: `Deposit Success`,
-  //             status: 'success',
-  //             duration: 9000,
-  //             isClosable: true,
-  //           });
-  //           await refetch();
-  //           onClose();
-  //         }
-  //       }
-  //     } catch (error) {
-  //       toast({
-  //         title: ' Rejected ',
-  //         description: 'Transaction rejected by user',
-  //         status: 'error',
-  //         duration: 9000,
-  //         isClosable: true,
-  //       });
-  //     }
-  //   };
+
   return (
     <>
       <Button

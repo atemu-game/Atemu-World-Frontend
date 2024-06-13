@@ -1,7 +1,6 @@
 import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
 import { useAuth } from '@/hooks/useAuth';
 import {
-  Box,
   Button,
   Flex,
   HStack,
@@ -20,52 +19,56 @@ import { useAccount } from '@starknet-react/core';
 import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
 import { CallData, RpcProvider, uint256 } from 'starknet';
 import { axiosHandler } from '@/config/axiosConfig';
+
 // Desposit Account Modal
 interface IProps {
   userWallet: UserWalletProps;
+  refetchWallet: () => void;
 }
-const DespositDeployAccount = ({ userWallet }: IProps) => {
+const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
   const { userAddress } = useAuth();
   const { account } = useAccount();
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const toast = useToast();
-  const handleDeployAccount = async () => {
-    try {
-      if (userAddress && account) {
-        const provider = new RpcProvider({
-          nodeUrl: RPC_PROVIDER.TESTNET,
-        });
-        const result = await account.execute({
-          contractAddress: CONTRACT_ADDRESS.ETH,
-          entrypoint: 'transfer',
-          calldata: CallData.compile({
-            recipient: userWallet.payerAddress,
-            amount: uint256.bnToUint256(userWallet.feeDeploy * 1e18),
-          }),
-        });
-        const txR = await provider.waitForTransaction(result.transaction_hash);
-        if (txR.isSuccess()) {
-          const data = await axiosHandler.post('/wallet/deploy');
-          toast({
-            title: 'Success',
-            description: `Deploy account success DeployHash: ${data.data.deployHash}`,
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-          });
-          onClose();
-        }
-      }
-    } catch (error) {
-      toast({
-        title: ' Rejected ',
-        description: 'Transaction rejected by user',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  };
+  const toast = useToast({
+    position: 'top-right',
+  });
+  // const handleDeployAccount = async () => {
+  //   try {
+  //     if (userAddress && account) {
+  //       const provider = new RpcProvider({
+  //         nodeUrl: RPC_PROVIDER.TESTNET,
+  //       });
+  //       const result = await account.execute({
+  //         contractAddress: CONTRACT_ADDRESS.ETH,
+  //         entrypoint: 'transfer',
+  //         calldata: CallData.compile({
+  //           recipient: userWallet.payerAddress,
+  //           amount: uint256.bnToUint256(userWallet.feeDeploy * 1e18),
+  //         }),
+  //       });
+  //       const txR = await provider.waitForTransaction(result.transaction_hash);
+  //       if (txR.isSuccess()) {
+  //         const data = await axiosHandler.post('/wallet/deploy');
+  //         toast({
+  //           title: 'Success',
+  //           description: `Deploy account success DeployHash: ${data.data.deployHash}`,
+  //           status: 'success',
+  //           duration: 9000,
+  //           isClosable: true,
+  //         });
+  //         onClose();
+  //       }
+  //     }
+  //   } catch (error) {
+  //     toast({
+  //       title: ' Rejected ',
+  //       description: 'Transaction rejected by user',
+  //       status: 'error',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     });
+  //   }
+  // };
   return (
     <>
       <Button
@@ -133,8 +136,60 @@ const DespositDeployAccount = ({ userWallet }: IProps) => {
                   variant="primary"
                   color="black"
                   background="secondary.100"
-                  onClick={async () => {
-                    await handleDeployAccount();
+                  onClick={() => {
+                    const deployPromise = new Promise((resolve, rejects) => {
+                      if (userAddress && account) {
+                        const provider = new RpcProvider({
+                          nodeUrl: RPC_PROVIDER.TESTNET,
+                        });
+                        account
+                          .execute({
+                            contractAddress: CONTRACT_ADDRESS.ETH,
+                            entrypoint: 'transfer',
+                            calldata: CallData.compile({
+                              recipient: userWallet.payerAddress,
+                              amount: uint256.bnToUint256(
+                                userWallet.feeDeploy * 1e18
+                              ),
+                            }),
+                          })
+                          .then(result => {
+                            const txR = provider.waitForTransaction(
+                              result.transaction_hash
+                            );
+                            return txR;
+                          })
+                          .then(res => {
+                            if (res.isSuccess()) {
+                              const data = axiosHandler.post('/wallet/deploy');
+                              return data;
+                            }
+                          })
+                          .then(res => {
+                            resolve(res);
+                            refetchWallet();
+                            onClose();
+                          })
+                          .catch(res => {
+                            rejects(res);
+                          });
+                      }
+                    });
+
+                    toast.promise(deployPromise, {
+                      success: {
+                        title: 'Deploy resolved',
+                        description: 'Deploy Success',
+                      },
+                      error: {
+                        title: 'Deploy rejected',
+                        description: 'Something wrong',
+                      },
+                      loading: {
+                        title: 'Deploy pending',
+                        description: 'Please wait',
+                      },
+                    });
                   }}
                 >
                   Deploy Account
