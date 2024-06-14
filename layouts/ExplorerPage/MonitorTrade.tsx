@@ -18,7 +18,7 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
         border="1px solid"
         borderColor="divider.100"
         padding={4}
-        gap={4}
+        gap={{ xl: 8, lg: 6, base: 0 }}
         width="full"
         flexWrap={{ xl: 'nowrap', base: 'wrap' }}
       >
@@ -32,7 +32,7 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
             borderColor="divider.100"
             justifyContent="space-between"
           >
-            <Text>{ellipseMiddle(userWallet.payerAddress, 5, 5)}</Text>
+            <Text>{ellipseMiddle(userWallet.payerAddress, 8, 10)}</Text>
 
             <CopyClipBoard
               context={userWallet.payerAddress}
@@ -102,7 +102,7 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
         gap={3}
         minH={400} // Test
       >
-        <Text>Events Log</Text>
+        <Text>Events Log (10 Latest transactions)</Text>
       </Box>
       <HStack
         padding={4}

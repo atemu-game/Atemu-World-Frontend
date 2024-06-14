@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { IInitialState } from './user-interface';
-
-const initialState: IInitialState = {
+interface IUserInitialState {
+  userAddress: string | null;
+  isLoading: boolean;
+  prevConnector: number | null; // Chain ID Number Order of ArgentX , Bravoos, ArgentMobile
+}
+const initialState: IUserInitialState = {
   userAddress: null,
   isLoading: false,
   prevConnector: null,

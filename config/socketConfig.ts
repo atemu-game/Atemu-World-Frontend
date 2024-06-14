@@ -28,7 +28,7 @@ export const disconnectSocket = () => {
 };
 
 export const startMint = () => {
-  socketAPI.emit('startNewMint');
+  socketAPI.emit('startMint');
 };
 export const stopMint = () => {
   socketAPI.emit('stopMint');

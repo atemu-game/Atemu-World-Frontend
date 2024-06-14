@@ -102,36 +102,35 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                   background="secondary.100"
                   onClick={() => {
                     const despositPromise = new Promise((resolve, reject) => {
-                      try {
-                        if (userAddress && account) {
-                          const provider = new RpcProvider({
-                            nodeUrl: RPC_PROVIDER.TESTNET,
+                      if (userAddress && account) {
+                        const provider = new RpcProvider({
+                          nodeUrl: RPC_PROVIDER.TESTNET,
+                        });
+                        account
+                          .execute({
+                            contractAddress: CONTRACT_ADDRESS.ETH,
+                            entrypoint: 'transfer',
+                            calldata: CallData.compile({
+                              recipient: userWallet.payerAddress,
+                              amount: uint256.bnToUint256(
+                                amountDesposit * 1e18
+                              ),
+                            }),
+                          })
+                          .then(result => {
+                            const txR = provider.waitForTransaction(
+                              result.transaction_hash
+                            );
+                            return txR;
+                          })
+                          .then(res => {
+                            refetchBalance();
+                            resolve(res);
+                            onClose();
+                          })
+                          .catch(err => {
+                            reject(err);
                           });
-                          account
-                            .execute({
-                              contractAddress: CONTRACT_ADDRESS.ETH,
-                              entrypoint: 'transfer',
-                              calldata: CallData.compile({
-                                recipient: userWallet.payerAddress,
-                                amount: uint256.bnToUint256(
-                                  amountDesposit * 1e18
-                                ),
-                              }),
-                            })
-                            .then(result => {
-                              const txR = provider.waitForTransaction(
-                                result.transaction_hash
-                              );
-                              return txR;
-                            })
-                            .then(res => {
-                              refetchBalance();
-                              resolve(res);
-                              onClose();
-                            });
-                        }
-                      } catch (error) {
-                        reject(error);
                       }
                     });
                     toast.promise(despositPromise, {

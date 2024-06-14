@@ -10,6 +10,8 @@ import DespositAccount from './DespositAccount';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 import { CONTRACT_ADDRESS } from '@/utils/constants';
 import MintTransfer from './MintTransfer';
+import RequireConnectWallet from '@/components/ConnectWallet/RequireConnectWallet';
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 // TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
@@ -31,6 +33,8 @@ const ExplorerPage = () => {
     address: userWallet ? userWallet.payerAddress : '',
     token: CONTRACT_ADDRESS.ETH,
   });
+  // TODO: MOVE TO HOOK USE STATUS
+  const { status } = useCreatorAccount();
   return (
     <Box>
       <Text variant="title">Explorer</Text>
@@ -44,8 +48,12 @@ const ExplorerPage = () => {
         flexWrap="wrap"
       >
         <Box>
-          <Text fontWeight="bold" color="secondary.400">
-            Stop
+          <Text
+            fontWeight="bold"
+            color="secondary.400"
+            textTransform="capitalize"
+          >
+            {status}
           </Text>
           <Text>Status</Text>
         </Box>
@@ -73,16 +81,19 @@ const ExplorerPage = () => {
           </Text>
           <Text>Point Balance</Text>
         </Box>
+
         <HStack gap={3}>
-          <MintTransfer />
           {userWallet && (
-            <DespositAccount
-              refetchWallet={refetchWallet}
-              userWallet={userWallet}
-              refetchBalance={async () => {
-                await fetchBalance();
-              }}
-            />
+            <>
+              <MintTransfer />
+              <DespositAccount
+                refetchWallet={refetchWallet}
+                userWallet={userWallet}
+                refetchBalance={async () => {
+                  await fetchBalance();
+                }}
+              />
+            </>
           )}
         </HStack>
       </HStack>
@@ -92,8 +103,10 @@ const ExplorerPage = () => {
         flexWrap={{ xl: 'nowrap', base: 'wrap' }}
       >
         <SettingRpc />
-        {userAddress && userWallet && (
+        {userAddress && userWallet ? (
           <MonitorTrade userWallet={userWallet} balance={balance} />
+        ) : (
+          <RequireConnectWallet />
         )}
       </HStack>
     </Box>

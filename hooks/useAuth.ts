@@ -14,6 +14,7 @@ import {
 
 import { AccountInterface } from 'starknet';
 import { useToast } from '@chakra-ui/react';
+import { resetCreator } from '@/redux/creatorAccount/creator-slice';
 
 export const useAuth = () => {
   const user = useTypedSelector(state => state.user);
@@ -83,6 +84,7 @@ export const useAuth = () => {
     disconnect();
     dispatch(logout());
     deleteCookie(ACCESS_TOKEN);
+    dispatch(resetCreator());
     dispatch(setUserLoading(false));
   };
 

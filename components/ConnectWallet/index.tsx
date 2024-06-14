@@ -1,13 +1,15 @@
 import { useAuth } from '@/hooks/useAuth';
 
-import { Button } from '@chakra-ui/react';
+import { Button, ButtonProps } from '@chakra-ui/react';
 import { useConnect } from '@starknet-react/core';
 import React from 'react';
 import { useStarknetkitConnectModal } from 'starknetkit';
 
 import { Connector } from 'starknetkit'; // Import the Connector type from the starknetkit package
-
-const ConnectWallet = () => {
+interface IProps {
+  sx?: ButtonProps;
+}
+const ConnectWallet = ({ sx }: IProps) => {
   const { connectors } = useConnect();
   const { connectWallet } = useAuth();
   const handleConnectWallet = async () => {
@@ -22,7 +24,7 @@ const ConnectWallet = () => {
   };
 
   return (
-    <Button variant="primary" onClick={handleConnectWallet}>
+    <Button variant="primary" onClick={handleConnectWallet} {...sx}>
       Connect
     </Button>
   );

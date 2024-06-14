@@ -12,16 +12,18 @@ import {
 
 import { userSlice } from './user/user-slice';
 import sessionStorage from 'redux-persist/es/storage/session';
+import { creatorSlice } from './creatorAccount/creator-slice';
 
 const persistConfig = {
   key: 'atemu',
   storage: sessionStorage,
   version: 1,
-  whitelist: ['user', 'prevConnector'],
+  whitelist: ['user', 'prevConnector', 'creatorAccount'],
 };
 
 const rootReducer = combineReducers({
   user: userSlice.reducer,
+  creatorAccount: creatorSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

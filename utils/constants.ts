@@ -20,3 +20,11 @@ export enum RPC_PROVIDER {
   MAINET = 'https://starknet-mainnet.public.blastapi.io/rpc/v0_7',
   TESTNET = 'https://starknet-sepolia.public.blastapi.io/rpc/v0_7',
 }
+
+///BLizt
+export type BliztSatus = 'start' | 'stop';
+
+export enum BliztEvent {
+  BLIZT_POINT = 'blizt-point',
+  BLIZT_STATUS = 'blizt-status',
+}

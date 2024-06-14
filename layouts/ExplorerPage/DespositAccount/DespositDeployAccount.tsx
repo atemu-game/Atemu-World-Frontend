@@ -187,7 +187,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                       },
                       loading: {
                         title: 'Deploy pending',
-                        description: 'Please wait',
+                        description: 'Please wait.....',
                       },
                     });
                   }}
