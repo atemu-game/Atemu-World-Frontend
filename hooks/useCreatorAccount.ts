@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from './useTypedSelector';
 import {
   connectSocket,
+  disconnectSocket,
   socketAPI,
   startMint,
   stopMint,
@@ -10,9 +11,10 @@ import {
   setLoadingMint,
   setPoint,
   setStatusMint,
+  setTransactionLog,
 } from '@/redux/creatorAccount/creator-slice';
 
-import { BliztEvent, BliztSatus } from '@/utils/constants';
+import { BliztSatus, TXRType } from '@/utils/constants';
 
 export const useCreatorAccount = () => {
   const creatorAccount = useTypedSelector(state => state.creatorAccount);
@@ -36,11 +38,20 @@ export const useCreatorAccount = () => {
   const handleSetStatus = (status: BliztSatus) => {
     dispatch(setStatusMint(status));
   };
+  const handleSetTransaction = (transactionHash: string, status: TXRType) => {
+    dispatch(
+      setTransactionLog({
+        transactionHash: transactionHash,
+        status: status,
+      })
+    );
+  };
   return {
     ...creatorAccount,
     handleStartMint,
     handleStopMint,
     handleSetPoint,
     handleSetStatus,
+    handleSetTransaction,
   };
 };

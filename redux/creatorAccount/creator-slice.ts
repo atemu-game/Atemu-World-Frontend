@@ -1,12 +1,18 @@
+import { TXRType } from '@/utils/constants';
 import { createSlice } from '@reduxjs/toolkit';
 
+interface TransactionLogProps {
+  transactionHash: string;
+  status: TXRType;
+}
 interface ICreatorState {
   point: number | null;
   status: 'start' | 'stop';
   balance: number | null;
   isLoading: boolean; // Loading mint or pint data
-  eventLog: string[]; //
+  eventLog: TransactionLogProps[]; //
 }
+
 const initialState: ICreatorState = {
   point: null,
   isLoading: false,
@@ -37,6 +43,8 @@ export const creatorSlice = createSlice({
       state.isLoading = false;
       state.point = null;
       state.balance = null;
+      state.status = 'stop';
+      state.eventLog = [];
     },
   },
 });
@@ -46,4 +54,5 @@ export const {
   setLoadingMint,
   resetCreator,
   setStatusMint,
+  setTransactionLog,
 } = creatorSlice.actions;

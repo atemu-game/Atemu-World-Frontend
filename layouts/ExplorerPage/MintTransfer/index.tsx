@@ -11,6 +11,7 @@ const MintTransfer = () => {
     handleStopMint,
     handleSetPoint,
     handleSetStatus,
+    handleSetTransaction,
     status,
   } = useCreatorAccount();
   useEffect(() => {
@@ -20,6 +21,14 @@ const MintTransfer = () => {
       });
       socketAPI.on(BliztEvent.BLIZT_STATUS, data => {
         handleSetStatus(data);
+      });
+      socketAPI.on(BliztEvent.BLIZT_TRANSACTION, data => {
+        handleSetTransaction(data.transactionHash, data.status);
+      });
+      socketAPI.on('disconnect', () => {
+        console.log('Disconnect');
+        socketAPI.disconnect();
+        handleSetStatus('stop');
       });
     }
   }, [socketAPI]);

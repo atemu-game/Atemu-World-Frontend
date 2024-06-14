@@ -6,12 +6,14 @@ import { ellipseMiddle } from '@/utils/formatAddress';
 import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { UserWalletProps } from '.';
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 interface IProps {
   userWallet: UserWalletProps;
   balance: string;
 }
 const MonitorTrade = ({ userWallet, balance }: IProps) => {
+  const { eventLog } = useCreatorAccount();
   return (
     <Flex flexDirection="column" gap={4} width="full">
       <Flex
@@ -91,20 +93,42 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
         <Text>Ready to mine? can start at block 123,457</Text>
       </Box>
       <Box
-        padding={4}
         background={`${convertHex(colors.secondary[400], 0.05)}`}
         border="1px solid"
         color="white"
         borderColor={convertHex(colors.secondary[400], 0.5)}
         fontWeight={700}
-        display="flex"
-        flexDirection="column"
-        gap={3}
-        minH={400} // Test
+        maxH={600} // Test
+        minH={400}
+        position="relative"
+        overflowY="scroll"
       >
-        <Text>Events Log (10 Latest transactions)</Text>
+        <Text p={4} color="secondary.400" position="sticky" top={0}>
+          Events Log
+        </Text>
+        <Flex
+          position="sticky"
+          flexDirection="column"
+          padding={4}
+          gap={4}
+          pt={0}
+        >
+          {eventLog &&
+            eventLog.map((log, index) => (
+              <HStack
+                key={index}
+                justifyContent="space-between"
+                color={
+                  index === eventLog.length - 1 ? 'secondary.400' : 'white'
+                }
+              >
+                <Text>{log.transactionHash}</Text>
+                <Text>{log.status}</Text>
+              </HStack>
+            ))}
+        </Flex>
       </Box>
-      <HStack
+      {/* <HStack
         padding={4}
         background={`${convertHex(colors.secondary[400], 0.05)}`}
         border="1px solid"
@@ -123,7 +147,7 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
         >
           Claim
         </Button>
-      </HStack>
+      </HStack> */}
     </Flex>
   );
 };

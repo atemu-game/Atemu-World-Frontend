@@ -1,9 +1,8 @@
 import { ABIS } from '@/abis';
 import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
-
 import { useEffect, useState } from 'react';
 import { Contract, Provider } from 'starknet';
-// Balance Can not custom
+
 import { formatBalance } from '@/utils/formatAddress';
 interface IProps {
   address: string | null;
