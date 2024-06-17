@@ -1,6 +1,7 @@
 'use client';
-import { Flex, Image, VStack } from '@chakra-ui/react';
+import { Flex, VStack } from '@chakra-ui/react';
 import React from 'react';
+import Image from 'next/image';
 import IncentiveSection from './IncentiveSection';
 import DescriptionSection from './DescriptionSection';
 import HowToPlaySection from './HowToPlaySection';
@@ -17,8 +18,8 @@ const HomePage = () => {
       <Image
         src="/assets/arts/home_bg.svg"
         objectFit="cover"
-        width="full"
-        height="auto"
+        width={1276}
+        height={716}
         aria-label=""
         alt=""
       />

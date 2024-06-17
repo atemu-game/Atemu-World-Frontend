@@ -1,5 +1,5 @@
 'use client';
-import { Box, Text, HStack, Button, VStack } from '@chakra-ui/react';
+import { Box, Text, HStack, VStack } from '@chakra-ui/react';
 import React from 'react';
 import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
@@ -88,7 +88,7 @@ const ExplorerPage = () => {
             <HStack gap={3}>
               {userWallet && (
                 <>
-                  <MintTransfer />
+                  {userWallet.deployHash && <MintTransfer />}
                   <DespositAccount
                     refetchWallet={refetchWallet}
                     userWallet={userWallet}

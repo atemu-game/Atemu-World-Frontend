@@ -52,6 +52,7 @@ const MintTransfer = () => {
           variant="primary"
           borderColor="secondary.300"
           key="stop"
+          minW="200px"
           onClick={async () => {
             await handleStopMint();
           }}
