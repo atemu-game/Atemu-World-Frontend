@@ -2,7 +2,15 @@ import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
 import { colors } from '@/themes';
 import { convertHex } from '@/utils/convertHex';
 import { ellipseMiddle } from '@/utils/formatAddress';
-import { Box, Flex, HStack, Icon, IconButton, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  HStack,
+  Icon,
+  IconButton,
+  Text,
+  Tooltip,
+} from '@chakra-ui/react';
 import React from 'react';
 import { UserWalletProps } from '.';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
@@ -136,12 +144,14 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
                   color={index === 0 ? 'secondary.400' : 'white'}
                 >
                   <Text>{currentDate}</Text>
-                  <Link
-                    href={`${STARKSCAN_LINK}/${log.transactionHash}`}
-                    target="_blank"
-                  >
-                    {log.transactionHash}
-                  </Link>
+                  <Tooltip hasArrow label="View in Starkscan" placement="top">
+                    <Link
+                      href={`${STARKSCAN_LINK}/${log.transactionHash}`}
+                      target="_blank"
+                    >
+                      {log.transactionHash}
+                    </Link>
+                  </Tooltip>
 
                   <Text>{log.status}</Text>
                 </HStack>

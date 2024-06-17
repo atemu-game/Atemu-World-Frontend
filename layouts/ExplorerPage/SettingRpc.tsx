@@ -8,13 +8,14 @@ import {
   Divider,
   Flex,
   Input,
+  Radio,
+  RadioGroup,
   Text,
 } from '@chakra-ui/react';
-import React from 'react';
-interface IProps {
-  onSelectRPC: (rpc: string) => void;
-}
+import React, { useState } from 'react';
+
 const SettingRpc = () => {
+  const [currentRPC, setCurrentRPC] = useState(ListPublicRPC[0]);
   return (
     <>
       <Box
@@ -36,15 +37,23 @@ const SettingRpc = () => {
             The app rotates between enabled RPCs to avoid hitting rate limits
           </Text>
         </Box>
-        <Flex flexDirection="column" gap={4}>
-          {ListPublicRPC.map((rpc, index) => {
-            return (
-              <Checkbox key={`RPC-Select-${index}`}>
-                {ellipseMiddle(rpc, 15, 8)}
-              </Checkbox>
-            );
-          })}
-        </Flex>
+        <RadioGroup onChange={setCurrentRPC} value={currentRPC}>
+          <Flex flexDirection="column" gap={4}>
+            {ListPublicRPC.map((rpc, index) => {
+              return (
+                <Radio
+                  variant="primary"
+                  key={`RPC-Select-${index}`}
+                  value={rpc}
+                  gap={2}
+                >
+                  {ellipseMiddle(rpc, 15, 15)}
+                </Radio>
+              );
+            })}
+          </Flex>
+        </RadioGroup>
+
         <Button variant="primary" width="full" borderColor="secondary.100">
           Save
         </Button>
@@ -55,7 +64,7 @@ const SettingRpc = () => {
           </AbsoluteCenter>
         </Box>
         <Box>
-          <Text variant="sub_title">Your Custom RPC</Text>
+          <Text variant="sub_title">Your Custom RPC (max 5)</Text>
           <Input my={4} placeholder="Import RPC here" variant="primary" />
           <Button variant="primary" width="full" borderColor="secondary.100">
             Add RPC

@@ -18,8 +18,8 @@ const HomePage = () => {
       <Image
         src="/assets/arts/home_bg.svg"
         objectFit="cover"
-        width={1276}
-        height={716}
+        width={1374.8}
+        height={773.3}
         aria-label=""
         alt=""
       />

@@ -1,11 +1,9 @@
 export const ListPublicRPC = [
   'https://starknet-sepolia.public.blastapi.io',
-  'https://rpc.starknet-sepolia.lava.build"',
-  'https://starknet-sepolia.public.blastapi.io',
-  'https://starknet-sepolia.public.blastapi.io',
-  'https://starknet-sepolia.public.blastapi.io',
-  'https://starknet-sepolia.public.blastapi.io',
-  'https://starknet-sepolia.public.blastapi.io',
+  'https://starknet-sepolia.public.blastapi.io/rpc/v0_7',
+  'https://starknet-sepolia.public.blastapi.io/rpc/v0_6',
+  'https://starknet-sepolia.reddio.com/rpc/v0_7',
+  'https://starknet-sepolia.reddio.com',
 ];
 
 export enum CONTRACT_ADDRESS {

@@ -146,6 +146,36 @@ const Input: ComponentStyleConfig = {
     },
   },
 };
+const Radio: ComponentStyleConfig = {
+  variants: {
+    primary: {
+      control: {
+        borderColor: 'primary.100',
+        bg: convertHex(colors.primary[100], 0.4),
+        height: 6,
+        width: 6,
+        'data-checked': {
+          bg: 'secondary.500',
+        },
+        _checked: {
+          bg: convertHex(colors.secondary[400], 0.4),
+          borderColor: 'secondary.400',
+          color: 'secondary.400',
+          _hover: {
+            bg: 'white',
+            borderColor: 'secondary.400',
+          },
+        },
+
+        _hover: {},
+      },
+      container: {
+        height: 6,
+        width: 6,
+      },
+    },
+  },
+};
 const theme = extendTheme({
   colors,
   styles,
@@ -154,6 +184,7 @@ const theme = extendTheme({
     Text,
     Menu,
     Input,
+    Radio,
   },
 });
 
