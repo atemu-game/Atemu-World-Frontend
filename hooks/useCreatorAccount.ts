@@ -2,7 +2,6 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from './useTypedSelector';
 import {
   connectSocket,
-  disconnectSocket,
   socketAPI,
   startMint,
   stopMint,
@@ -47,9 +46,11 @@ export const useCreatorAccount = () => {
       })
     );
   };
+
   const handleClearEventLog = () => {
     dispatch(clearEventLog());
   };
+
   return {
     ...creatorAccount,
     handleStartMint,

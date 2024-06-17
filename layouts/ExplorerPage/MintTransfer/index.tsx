@@ -17,7 +17,6 @@ const MintTransfer = () => {
   useEffect(() => {
     if (socketAPI) {
       socketAPI.on(BliztEvent.BLIZT_POINT, data => {
-        console.log('Point', data);
         handleSetPoint(data);
       });
       socketAPI.on(BliztEvent.BLIZT_STATUS, data => {
@@ -39,7 +38,7 @@ const MintTransfer = () => {
         <Button
           key="start"
           variant="primary"
-          borderColor="secondary.300"
+          borderColor="secondary.400"
           minW="200px"
           onClick={async () => {
             await handleStartMint();
@@ -51,7 +50,7 @@ const MintTransfer = () => {
       {status == 'start' && (
         <Button
           variant="primary"
-          borderColor="secondary.100"
+          borderColor="secondary.300"
           key="stop"
           onClick={async () => {
             await handleStopMint();

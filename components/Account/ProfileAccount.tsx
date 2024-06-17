@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AccountJazzicon from '../Avatar/AvatarJazzicon';
 import {
   Box,
@@ -23,11 +23,34 @@ import { ellipseMiddle } from '@/utils/formatAddress';
 
 import { useAuth } from '@/hooks/useAuth';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
+import { Contract, Provider, cairo } from 'starknet';
+import { ABIS } from '@/abis';
+import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 // Profile Account After Connected
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
   const { balance, isLoading } = useBalanceCustom({ address: userAddress });
+  const { handleSetPoint, point } = useCreatorAccount();
+
+  useEffect(() => {
+    const getUserPoint = async (userAddress: string) => {
+      const contractBlizt = new Contract(
+        ABIS.bliztAbi,
+        CONTRACT_ADDRESS.BLIZT,
+        new Provider({ nodeUrl: RPC_PROVIDER.TESTNET })
+      );
+
+      const data = await contractBlizt.getUserPoint(userAddress);
+      const fomatPoint = Number(cairo.uint256(data).low.toString());
+      handleSetPoint(fomatPoint);
+    };
+
+    if (userAddress) {
+      getUserPoint(userAddress);
+    }
+  }, [userAddress]);
   return (
     <>
       <Button
@@ -59,7 +82,7 @@ const ProfileAccount = () => {
               />
             }
           >
-            <Box>1000 PTS</Box>
+            <Box>{point} PTS</Box>
           </MenuButton>
           <MenuList minW="300px">
             <HStack my={6}>

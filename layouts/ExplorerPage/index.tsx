@@ -29,7 +29,7 @@ export interface UserWalletProps {
 const ExplorerPage = () => {
   const { userAddress } = useAuth();
   const { userWallet, refetchWallet } = useWalletAccount();
-  const { point } = useCreatorAccount();
+  const { point, isLoading } = useCreatorAccount();
   const { balance, fetchBalance } = useBalanceCustom({
     address: userWallet ? userWallet.payerAddress : '',
     token: CONTRACT_ADDRESS.ETH,
@@ -38,7 +38,7 @@ const ExplorerPage = () => {
   const { status } = useCreatorAccount();
   return (
     <>
-      {userAddress && userWallet ? (
+      {userAddress ? (
         <Box>
           <Text variant="title">Explorer</Text>
           <HStack
@@ -106,8 +106,9 @@ const ExplorerPage = () => {
             flexWrap={{ xl: 'nowrap', base: 'wrap' }}
           >
             <SettingRpc />
-
-            <MonitorTrade userWallet={userWallet} balance={balance} />
+            {userWallet && (
+              <MonitorTrade userWallet={userWallet} balance={balance} />
+            )}
           </HStack>
         </Box>
       ) : (

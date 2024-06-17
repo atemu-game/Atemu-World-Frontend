@@ -29,6 +29,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
   const [amountDesposit, setAmountDesposit] = React.useState<number>(0);
   const toast = useToast({
     position: 'top-right',
+    isClosable: false,
   });
   const [isLoading, setIsLoading] = useState(false);
   const { userAddress } = useAuth();

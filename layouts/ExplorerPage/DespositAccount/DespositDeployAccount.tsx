@@ -13,7 +13,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { UserWalletProps } from '..';
 import { useAccount } from '@starknet-react/core';
 import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
@@ -31,44 +31,9 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast({
     position: 'top-right',
+    isClosable: false,
   });
-  // const handleDeployAccount = async () => {
-  //   try {
-  //     if (userAddress && account) {
-  //       const provider = new RpcProvider({
-  //         nodeUrl: RPC_PROVIDER.TESTNET,
-  //       });
-  //       const result = await account.execute({
-  //         contractAddress: CONTRACT_ADDRESS.ETH,
-  //         entrypoint: 'transfer',
-  //         calldata: CallData.compile({
-  //           recipient: userWallet.payerAddress,
-  //           amount: uint256.bnToUint256(userWallet.feeDeploy * 1e18),
-  //         }),
-  //       });
-  //       const txR = await provider.waitForTransaction(result.transaction_hash);
-  //       if (txR.isSuccess()) {
-  //         const data = await axiosHandler.post('/wallet/deploy');
-  //         toast({
-  //           title: 'Success',
-  //           description: `Deploy account success DeployHash: ${data.data.deployHash}`,
-  //           status: 'success',
-  //           duration: 9000,
-  //           isClosable: true,
-  //         });
-  //         onClose();
-  //       }
-  //     }
-  //   } catch (error) {
-  //     toast({
-  //       title: ' Rejected ',
-  //       description: 'Transaction rejected by user',
-  //       status: 'error',
-  //       duration: 9000,
-  //       isClosable: true,
-  //     });
-  //   }
-  // };
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <>
       <Button
@@ -136,9 +101,11 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                   variant="primary"
                   color="black"
                   background="secondary.100"
+                  isLoading={isLoading}
                   onClick={() => {
                     const deployPromise = new Promise((resolve, rejects) => {
                       if (userAddress && account) {
+                        setIsLoading(() => true);
                         const provider = new RpcProvider({
                           nodeUrl: RPC_PROVIDER.TESTNET,
                         });
@@ -168,10 +135,12 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                           .then(res => {
                             resolve(res);
                             refetchWallet();
+                            setIsLoading(() => false);
                             onClose();
                           })
                           .catch(res => {
                             rejects(res);
+                            setIsLoading(() => false);
                           });
                       }
                     });
