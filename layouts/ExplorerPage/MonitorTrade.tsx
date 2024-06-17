@@ -13,7 +13,7 @@ interface IProps {
   balance: string;
 }
 const MonitorTrade = ({ userWallet, balance }: IProps) => {
-  const { eventLog } = useCreatorAccount();
+  const { eventLog, handleClearEventLog } = useCreatorAccount();
   return (
     <Flex flexDirection="column" gap={4} width="full">
       <Flex
@@ -103,9 +103,17 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
         position="relative"
         overflowY="scroll"
       >
-        <Text p={4} color="secondary.400" position="sticky" top={0}>
-          Events Log
-        </Text>
+        <HStack
+          p={4}
+          color="secondary.400"
+          position="sticky"
+          top={0}
+          justifyContent="space-between"
+        >
+          <Text>Events Log</Text>
+          <Button onClick={handleClearEventLog}>Clear </Button>
+        </HStack>
+
         <Flex
           position="sticky"
           flexDirection="column"
@@ -113,41 +121,24 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
           gap={4}
           pt={0}
         >
-          {eventLog &&
-            eventLog.map((log, index) => (
-              <HStack
-                key={index}
-                justifyContent="space-between"
-                color={
-                  index === eventLog.length - 1 ? 'secondary.400' : 'white'
-                }
-              >
-                <Text>{log.transactionHash}</Text>
-                <Text>{log.status}</Text>
-              </HStack>
-            ))}
+          {eventLog.length != 0 &&
+            eventLog.toReversed().map((log, index) => {
+              const latest = index === 0;
+              return (
+                <HStack
+                  key={index}
+                  justifyContent="space-between"
+                  color={index === 0 ? 'secondary.400' : 'white'}
+                >
+                  <Text>
+                    {log.transactionHash} {latest ? 'Latest' : ''}
+                  </Text>
+                  <Text>{log.status}</Text>
+                </HStack>
+              );
+            })}
         </Flex>
       </Box>
-      {/* <HStack
-        padding={4}
-        background={`${convertHex(colors.secondary[400], 0.05)}`}
-        border="1px solid"
-        borderColor={convertHex(colors.secondary[400], 0.5)}
-        justifyContent="space-between"
-      >
-        <Box>
-          <Text>123,456</Text>
-          <Text>Claimable Points</Text>
-        </Box>
-        <Button
-          variant="primary"
-          minWidth={{ md: '200px', base: 'fit-content' }}
-          color="secondary.400"
-          borderColor="secondary.400"
-        >
-          Claim
-        </Button>
-      </HStack> */}
     </Flex>
   );
 };

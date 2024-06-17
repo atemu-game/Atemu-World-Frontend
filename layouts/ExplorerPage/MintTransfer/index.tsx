@@ -17,6 +17,7 @@ const MintTransfer = () => {
   useEffect(() => {
     if (socketAPI) {
       socketAPI.on(BliztEvent.BLIZT_POINT, data => {
+        console.log('Point', data);
         handleSetPoint(data);
       });
       socketAPI.on(BliztEvent.BLIZT_STATUS, data => {
@@ -26,7 +27,6 @@ const MintTransfer = () => {
         handleSetTransaction(data.transactionHash, data.status);
       });
       socketAPI.on('disconnect', () => {
-        console.log('Disconnect');
         socketAPI.disconnect();
         handleSetStatus('stop');
       });

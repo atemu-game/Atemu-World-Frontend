@@ -8,6 +8,7 @@ import {
   stopMint,
 } from '@/config/socketConfig';
 import {
+  clearEventLog,
   setLoadingMint,
   setPoint,
   setStatusMint,
@@ -46,6 +47,9 @@ export const useCreatorAccount = () => {
       })
     );
   };
+  const handleClearEventLog = () => {
+    dispatch(clearEventLog());
+  };
   return {
     ...creatorAccount,
     handleStartMint,
@@ -53,5 +57,6 @@ export const useCreatorAccount = () => {
     handleSetPoint,
     handleSetStatus,
     handleSetTransaction,
+    handleClearEventLog,
   };
 };

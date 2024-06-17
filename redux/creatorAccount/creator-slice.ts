@@ -39,6 +39,9 @@ export const creatorSlice = createSlice({
     setTransactionLog: (state, action) => {
       state.eventLog.push(action.payload);
     },
+    clearEventLog: state => {
+      state.eventLog = [];
+    },
     resetCreator: state => {
       state.isLoading = false;
       state.point = null;
@@ -55,4 +58,5 @@ export const {
   resetCreator,
   setStatusMint,
   setTransactionLog,
+  clearEventLog,
 } = creatorSlice.actions;

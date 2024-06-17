@@ -7,18 +7,16 @@ import Sidebar from './Sidebar';
 
 const DefaultLayout = ({ children }: PropsWithChildren) => {
   return (
-    <>
-      <Flex width="full" flexDirection="column">
-        <Header />
+    <Flex width="full" flexDirection="column">
+      <Header />
 
-        <Flex width="full" position="sticky">
-          <Sidebar />
-          <Box padding={4} flex={1} width="full" as="main">
-            {children}
-          </Box>
-        </Flex>
+      <Flex width="full" position="sticky">
+        <Sidebar />
+        <Box padding={4} flex={1} width="full" as="main">
+          {children}
+        </Box>
       </Flex>
-    </>
+    </Flex>
   );
 };
 

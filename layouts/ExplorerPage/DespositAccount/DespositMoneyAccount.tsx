@@ -12,7 +12,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { UserWalletProps } from '..';
 import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
 import { useAccount } from '@starknet-react/core';
@@ -30,6 +30,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
   const toast = useToast({
     position: 'top-right',
   });
+  const [isLoading, setIsLoading] = useState(false);
   const { userAddress } = useAuth();
   const { account } = useAccount();
 
@@ -100,9 +101,11 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                   variant="primary"
                   color="black"
                   background="secondary.100"
+                  isLoading={isLoading}
                   onClick={() => {
                     const despositPromise = new Promise((resolve, reject) => {
                       if (userAddress && account) {
+                        setIsLoading(() => true);
                         const provider = new RpcProvider({
                           nodeUrl: RPC_PROVIDER.TESTNET,
                         });
@@ -127,9 +130,11 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                             refetchBalance();
                             resolve(res);
                             onClose();
+                            setIsLoading(() => false);
                           })
                           .catch(err => {
                             reject(err);
+                            setIsLoading(() => false);
                           });
                       }
                     });
