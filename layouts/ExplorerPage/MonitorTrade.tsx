@@ -1,4 +1,5 @@
 import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
+import RefreshIcon from '@/public/assets/icons/refresh.svg';
 import { colors } from '@/themes';
 import { convertHex } from '@/utils/convertHex';
 import { ellipseMiddle } from '@/utils/formatAddress';
@@ -16,13 +17,18 @@ import { UserWalletProps } from '.';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import ClearIcon from '@/public/assets/icons/clear.svg';
 import Link from 'next/link';
-import { STARKSCAN_LINK } from '@/utils/constants';
+import { CONTRACT_ADDRESS, STARKSCAN_LINK } from '@/utils/constants';
+import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 interface IProps {
   userWallet: UserWalletProps;
   balance: string;
 }
 const MonitorTrade = ({ userWallet, balance }: IProps) => {
   const { eventLog, handleClearEventLog } = useCreatorAccount();
+  const { fetchBalance } = useBalanceCustom({
+    address: userWallet ? userWallet.payerAddress : '',
+    token: CONTRACT_ADDRESS.ETH,
+  });
   return (
     <Flex flexDirection="column" gap={4} width="full">
       <Flex
@@ -82,10 +88,23 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
           </HStack>
         </Box>
       </Flex>
+
       <Box border="1px solid" borderColor="divider.100" padding={4}>
         <Text>Balance: </Text>
-        <Text fontWeight="bold">{balance} (ETH)</Text>
+        <HStack>
+          <Text fontWeight="bold">{balance} (ETH)</Text>
+          <IconButton
+            _hover={{
+              color: 'white',
+            }}
+            onClick={() => fetchBalance()}
+            variant="icon_button"
+            aria-label="refresh"
+            icon={<Icon as={RefreshIcon} />}
+          />
+        </HStack>
       </Box>
+
       <Box
         padding={4}
         background={`${convertHex(colors.secondary[400], 0.05)}`}
@@ -107,7 +126,7 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
         color="white"
         borderColor={convertHex(colors.secondary[400], 0.5)}
         fontWeight={700}
-        height={600}
+        height={500}
         position="relative"
         overflowY="scroll"
       >

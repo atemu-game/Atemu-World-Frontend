@@ -31,7 +31,9 @@ export const useBalanceCustom = ({
     setIsLoading(false);
   };
   useEffect(() => {
-    fetchBalance();
+    if (address) {
+      fetchBalance();
+    }
   }, [address]);
   return {
     isLoading,

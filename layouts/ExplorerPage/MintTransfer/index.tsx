@@ -33,7 +33,7 @@ const MintTransfer = () => {
   }, [socketAPI]);
 
   return (
-    <Box>
+    <>
       {status == 'stop' && (
         <Button
           key="start"
@@ -60,7 +60,7 @@ const MintTransfer = () => {
           Stop
         </Button>
       )}
-    </Box>
+    </>
   );
 };
 

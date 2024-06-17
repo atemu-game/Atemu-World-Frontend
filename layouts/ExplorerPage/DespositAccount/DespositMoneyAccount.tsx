@@ -24,6 +24,7 @@ interface IProps {
   userWallet: UserWalletProps;
   refetchBalance: () => void;
 }
+
 const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [amountDesposit, setAmountDesposit] = React.useState<number>(0);
@@ -42,6 +43,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
         minW="200px"
         borderColor="white"
         onClick={onOpen}
+        isLoading={isLoading}
       >
         Deposit
       </Button>
@@ -70,20 +72,22 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                   maxWidth={{ lg: 'full', base: '300px' }}
                 >
                   {userWallet.payerAddress}
+                  <CopyClipBoard
+                    ml={3}
+                    context={
+                      userWallet.payerAddress ? userWallet.payerAddress : ''
+                    }
+                    h={4}
+                    w={4}
+                    aria-label="Copy Stark Address"
+                  />
                 </Text>
-                <CopyClipBoard
-                  context={
-                    userWallet.payerAddress ? userWallet.payerAddress : ''
-                  }
-                  h={4}
-                  w={4}
-                  aria-label="Copy Stark Address"
-                />
               </HStack>
 
               <Input
+                isDisabled={isLoading}
                 type="number"
-                placeholder="Type Amount you want"
+                placeholder="Type Amount you want (ETH)"
                 onChange={e => {
                   setAmountDesposit(() => Number(e.target.value));
                 }}

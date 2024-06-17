@@ -85,7 +85,7 @@ const ExplorerPage = () => {
               <Text>Point Balance</Text>
             </Box>
 
-            <HStack gap={3}>
+            <HStack gap={3} flexWrap="wrap">
               {userWallet && (
                 <>
                   {userWallet.deployHash && <MintTransfer />}

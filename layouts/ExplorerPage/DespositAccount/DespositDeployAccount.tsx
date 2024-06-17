@@ -20,7 +20,6 @@ import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
 import { CallData, RpcProvider, uint256 } from 'starknet';
 import { axiosHandler } from '@/config/axiosConfig';
 
-// Desposit Account Modal
 interface IProps {
   userWallet: UserWalletProps;
   refetchWallet: () => void;
@@ -40,6 +39,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
         variant="primary"
         minW="200px"
         borderColor="white"
+        isLoading={isLoading}
         onClick={() => {
           onOpen();
         }}
@@ -72,13 +72,14 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                   maxWidth={{ lg: 'full', base: '300px' }}
                 >
                   {userAddress}
+                  <CopyClipBoard
+                    ml={3}
+                    context={userAddress ? userAddress : ''}
+                    h={4}
+                    w={4}
+                    aria-label="Copy Stark Address"
+                  />
                 </Text>
-                <CopyClipBoard
-                  context={userAddress ? userAddress : ''}
-                  h={4}
-                  w={4}
-                  aria-label="Copy Stark Address"
-                />
               </HStack>
               <Text>Estimated ETH to deposit</Text>
               <HStack justifyContent="space-between">
