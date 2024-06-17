@@ -1,5 +1,4 @@
 import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
-
 import { colors } from '@/themes';
 import { convertHex } from '@/utils/convertHex';
 import { ellipseMiddle } from '@/utils/formatAddress';
@@ -8,6 +7,8 @@ import React from 'react';
 import { UserWalletProps } from '.';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import ClearIcon from '@/public/assets/icons/clear.svg';
+import Link from 'next/link';
+import { STARKSCAN_LINK } from '@/utils/constants';
 interface IProps {
   userWallet: UserWalletProps;
   balance: string;
@@ -127,16 +128,21 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
         >
           {eventLog.length != 0 &&
             eventLog.toReversed().map((log, index) => {
-              const latest = index === 0;
+              const currentDate = new Date(log.timestamp * 1000).toISOString();
               return (
                 <HStack
                   key={index}
                   justifyContent="space-between"
                   color={index === 0 ? 'secondary.400' : 'white'}
                 >
-                  <Text>
-                    {log.transactionHash} {latest ? '(Latest)' : ''}
-                  </Text>
+                  <Text>{currentDate}</Text>
+                  <Link
+                    href={`${STARKSCAN_LINK}/${log.transactionHash}`}
+                    target="_blank"
+                  >
+                    {log.transactionHash}
+                  </Link>
+
                   <Text>{log.status}</Text>
                 </HStack>
               );

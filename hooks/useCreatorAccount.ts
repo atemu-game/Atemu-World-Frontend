@@ -38,11 +38,16 @@ export const useCreatorAccount = () => {
   const handleSetStatus = (status: BliztSatus) => {
     dispatch(setStatusMint(status));
   };
-  const handleSetTransaction = (transactionHash: string, status: TXRType) => {
+  const handleSetTransaction = (
+    transactionHash: string,
+    status: TXRType,
+    timestamp: number
+  ) => {
     dispatch(
       setTransactionLog({
         transactionHash: transactionHash,
         status: status,
+        timestamp: timestamp,
       })
     );
   };

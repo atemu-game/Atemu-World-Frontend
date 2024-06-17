@@ -31,3 +31,5 @@ export enum BliztEvent {
 }
 
 export type TXRType = 'success' | 'rejected' | 'error' | 'reverted';
+
+export const STARKSCAN_LINK = 'https://sepolia.starkscan.co/tx';

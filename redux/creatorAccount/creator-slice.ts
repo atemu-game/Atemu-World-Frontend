@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 interface TransactionLogProps {
   transactionHash: string;
   status: TXRType;
+  timestamp: number;
 }
 interface ICreatorState {
   point: number | null;

@@ -23,7 +23,7 @@ const MintTransfer = () => {
         handleSetStatus(data);
       });
       socketAPI.on(BliztEvent.BLIZT_TRANSACTION, data => {
-        handleSetTransaction(data.transactionHash, data.status);
+        handleSetTransaction(data.transactionHash, data.status, data.timestamp);
       });
       socketAPI.on('disconnect', () => {
         socketAPI.disconnect();
