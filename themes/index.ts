@@ -1,3 +1,4 @@
+import { convertHex } from '@/utils/convertHex';
 import { ComponentStyleConfig, extendTheme } from '@chakra-ui/react';
 export const colors = {
   primary: {
@@ -48,6 +49,14 @@ const Button: ComponentStyleConfig = {
       fontWeight: 700,
       _hover: {
         opacity: 0.8,
+      },
+    },
+    icon_btn: {
+      color: 'white',
+      cursor: 'pointer',
+      background: convertHex(colors.secondary[400], 0.4),
+      _hover: {
+        opacity: 0.5,
       },
     },
   },

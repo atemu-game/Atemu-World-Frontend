@@ -3,11 +3,11 @@ import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
 import { colors } from '@/themes';
 import { convertHex } from '@/utils/convertHex';
 import { ellipseMiddle } from '@/utils/formatAddress';
-import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react';
+import { Box, Flex, HStack, Icon, IconButton, Text } from '@chakra-ui/react';
 import React from 'react';
 import { UserWalletProps } from '.';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
-
+import ClearIcon from '@/public/assets/icons/clear.svg';
 interface IProps {
   userWallet: UserWalletProps;
   balance: string;
@@ -98,8 +98,7 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
         color="white"
         borderColor={convertHex(colors.secondary[400], 0.5)}
         fontWeight={700}
-        maxH={600} // Test
-        minH={400}
+        height={600}
         position="relative"
         overflowY="scroll"
       >
@@ -111,7 +110,12 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
           justifyContent="space-between"
         >
           <Text>Events Log</Text>
-          <Button onClick={handleClearEventLog}>Clear </Button>
+          <IconButton
+            onClick={handleClearEventLog}
+            icon={<Icon as={ClearIcon} height={5} width={5} />}
+            aria-label="icon clear button"
+            variant="icon_btn"
+          />
         </HStack>
 
         <Flex
@@ -131,7 +135,7 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
                   color={index === 0 ? 'secondary.400' : 'white'}
                 >
                   <Text>
-                    {log.transactionHash} {latest ? 'Latest' : ''}
+                    {log.transactionHash} {latest ? '(Latest)' : ''}
                   </Text>
                   <Text>{log.status}</Text>
                 </HStack>

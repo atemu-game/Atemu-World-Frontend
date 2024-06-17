@@ -29,7 +29,7 @@ export interface UserWalletProps {
 const ExplorerPage = () => {
   const { userAddress } = useAuth();
   const { userWallet, refetchWallet } = useWalletAccount();
-  const { point, isLoading } = useCreatorAccount();
+  const { point } = useCreatorAccount();
   const { balance, fetchBalance } = useBalanceCustom({
     address: userWallet ? userWallet.payerAddress : '',
     token: CONTRACT_ADDRESS.ETH,
