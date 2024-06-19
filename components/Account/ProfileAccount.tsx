@@ -1,5 +1,4 @@
-import { useWalletContext } from '@/providers/ProviderContext';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AccountJazzicon from '../Avatar/AvatarJazzicon';
 import {
   Box,
@@ -10,6 +9,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Skeleton,
   Text,
 } from '@chakra-ui/react';
 import CopyClipBoard from '../CopyClipboard/CopyClipBoard';
@@ -20,16 +20,37 @@ import StarkNetIcon from '@/public/assets/token/starknet.svg';
 import QuestIcon from '@/public/assets/icons/quest.svg';
 import LogoutIcon from '@/public/assets/icons/logout.svg';
 import { ellipseMiddle } from '@/utils/formatAddress';
-import { useBalance } from '@starknet-react/core';
-import { CONTRACT_ADDRESS } from '@/utils/constants';
+
+import { useAuth } from '@/hooks/useAuth';
+import { useBalanceCustom } from '@/hooks/useBalanceCustom';
+import { Contract, Provider, cairo } from 'starknet';
+import { ABIS } from '@/abis';
+import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 // Profile Account After Connected
 const ProfileAccount = () => {
-  const { address, disconnectWallet } = useWalletContext();
-  const { data } = useBalance({
-    address,
-    token: CONTRACT_ADDRESS.STRK,
-  });
+  const { userAddress, disconnectWallet } = useAuth();
+  const { balance, isLoading } = useBalanceCustom({ address: userAddress });
+  const { handleSetPoint, point } = useCreatorAccount();
+
+  useEffect(() => {
+    const getUserPoint = async (userAddress: string) => {
+      const contractBlizt = new Contract(
+        ABIS.bliztAbi,
+        CONTRACT_ADDRESS.BLIZT,
+        new Provider({ nodeUrl: RPC_PROVIDER.TESTNET })
+      );
+
+      const data = await contractBlizt.getUserPoint(userAddress);
+      const fomatPoint = Number(cairo.uint256(data).low.toString());
+      handleSetPoint(fomatPoint);
+    };
+
+    if (userAddress) {
+      getUserPoint(userAddress);
+    }
+  }, [userAddress]);
   return (
     <>
       <Button
@@ -40,16 +61,20 @@ const ProfileAccount = () => {
           md: 'inline-flex',
         }}
       >
-        {data?.formatted ? data.formatted : '0'}
+        {isLoading ? (
+          <Skeleton>00.000</Skeleton>
+        ) : (
+          <>{balance ? parseFloat(balance).toFixed(3) : '0'}</>
+        )}
       </Button>
-      {address && (
+      {userAddress && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>
           <MenuButton
             as={Button}
             variant="primary"
             rightIcon={
               <AccountJazzicon
-                address={address}
+                address={userAddress}
                 sx={{
                   height: '2rem',
                   width: '2rem',
@@ -57,21 +82,21 @@ const ProfileAccount = () => {
               />
             }
           >
-            <Box>1000 PTS</Box>
+            <Box>{point} PTS</Box>
           </MenuButton>
           <MenuList minW="300px">
             <HStack my={6}>
               <AccountJazzicon
-                address={address}
+                address={userAddress}
                 sx={{
                   height: '3rem',
                   width: '3rem',
                 }}
               />
-              <Text>{ellipseMiddle(address, 10, 10)}</Text>
+              <Text>{ellipseMiddle(userAddress, 10, 10)}</Text>
               <CopyClipBoard
-                context={address}
-                aria-label="Copy Current Address"
+                context={userAddress}
+                aria-label="Copy Current userAddress"
               />
             </HStack>
             <MenuItem
@@ -111,7 +136,11 @@ const ProfileAccount = () => {
               <Icon as={LinkIcon} />
               <Text>Referral Link</Text>
             </MenuItem>
-            <MenuItem onClick={disconnectWallet}>
+            <MenuItem
+              onClick={() => {
+                disconnectWallet();
+              }}
+            >
               <Icon as={LogoutIcon} />
               <Text>Disconnect</Text>
             </MenuItem>

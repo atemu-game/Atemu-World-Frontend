@@ -32,6 +32,11 @@ const nextConfig = {
             );
         return config;
     },
+
+    env: {
+        PUBLIC_NEXT_API: process.env.PUBLIC_NEXT_API,
+        PUBLIC_NEXT_SOCKET_PORT: process.env.PUBLIC_NEXT_SOCKET_PORT
+    }
 };
 
 export default nextConfig;

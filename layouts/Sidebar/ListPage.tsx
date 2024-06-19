@@ -27,14 +27,15 @@ const ListPage = ({ sx }: IProps) => {
       label: 'Home',
     },
     {
-      link: '/fuel',
-      icon: FuelIcon,
-      label: 'Fuel',
-    },
-    {
       link: '/explorer',
       icon: ExplorerIcon,
       label: 'Explorer',
+    },
+    {
+      link: '/fuel',
+      icon: FuelIcon,
+      label: 'Fuel',
+      isDisabled: true,
     },
     {
       link: '/incentives',
@@ -73,23 +74,22 @@ const ListPage = ({ sx }: IProps) => {
         return (
           <>
             {item.isDisabled ? (
-              <>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  flexDirection="column"
-                  transition="all 0.3s"
-                  cursor="not-allowed"
-                  {...sx}
-                >
-                  <Icon as={item.icon} height={6} width={6} />
-                  <Text fontSize="lg" fontWeight={700}>
-                    {item.label}
-                  </Text>
-                </Box>
-              </>
+              <Box
+                key={item.label}
+                display="flex"
+                alignItems="center"
+                flexDirection="column"
+                transition="all 0.3s"
+                cursor="not-allowed"
+                {...sx}
+              >
+                <Icon as={item.icon} height={6} width={6} />
+                <Text fontSize="lg" fontWeight={700}>
+                  {item.label}
+                </Text>
+              </Box>
             ) : (
-              <Link href={item.link} key={index}>
+              <Link href={item.link} key={item.label}>
                 <Box
                   display="flex"
                   alignItems="center"

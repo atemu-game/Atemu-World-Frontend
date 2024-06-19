@@ -11,7 +11,8 @@ The Atemu  of Flex is a provider that allows users to play a card game and earn 
   - Layout: The Layout directory includes layout components that help structure the application's user interface.
   - Core: The Core directory contains the core functionality and business logic for the Card Game and Yolo.
   - Theme: The Theme directory contains styles and theme-related files that define the visual appearance of the application.
- 
+## Enviroment Require:
+NodeJs Version: >=18.0.0
 ## Installation
 To install the project, follow these steps:
 1. Clone the repository:
