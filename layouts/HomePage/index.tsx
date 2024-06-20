@@ -21,7 +21,8 @@ const HomePage = () => {
         width={1374.8}
         height={773.3}
         aria-label=""
-        alt=""
+        priority
+        alt="Picture Atemu"
       />
       <IncentiveSection />
       <FadeInVisible>

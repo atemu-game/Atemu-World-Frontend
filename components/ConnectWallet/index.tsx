@@ -17,10 +17,15 @@ const ConnectWallet = ({ sx }: IProps) => {
     const { starknetkitConnectModal } = useStarknetkitConnectModal({
       connectors: connectors as Connector[], // Cast the connectors array to Connector[]
     });
-
-    const { connector } = await starknetkitConnectModal();
-    const connectorIndex = connectors.findIndex(c => c.name === connector.name);
-    await connectWallet(connectorIndex);
+    try {
+      const { connector } = await starknetkitConnectModal();
+      const connectorIndex = connectors.findIndex(
+        c => c.name === connector.name
+      );
+      await connectWallet(connectorIndex);
+    } catch (error) {
+      console.log('Reject Connect', error);
+    }
   };
 
   return (
