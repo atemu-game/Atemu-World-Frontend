@@ -27,14 +27,14 @@ const MintTransfer = () => {
       });
       socketAPI.on('disconnect', () => {
         socketAPI.disconnect();
-        handleSetStatus('stop');
+        handleSetStatus('stopped');
       });
     }
   }, [socketAPI]);
 
   return (
     <>
-      {status == 'stop' && (
+      {status == 'stopped' && (
         <Button
           key="start"
           variant="primary"
@@ -47,10 +47,21 @@ const MintTransfer = () => {
           Start
         </Button>
       )}
-      {status == 'start' && (
+      {status == 'starting' && (
+        <Button
+          key="start"
+          variant="primary"
+          borderColor="secondary.400"
+          minW="200px"
+        >
+          Starting.....
+        </Button>
+      )}
+      {status == 'started' && (
         <Button
           variant="primary"
           borderColor="secondary.300"
+          color="secondary.300"
           key="stop"
           minW="200px"
           onClick={async () => {

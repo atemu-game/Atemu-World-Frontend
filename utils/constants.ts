@@ -20,7 +20,7 @@ export enum RPC_PROVIDER {
 }
 
 ///BLizt
-export type BliztSatus = 'start' | 'stop';
+export type BliztSatus = 'starting' | 'started' | 'stopped' | 'stopping';
 
 export enum BliztEvent {
   BLIZT_POINT = 'blizt-point',
