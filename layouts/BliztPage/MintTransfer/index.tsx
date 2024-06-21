@@ -13,6 +13,7 @@ const MintTransfer = () => {
     handleSetStatus,
     handleSetTransaction,
     status,
+    isLoading,
   } = useCreatorAccount();
   useEffect(() => {
     if (socketAPI) {
@@ -40,6 +41,7 @@ const MintTransfer = () => {
           variant="primary"
           borderColor="secondary.400"
           minW="200px"
+          isLoading={isLoading}
           onClick={async () => {
             await handleStartMint();
           }}
@@ -53,6 +55,7 @@ const MintTransfer = () => {
           variant="primary"
           borderColor="secondary.400"
           minW="200px"
+          isLoading={isLoading}
         >
           Starting.....
         </Button>
@@ -64,6 +67,7 @@ const MintTransfer = () => {
           color="secondary.300"
           key="stop"
           minW="200px"
+          isLoading={isLoading}
           onClick={async () => {
             await handleStopMint();
           }}
