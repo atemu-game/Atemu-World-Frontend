@@ -26,7 +26,7 @@ export interface UserWalletProps {
 
   deployHash?: string;
 }
-const ExplorerPage = () => {
+const BliztPage = () => {
   const { userAddress } = useAuth();
   const { userWallet, refetchWallet } = useWalletAccount();
   const { point } = useCreatorAccount();
@@ -122,4 +122,4 @@ const ExplorerPage = () => {
   );
 };
 
-export default ExplorerPage;
+export default BliztPage;
