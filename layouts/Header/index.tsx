@@ -15,9 +15,11 @@ import { axiosHandlerNoBearer } from '@/config/axiosConfig';
 import { ACCESS_TOKEN, RPC_PROVIDER } from '@/utils/constants';
 import { setUserAdress } from '@/redux/user/user-slice';
 import { setCookie } from '@/utils/cookie';
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 const Header = () => {
   const { userAddress, prevConnector } = useAuth();
   const { connectors, connect } = useConnect();
+  const { handleClearEventLog } = useCreatorAccount();
   const {
     address: addressWallet,
     status: statusWallet,

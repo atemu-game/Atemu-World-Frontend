@@ -8,6 +8,7 @@ import {
 } from '@/config/socketConfig';
 import {
   clearEventLog,
+  resetCreator,
   setLoadingMint,
   setPoint,
   setStatusMint,
@@ -55,6 +56,9 @@ export const useCreatorAccount = () => {
   const handleClearEventLog = () => {
     dispatch(clearEventLog());
   };
+  const handleResetCreator = () => {
+    dispatch(resetCreator());
+  };
 
   return {
     ...creatorAccount,
@@ -64,5 +68,6 @@ export const useCreatorAccount = () => {
     handleSetStatus,
     handleSetTransaction,
     handleClearEventLog,
+    handleResetCreator,
   };
 };
