@@ -19,6 +19,7 @@ import ClearIcon from '@/public/assets/icons/clear.svg';
 import Link from 'next/link';
 import { CONTRACT_ADDRESS, STARKSCAN_LINK } from '@/utils/constants';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
+import WidthDrawAccount from './WidthDrawAccount';
 interface IProps {
   userWallet: UserWalletProps;
   balance: string;
@@ -102,10 +103,11 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
             aria-label="refresh"
             icon={<Icon as={RefreshIcon} />}
           />
+          {balance && <WidthDrawAccount />}
         </HStack>
       </Box>
 
-      <Box
+      {/* <Box
         padding={4}
         background={`${convertHex(colors.secondary[400], 0.05)}`}
         border="1px solid"
@@ -119,7 +121,7 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
         <Text color="secondary.400">Block : 124,500</Text>
         <Text>You Sent : 124,500 transactions</Text>
         <Text>Ready to mine? can start at block 123,457</Text>
-      </Box>
+      </Box> */}
       <Box
         background={`${convertHex(colors.secondary[400], 0.05)}`}
         border="1px solid"
