@@ -75,7 +75,7 @@ const ListPage = ({ sx }: IProps) => {
           <>
             {item.isDisabled ? (
               <Box
-                key={item.label}
+                key={`${item.label}-${index}`}
                 display="flex"
                 alignItems="center"
                 flexDirection="column"

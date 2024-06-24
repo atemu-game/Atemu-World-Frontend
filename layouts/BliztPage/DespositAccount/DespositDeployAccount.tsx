@@ -16,7 +16,7 @@ import {
 import React, { useState } from 'react';
 import { UserWalletProps } from '..';
 import { useAccount } from '@starknet-react/core';
-import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { CallData, RpcProvider, uint256 } from 'starknet';
 import { axiosHandler } from '@/config/axiosConfig';
 import systemConfig from '@/config/systemConfig';

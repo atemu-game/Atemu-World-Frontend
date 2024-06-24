@@ -11,14 +11,13 @@ import {
   Flex,
   useToast,
   HStack,
+  Input,
 } from '@chakra-ui/react';
 import { useAccount } from '@starknet-react/core';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { UserWalletProps } from '..';
-import { CallData, RpcProvider, uint256 } from 'starknet';
-import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
+
 import { axiosHandler } from '@/config/axiosConfig';
-import systemConfig from '@/config/systemConfig';
 
 // WidthDrawAccount Payer component Modal
 interface IProps {
@@ -34,7 +33,20 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
     isClosable: false,
   });
   const [isLoading, setIsLoading] = useState(false);
-
+  const [amountWidthDraw, setAmountWidthDraw] = React.useState<number>(0);
+  // const handleLoadFee = async () => {
+  //   if (account?.address) {
+  //     const { suggestedMaxFee: estimatedFee1 } =
+  //       await account.estimateInvokeFee({
+  //         contractAddress: CONTRACT_ADDRESS.ETH,
+  //         entrypoint: 'transfer',
+  //       });
+  //     console.log('Ldas', estimatedFee1);
+  //   }
+  // };
+  // useEffect(() => {
+  //   handleLoadFee();
+  // }, [account]);
   return (
     <>
       <Button variant="primary" onClick={onOpen}>
@@ -82,6 +94,15 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
                   {userWallet.feeDeploy}
                 </Text>
               </HStack> */}
+              <Input
+                isDisabled={isLoading}
+                type="number"
+                placeholder="Type Amount you want WidthDraw (ETH)"
+                defaultValue={amountWidthDraw}
+                onChange={e => {
+                  setAmountWidthDraw(() => Number(e.target.value));
+                }}
+              />
               <Text>NOTE: Deposited ETH fund to your Creator Account.</Text>
               <HStack justifyContent="space-around">
                 <Button variant="primary" flexGrow={1} onClick={onClose}>
@@ -94,13 +115,27 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
                   color="black"
                   background="secondary.100"
                   isLoading={isLoading}
+                  isDisabled={amountWidthDraw === 0}
                   onClick={() => {
                     const deployPromise = new Promise((resolve, rejects) => {
                       if (userAddress && account) {
                         setIsLoading(() => true);
-                        const provider = new RpcProvider({
-                          nodeUrl: systemConfig().RPC,
-                        });
+                        axiosHandler
+                          .post('/wallet/withdrawCreatorAccount', {
+                            reciverAddress: userAddress,
+                            amount: amountWidthDraw,
+                            tokenType: 'ETH',
+                          })
+                          .then(res => {
+                            refetchWallet();
+                            setIsLoading(() => false);
+                            onClose();
+                            resolve(true);
+                          })
+                          .catch(err => {
+                            setIsLoading(() => false);
+                            rejects(false);
+                          });
                       }
                     });
 
