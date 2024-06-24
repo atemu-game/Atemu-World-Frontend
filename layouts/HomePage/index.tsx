@@ -1,5 +1,5 @@
 'use client';
-import { Flex, VStack } from '@chakra-ui/react';
+import { Box, Flex, Skeleton, VStack } from '@chakra-ui/react';
 import React from 'react';
 import Image from 'next/image';
 import IncentiveSection from './IncentiveSection';
@@ -8,6 +8,7 @@ import HowToPlaySection from './HowToPlaySection';
 import CardTypeSection from './CardTypeSection';
 import BettingSection from './BettingSection';
 import FadeInVisible from '@/components/Animation/FadeInVisible';
+import { ChakraNextImage } from '@/components/Image/ChakraNextImage';
 
 const HomePage = () => {
   return (
@@ -15,15 +16,27 @@ const HomePage = () => {
       flexDirection="column"
       gap={{ lg: '100px', md: '40px', base: '24px' }}
     >
-      <Image
-        src="/assets/arts/home_bg.svg"
-        objectFit="cover"
-        width={1374.8}
-        height={773.3}
-        aria-label=""
-        priority
-        alt="Picture Atemu"
-      />
+      <Box position="relative">
+        {/*        
+        <Image
+          src="/assets/arts/home_bg.svg"
+          objectFit="cover"
+          width={1374.8}
+          height={773.3}
+          aria-label=""
+          priority
+          alt="Picture Atemu"
+        /> */}
+        <ChakraNextImage
+          src="/assets/arts/home_bg.svg"
+          width={1374.8}
+          height={773.3}
+          aria-label=""
+          priority
+          alt="Picture Atemu"
+        />
+      </Box>
+
       <IncentiveSection />
       <FadeInVisible>
         <DescriptionSection />
