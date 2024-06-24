@@ -19,6 +19,8 @@ import { useAccount } from '@starknet-react/core';
 import { CallData, RpcProvider, uint256 } from 'starknet';
 import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
 import { useAuth } from '@/hooks/useAuth';
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+import { setStatusMint } from '@/redux/creatorAccount/creator-slice';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -27,6 +29,7 @@ interface IProps {
 
 const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const { handleSetStatus, status } = useCreatorAccount();
   const [amountDesposit, setAmountDesposit] = React.useState<number>(0);
   const toast = useToast({
     position: 'top-right',
@@ -135,6 +138,9 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                             refetchBalance();
                             resolve(res);
                             onClose();
+                            if (status === 'balance_low') {
+                              handleSetStatus('stopped');
+                            }
                             setIsLoading(() => false);
                           })
                           .catch(err => {

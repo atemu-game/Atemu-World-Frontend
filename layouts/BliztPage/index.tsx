@@ -36,7 +36,7 @@ const BliztPage = () => {
   });
   // TODO: MOVE TO HOOK USE STATUS
   const { status } = useCreatorAccount();
-  console.log('Now Current', userWallet);
+
   return (
     <>
       {userAddress ? (

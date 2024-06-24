@@ -47,7 +47,7 @@ const MintTransfer = () => {
 
   return (
     <>
-      {status == 'stopped' && (
+      {status === 'stopped' && (
         <Button
           key="start"
           variant="primary"
