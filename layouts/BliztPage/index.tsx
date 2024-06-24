@@ -1,5 +1,5 @@
 'use client';
-import { Box, Text, HStack, VStack } from '@chakra-ui/react';
+import { Box, Text, HStack, VStack, Skeleton } from '@chakra-ui/react';
 import React from 'react';
 import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
@@ -12,6 +12,8 @@ import { CONTRACT_ADDRESS } from '@/utils/constants';
 import MintTransfer from './MintTransfer';
 import RequireConnectWallet from '@/components/ConnectWallet/RequireConnectWallet';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+import { useBlock } from '@starknet-react/core';
+import { BlockNumber } from 'starknet';
 // TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
@@ -34,8 +36,13 @@ const BliztPage = () => {
     address: userWallet ? userWallet.payerAddress : '',
     token: CONTRACT_ADDRESS.ETH,
   });
-  // TODO: MOVE TO HOOK USE STATUS
+
   const { status } = useCreatorAccount();
+
+  const { data: dataBlock, isLoading: isLoadingBlock } = useBlock({
+    refetchInterval: 10_000,
+    blockIdentifier: 'latest' as BlockNumber,
+  });
 
   return (
     <>
@@ -62,9 +69,14 @@ const BliztPage = () => {
               <Text>Status</Text>
             </Box>
             <Box>
-              <Text fontWeight="bold" color="white">
-                654,456
-              </Text>
+              {!isLoadingBlock && dataBlock ? (
+                <Text fontWeight="bold" color="white">
+                  {(dataBlock as any).block_number}
+                </Text>
+              ) : (
+                <Skeleton>999999</Skeleton>
+              )}
+
               <Text>Current Block</Text>
             </Box>
             <Box>

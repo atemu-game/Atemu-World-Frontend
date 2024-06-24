@@ -13,7 +13,7 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import { useAccount } from '@starknet-react/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UserWalletProps } from '..';
 import { CallData, RpcProvider, uint256 } from 'starknet';
 import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
@@ -34,6 +34,7 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
     isClosable: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+
   return (
     <>
       <Button variant="primary" onClick={onOpen}>
@@ -41,14 +42,16 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent background="body">
           <ModalBody>
             <Flex flexDirection="column" gap={5}>
               <Text variant="title" textAlign="center">
-                Deposit ETH Fund
+                WidthDraw ETH Fund
               </Text>
-              <Text>Please deposit your ETH fund to this account</Text>
-              <Text>Your ETH-Fund wallet</Text>
+              <Text>
+                Please WidthDraw from your private Account fund to this account
+              </Text>
+              <Text>Your wallet (creator wallet)</Text>
               <HStack
                 padding={2}
                 border="1px solid"
@@ -72,17 +75,14 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
                   />
                 </Text>
               </HStack>
-              <Text>Estimated ETH to deposit</Text>
-              <HStack justifyContent="space-between">
+              <Text>Estimated ETH to WidthDraw</Text>
+              {/* <HStack justifyContent="space-between">
                 <Text>Fees to deploy account:</Text>
                 <Text fontWeight="bold" color="white">
                   {userWallet.feeDeploy}
                 </Text>
-              </HStack>
-              <Text>
-                NOTE: Deposited ETH fund is used for deploy account (at the
-                first time) auto generate from your wallet.
-              </Text>
+              </HStack> */}
+              <Text>NOTE: Deposited ETH fund to your Creator Account.</Text>
               <HStack justifyContent="space-around">
                 <Button variant="primary" flexGrow={1} onClick={onClose}>
                   Cancel
@@ -101,59 +101,26 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
                         const provider = new RpcProvider({
                           nodeUrl: systemConfig().RPC,
                         });
-                        account
-                          .execute({
-                            contractAddress: CONTRACT_ADDRESS.ETH,
-                            entrypoint: 'transfer',
-                            calldata: CallData.compile({
-                              recipient: userWallet.payerAddress,
-                              amount: uint256.bnToUint256(
-                                userWallet.feeDeploy * 1e18
-                              ),
-                            }),
-                          })
-                          .then(result => {
-                            const txR = provider.waitForTransaction(
-                              result.transaction_hash
-                            );
-                            return txR;
-                          })
-                          .then(res => {
-                            if (res.isSuccess()) {
-                              const data = axiosHandler.post('/wallet/deploy');
-                              return data;
-                            }
-                          })
-                          .then(res => {
-                            resolve(res);
-                            refetchWallet();
-                            setIsLoading(() => false);
-                            onClose();
-                          })
-                          .catch(res => {
-                            rejects(res);
-                            setIsLoading(() => false);
-                          });
                       }
                     });
 
                     toast.promise(deployPromise, {
                       success: {
-                        title: 'Deploy resolved',
-                        description: 'Deploy Success',
+                        title: 'WidthDraw resolved',
+                        description: 'WidthDraw Success',
                       },
                       error: {
-                        title: 'Deploy rejected',
+                        title: 'WidthDraw rejected',
                         description: 'Something wrong',
                       },
                       loading: {
-                        title: 'Deploy pending',
+                        title: 'WidthDraw pending',
                         description: 'Please wait.....',
                       },
                     });
                   }}
                 >
-                  Deploy Account
+                  WidthDraw
                 </Button>
               </HStack>
             </Flex>

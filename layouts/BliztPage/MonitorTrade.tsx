@@ -20,6 +20,8 @@ import Link from 'next/link';
 import { CONTRACT_ADDRESS, STARKSCAN_LINK } from '@/utils/constants';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 import WidthDrawAccount from './WidthDrawAccount';
+import { useBlock } from '@starknet-react/core';
+import { BlockTag } from 'starknet';
 interface IProps {
   userWallet: UserWalletProps;
   balance: string;
@@ -30,6 +32,7 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
     address: userWallet ? userWallet.payerAddress : '',
     token: CONTRACT_ADDRESS.ETH,
   });
+
   return (
     <Flex flexDirection="column" gap={4} width="full">
       <Flex
@@ -103,7 +106,12 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
             aria-label="refresh"
             icon={<Icon as={RefreshIcon} />}
           />
-          {balance && <WidthDrawAccount />}
+          {balance && (
+            <WidthDrawAccount
+              userWallet={userWallet}
+              refetchWallet={fetchBalance}
+            />
+          )}
         </HStack>
       </Box>
 

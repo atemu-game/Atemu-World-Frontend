@@ -72,10 +72,12 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                   textOverflow="ellipsis"
                   maxWidth={{ lg: 'full', base: '300px' }}
                 >
-                  {userAddress}
+                  {userWallet.payerAddress}
                   <CopyClipBoard
                     ml={3}
-                    context={userAddress ? userAddress : ''}
+                    context={
+                      userWallet.payerAddress ? userWallet.payerAddress : ''
+                    }
                     h={4}
                     w={4}
                     aria-label="Copy Stark Address"
