@@ -17,10 +17,11 @@ import { UserWalletProps } from '..';
 import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
 import { useAccount } from '@starknet-react/core';
 import { CallData, RpcProvider, uint256 } from 'starknet';
-import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useAuth } from '@/hooks/useAuth';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
-import { setStatusMint } from '@/redux/creatorAccount/creator-slice';
+
+import systemConfig from '@/config/systemConfig';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -115,7 +116,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                       if (userAddress && account) {
                         setIsLoading(() => true);
                         const provider = new RpcProvider({
-                          nodeUrl: RPC_PROVIDER.TESTNET,
+                          nodeUrl: systemConfig().RPC,
                         });
                         account
                           .execute({

@@ -19,6 +19,7 @@ import { useAccount } from '@starknet-react/core';
 import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
 import { CallData, RpcProvider, uint256 } from 'starknet';
 import { axiosHandler } from '@/config/axiosConfig';
+import systemConfig from '@/config/systemConfig';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -108,7 +109,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                       if (userAddress && account) {
                         setIsLoading(() => true);
                         const provider = new RpcProvider({
-                          nodeUrl: RPC_PROVIDER.TESTNET,
+                          nodeUrl: systemConfig().RPC,
                         });
                         account
                           .execute({

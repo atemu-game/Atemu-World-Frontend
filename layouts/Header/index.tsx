@@ -16,6 +16,7 @@ import { ACCESS_TOKEN, RPC_PROVIDER } from '@/utils/constants';
 import { setUserAdress } from '@/redux/user/user-slice';
 import { setCookie } from '@/utils/cookie';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+import systemConfig from '@/config/systemConfig';
 const Header = () => {
   const { userAddress, prevConnector } = useAuth();
   const { connectors, connect } = useConnect();
@@ -50,7 +51,7 @@ const Header = () => {
           {
             address: addressWallet,
             signature: signature,
-            rpc: RPC_PROVIDER.TESTNET,
+            rpc: systemConfig().RPC,
           }
         );
         dispatch(setUserAdress(addressWallet));

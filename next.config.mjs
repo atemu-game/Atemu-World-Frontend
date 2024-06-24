@@ -34,8 +34,8 @@ const nextConfig = {
     },
 
     env: {
-        PUBLIC_NEXT_API: process.env.PUBLIC_NEXT_API,
-        PUBLIC_NEXT_SOCKET_PORT: process.env.PUBLIC_NEXT_SOCKET_PORT
+        PUBLIC_NEXT_API: process.env.PUBLIC_NEXT_API || 'http://localhost:8088',
+        PUBLIC_NEXT_SOCKET_PORT: process.env.PUBLIC_NEXT_SOCKET_PORT || 'http://localhost:8000'
     }
 };
 

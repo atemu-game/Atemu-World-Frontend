@@ -15,6 +15,7 @@ import {
 import { AccountInterface } from 'starknet';
 import { useToast } from '@chakra-ui/react';
 import { resetCreator } from '@/redux/creatorAccount/creator-slice';
+import systemConfig from '@/config/systemConfig';
 
 export const useAuth = () => {
   const user = useTypedSelector(state => state.user);
@@ -46,7 +47,7 @@ export const useAuth = () => {
           {
             address: addressWallet,
             signature: signature,
-            rpc: RPC_PROVIDER.TESTNET,
+            rpc: systemConfig().RPC,
           }
         );
         dispatch(setUserAdress(addressWallet));
