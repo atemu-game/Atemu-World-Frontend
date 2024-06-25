@@ -29,9 +29,7 @@ export const useCreatorAccount = () => {
     dispatch(setLoadingMint(false));
   };
   const handleStopMint = async () => {
-    dispatch(setLoadingMint(true));
     await stopMint();
-    dispatch(setLoadingMint(false));
   };
   const handleSetPoint = (data: number) => {
     dispatch(setPoint(data));

@@ -92,7 +92,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                 isDisabled={isLoading}
                 type="number"
                 placeholder="Type Amount you want (ETH)"
-                value={amountDesposit}
+                defaultValue={amountDesposit}
                 onChange={e => {
                   setAmountDesposit(() => Number(e.target.value));
                 }}

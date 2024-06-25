@@ -119,21 +119,6 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
         </HStack>
       </Box>
 
-      {/* <Box
-        padding={4}
-        background={`${convertHex(colors.secondary[400], 0.05)}`}
-        border="1px solid"
-        color="white"
-        borderColor={convertHex(colors.secondary[400], 0.5)}
-        fontWeight={700}
-        display="flex"
-        flexDirection="column"
-        gap={3}
-      >
-        <Text color="secondary.400">Block : 124,500</Text>
-        <Text>You Sent : 124,500 transactions</Text>
-        <Text>Ready to mine? can start at block 123,457</Text>
-      </Box> */}
       <Box
         background={`${convertHex(colors.secondary[400], 0.05)}`}
         border="1px solid"

@@ -2,7 +2,7 @@ import { socketAPI } from '@/config/socketConfig';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 import { BliztEvent } from '@/utils/constants';
-import { Box, Button, useToast } from '@chakra-ui/react';
+import { Button, useToast } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 
 const MintTransfer = () => {
@@ -81,10 +81,26 @@ const MintTransfer = () => {
           minW="200px"
           isLoading={isLoading}
           onClick={async () => {
-            await handleStopMint();
+            handleSetStatus('stopping');
+            setTimeout(async () => {
+              await handleStopMint();
+              handleSetStatus('stopped');
+            }, 5000);
           }}
         >
           Stop
+        </Button>
+      )}
+      {status == 'stopping' && (
+        <Button
+          variant="primary"
+          borderColor="secondary.300"
+          color="secondary.300"
+          key="stop"
+          minW="200px"
+          isLoading={true}
+        >
+          Stopping....
         </Button>
       )}
     </>
