@@ -2,7 +2,7 @@ import { socketAPI } from '@/config/socketConfig';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 import { BliztEvent } from '@/utils/constants';
-import { Button, useToast } from '@chakra-ui/react';
+import { Button, HStack, Spinner, useToast, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 
 const MintTransfer = () => {
@@ -44,7 +44,22 @@ const MintTransfer = () => {
       });
     }
   }, [socketAPI]);
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      const message =
+        'Are you sure you want to leave? Your changes will close your connection';
+      event.preventDefault();
+      event.returnValue = message;
+      return message;
+    };
 
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
   return (
     <>
       {status === 'stopped' && (
@@ -62,15 +77,10 @@ const MintTransfer = () => {
         </Button>
       )}
       {status == 'starting' && (
-        <Button
-          key="start"
-          variant="primary"
-          borderColor="secondary.400"
-          minW="200px"
-          isLoading={isLoading}
-        >
-          Starting.....
-        </Button>
+        <HStack key="start" borderColor="secondary.400" minW="200px">
+          <Spinner color="secondary.400" />
+          <Text>Starting.....</Text>
+        </HStack>
       )}
       {status == 'started' && (
         <Button
