@@ -101,7 +101,9 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
             _hover={{
               color: 'white',
             }}
-            onClick={() => fetchBalance()}
+            onClick={async () => {
+              await fetchBalance();
+            }}
             variant="icon_button"
             aria-label="refresh"
             icon={<Icon as={RefreshIcon} />}
@@ -109,7 +111,9 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
           {balance && (
             <WidthDrawAccount
               userWallet={userWallet}
-              refetchWallet={fetchBalance}
+              refetchWallet={async () => {
+                await fetchBalance();
+              }}
             />
           )}
         </HStack>

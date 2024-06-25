@@ -126,7 +126,7 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
                             amount: amountWidthDraw,
                             tokenType: 'ETH',
                           })
-                          .then(res => {
+                          .then((res: any) => {
                             refetchWallet();
                             setIsLoading(() => false);
                             onClose();
@@ -134,7 +134,7 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
                           })
                           .catch(err => {
                             setIsLoading(() => false);
-                            rejects(false);
+                            rejects(err.response.data.message);
                           });
                       }
                     });
@@ -144,10 +144,10 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
                         title: 'WidthDraw resolved',
                         description: 'WidthDraw Success',
                       },
-                      error: {
+                      error: error => ({
                         title: 'WidthDraw rejected',
-                        description: 'Something wrong',
-                      },
+                        description: `${error}`,
+                      }),
                       loading: {
                         title: 'WidthDraw pending',
                         description: 'Please wait.....',

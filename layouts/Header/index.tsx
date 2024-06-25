@@ -79,6 +79,7 @@ const Header = () => {
         prevConnector != null &&
         account
       ) {
+        handleClearEventLog();
         await verifySignature(account);
       } else if (
         addressWallet &&
@@ -86,6 +87,7 @@ const Header = () => {
         account.address !== addressWallet &&
         userAddress != null
       ) {
+        handleClearEventLog();
         await verifySignature(account);
       }
     };

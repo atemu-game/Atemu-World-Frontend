@@ -2,7 +2,7 @@
 import { useAccount, useConnect, useDisconnect } from '@starknet-react/core';
 import { useTypedSelector } from './useTypedSelector';
 import { deleteCookie, setCookie } from '@/utils/cookie';
-import { ACCESS_TOKEN, RPC_PROVIDER } from '@/utils/constants';
+import { ACCESS_TOKEN } from '@/utils/constants';
 import { axiosHandlerNoBearer } from '@/config/axiosConfig';
 import { useDispatch } from 'react-redux';
 import {
