@@ -70,6 +70,7 @@ const MintTransfer = () => {
           minW="200px"
           isLoading={isLoading}
           onClick={async () => {
+            handleSetStatus('starting');
             await handleStartMint();
           }}
         >
@@ -77,7 +78,15 @@ const MintTransfer = () => {
         </Button>
       )}
       {status == 'starting' && (
-        <HStack key="start" borderColor="secondary.400" minW="200px">
+        <HStack
+          key="start"
+          py={2}
+          px={4}
+          border="1px solid"
+          borderColor="secondary.400"
+          minW="200px"
+          cursor="not-allowed"
+        >
           <Spinner color="secondary.400" />
           <Text>Starting.....</Text>
         </HStack>
