@@ -51,7 +51,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
       >
         Deposit
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent background="body" padding={4}>
           <ModalCloseButton />
