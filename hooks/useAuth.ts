@@ -29,6 +29,7 @@ export const useAuth = () => {
   const verifySignature = async (account: AccountInterface) => {
     try {
       if (account) {
+        dispatch(setUserLoading(true));
         const { data: dataSignMessage } = await axiosHandlerNoBearer.get(
           '/authentication/getNonce',
           {
@@ -56,6 +57,7 @@ export const useAuth = () => {
           key: ACCESS_TOKEN,
           value: dataToken.data.token,
         });
+        dispatch(setUserLoading(false));
       }
     } catch (error) {
       toast({
@@ -65,6 +67,7 @@ export const useAuth = () => {
         duration: 3000,
         isClosable: true,
       });
+      dispatch(setUserLoading(false));
     }
   };
   const connectWallet = async (index: number) => {
