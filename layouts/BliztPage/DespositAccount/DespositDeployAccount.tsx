@@ -137,14 +137,14 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                             }
                           })
                           .then(res => {
-                            resolve(res);
                             refetchWallet();
                             setIsLoading(() => false);
                             onClose();
+                            resolve(res);
                           })
                           .catch(res => {
-                            rejects(res);
                             setIsLoading(() => false);
+                            rejects(res);
                           });
                       }
                     });
@@ -155,8 +155,8 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                         description: 'Deploy Success',
                       },
                       error: {
-                        title: 'Deploy rejected',
-                        description: 'Something wrong',
+                        title: 'Deploy Error',
+                        description: 'Something wrong...',
                       },
                       loading: {
                         title: 'Deploy pending',

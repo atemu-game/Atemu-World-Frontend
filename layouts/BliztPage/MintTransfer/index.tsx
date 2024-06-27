@@ -1,4 +1,4 @@
-import { socketAPI } from '@/config/socketConfig';
+import { disconnectSocket, socketAPI } from '@/config/socketConfig';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 import { BliztEvent } from '@/utils/constants';
@@ -57,9 +57,14 @@ const MintTransfer = () => {
 
     // Cleanup the event listener on component unmount
     return () => {
+      handleSetStatus('stopped');
+      if (socketAPI) {
+        disconnectSocket();
+      }
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
+
   return (
     <>
       {status === 'stopped' && (

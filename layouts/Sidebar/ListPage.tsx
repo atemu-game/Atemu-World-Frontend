@@ -35,7 +35,6 @@ const ListPage = ({ sx }: IProps) => {
       link: '/fuel',
       icon: FuelIcon,
       label: 'Fuel',
-      isDisabled: true,
     },
     {
       link: '/incentives',
