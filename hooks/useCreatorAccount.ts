@@ -9,6 +9,7 @@ import {
 import {
   clearEventLog,
   resetCreator,
+  setBalance,
   setLoadingMint,
   setPoint,
   setStatusMint,
@@ -57,7 +58,9 @@ export const useCreatorAccount = () => {
   const handleResetCreator = () => {
     dispatch(resetCreator());
   };
-
+  const handleSetBalance = (balance: number) => {
+    dispatch(setBalance(balance));
+  };
   return {
     ...creatorAccount,
     handleStartMint,
@@ -67,5 +70,6 @@ export const useCreatorAccount = () => {
     handleSetTransaction,
     handleClearEventLog,
     handleResetCreator,
+    handleSetBalance,
   };
 };

@@ -11,7 +11,7 @@ interface IProps {
 }
 const ConnectWallet = ({ sx }: IProps) => {
   const { connectors } = useConnect();
-  const { connectWallet } = useAuth();
+  const { connectWallet, disconnectWallet } = useAuth();
   const handleConnectWallet = async () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { starknetkitConnectModal } = useStarknetkitConnectModal({
@@ -25,6 +25,7 @@ const ConnectWallet = ({ sx }: IProps) => {
       await connectWallet(connectorIndex);
     } catch (error) {
       console.log('Reject Connect', error);
+      disconnectWallet();
     }
   };
 

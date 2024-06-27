@@ -17,21 +17,15 @@ import { UserWalletProps } from '.';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import ClearIcon from '@/public/assets/icons/clear.svg';
 import Link from 'next/link';
-import { CONTRACT_ADDRESS, STARKSCAN_LINK } from '@/utils/constants';
-import { useBalanceCustom } from '@/hooks/useBalanceCustom';
+import { STARKSCAN_LINK } from '@/utils/constants';
+
 import WidthDrawAccount from './WidthDrawAccount';
-import { useBlock } from '@starknet-react/core';
-import { BlockTag } from 'starknet';
+
 interface IProps {
   userWallet: UserWalletProps;
-  balance: string;
 }
-const MonitorTrade = ({ userWallet, balance }: IProps) => {
-  const { eventLog, handleClearEventLog } = useCreatorAccount();
-  const { fetchBalance } = useBalanceCustom({
-    address: userWallet ? userWallet.payerAddress : '',
-    token: CONTRACT_ADDRESS.ETH,
-  });
+const MonitorTrade = ({ userWallet }: IProps) => {
+  const { eventLog, handleClearEventLog, balance } = useCreatorAccount();
 
   return (
     <Flex flexDirection="column" gap={4} width="full">
@@ -101,21 +95,12 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
             _hover={{
               color: 'white',
             }}
-            onClick={async () => {
-              await fetchBalance();
-            }}
+            onClick={async () => {}}
             variant="icon_button"
             aria-label="refresh"
             icon={<Icon as={RefreshIcon} />}
           />
-          {balance && (
-            <WidthDrawAccount
-              userWallet={userWallet}
-              refetchWallet={async () => {
-                await fetchBalance();
-              }}
-            />
-          )}
+          {balance && <WidthDrawAccount />}
         </HStack>
       </Box>
 

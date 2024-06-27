@@ -67,6 +67,8 @@ export const useAuth = () => {
         duration: 3000,
         isClosable: true,
       });
+      // eslint-disable-next-line no-use-before-define
+      disconnectWallet();
       dispatch(setUserLoading(false));
     }
   };
@@ -92,5 +94,5 @@ export const useAuth = () => {
     dispatch(setUserLoading(false));
   };
 
-  return { ...user, disconnectWallet, connectWallet };
+  return { ...user, disconnectWallet, connectWallet, verifySignature };
 };

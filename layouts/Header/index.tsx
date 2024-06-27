@@ -16,11 +16,11 @@ import { ACCESS_TOKEN } from '@/utils/constants';
 import { setUserAdress, setUserLoading } from '@/redux/user/user-slice';
 import { setCookie } from '@/utils/cookie';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
-import systemConfig from '@/config/systemConfig';
+
 import LoadingConnectWallet from '@/components/Animation/LoadingConnectWallet';
 
 const Header = () => {
-  const { userAddress, prevConnector, isLoading } = useAuth();
+  const { userAddress, prevConnector, isLoading, verifySignature } = useAuth();
   const { connectors, connect } = useConnect();
   const { handleClearEventLog } = useCreatorAccount();
   const {
@@ -28,54 +28,12 @@ const Header = () => {
     status: statusWallet,
     account,
   } = useAccount();
+
   const dispatch = useDispatch();
   const toast = useToast({
     position: 'top-right',
   });
-  const verifySignature = async (account: AccountInterface) => {
-    try {
-      if (account) {
-        dispatch(setUserLoading(true));
-        const { data: dataSignMessage } = await axiosHandlerNoBearer.get(
-          '/authentication/getNonce',
-          {
-            params: {
-              address: addressWallet,
-            },
-          }
-        );
 
-        const signature = await account.signMessage(
-          dataSignMessage.data.signMessage
-        );
-
-        const { data: dataToken } = await axiosHandlerNoBearer.post(
-          '/authentication/token',
-          {
-            address: addressWallet,
-            signature: signature,
-            rpc: systemConfig().RPC,
-          }
-        );
-        dispatch(setUserAdress(addressWallet));
-        setCookie({
-          expires: '1d',
-          key: ACCESS_TOKEN,
-          value: dataToken.data.token,
-        });
-        dispatch(setUserLoading(false));
-      }
-    } catch (error) {
-      toast({
-        title: ' Rejected ',
-        description: 'You Rejected the Signature Request',
-        status: 'info',
-        duration: 3000,
-        isClosable: true,
-      });
-      dispatch(setUserLoading(false));
-    }
-  };
   useEffect(() => {
     const handleChangeWallet = async () => {
       if (

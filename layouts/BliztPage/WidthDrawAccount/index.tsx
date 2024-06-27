@@ -15,16 +15,12 @@ import {
 } from '@chakra-ui/react';
 import { useAccount } from '@starknet-react/core';
 import React, { useState } from 'react';
-import { UserWalletProps } from '..';
 
 import { axiosHandler } from '@/config/axiosConfig';
 
 // WidthDrawAccount Payer component Modal
-interface IProps {
-  userWallet: UserWalletProps;
-  refetchWallet: () => void;
-}
-const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
+
+const WidthDrawAccount = () => {
   const { userAddress } = useAuth();
   const { account } = useAccount();
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -127,7 +123,7 @@ const WidthDrawAccount = ({ userWallet, refetchWallet }: IProps) => {
                             tokenType: 'ETH',
                           })
                           .then((res: any) => {
-                            refetchWallet();
+                            // refetchWallet();
                             setIsLoading(() => false);
                             onClose();
                             resolve(true);

@@ -1,19 +1,20 @@
 'use client';
 import { Box, Text, HStack, VStack, Skeleton } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
 import { useAuth } from '@/hooks/useAuth';
 
 import { useWalletAccount } from '@/hooks/useWalletAccount';
 import DespositAccount from './DespositAccount';
-import { useBalanceCustom } from '@/hooks/useBalanceCustom';
-import { CONTRACT_ADDRESS } from '@/utils/constants';
+
 import MintTransfer from './MintTransfer';
 import RequireConnectWallet from '@/components/ConnectWallet/RequireConnectWallet';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { useBlock } from '@starknet-react/core';
 import { BlockNumber } from 'starknet';
+import { useBalanceCustom } from '@/hooks/useBalanceCustom';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
 // TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
@@ -31,11 +32,7 @@ export interface UserWalletProps {
 const BliztPage = () => {
   const { userAddress } = useAuth();
   const { userWallet, refetchWallet } = useWalletAccount();
-  const { point } = useCreatorAccount();
-  const { balance, fetchBalance } = useBalanceCustom({
-    address: userWallet ? userWallet.payerAddress : '',
-    token: CONTRACT_ADDRESS.ETH,
-  });
+  const { point, balance, handleSetBalance } = useCreatorAccount();
 
   const { status } = useCreatorAccount();
 
@@ -44,6 +41,19 @@ const BliztPage = () => {
     blockIdentifier: 'latest' as BlockNumber,
   });
 
+  const {
+    balance: balancePayer,
+    isLoading: isLoadingBalance,
+    fetchBalance,
+  } = useBalanceCustom({
+    address: userWallet ? userWallet.payerAddress : '',
+    token: CONTRACT_ADDRESS.ETH,
+  });
+  useEffect(() => {
+    if (!isLoadingBalance) {
+      handleSetBalance(Number(balancePayer));
+    }
+  }, [isLoadingBalance]);
   return (
     <>
       {userAddress ? (
@@ -86,6 +96,7 @@ const BliztPage = () => {
               <Text>Current TX</Text>
             </Box>
             <Box>
+              {isLoadingBalance}
               <Text fontWeight="bold" color="white">
                 {Number(balance).toFixed(3)} ETH
               </Text>
@@ -106,7 +117,7 @@ const BliztPage = () => {
                     refetchWallet={refetchWallet}
                     userWallet={userWallet}
                     refetchBalance={async () => {
-                      await fetchBalance();
+                      fetchBalance();
                     }}
                   />
                 </>
@@ -119,9 +130,7 @@ const BliztPage = () => {
             flexWrap={{ xl: 'nowrap', base: 'wrap' }}
           >
             <SettingRpc />
-            {userWallet && (
-              <MonitorTrade userWallet={userWallet} balance={balance} />
-            )}
+            {userWallet && <MonitorTrade userWallet={userWallet} />}
           </HStack>
         </Box>
       ) : (

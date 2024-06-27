@@ -12,6 +12,7 @@ const MintTransfer = () => {
     handleSetPoint,
     handleSetStatus,
     handleSetTransaction,
+    handleSetBalance,
     status,
     isLoading,
   } = useCreatorAccount();
@@ -34,6 +35,9 @@ const MintTransfer = () => {
             status: 'info',
           });
         }
+      });
+      socketAPI.on(BliztEvent.BLIZT_BALANCE, data => {
+        handleSetBalance(data);
       });
       socketAPI.on(BliztEvent.BLIZT_TRANSACTION, data => {
         handleSetTransaction(data.transactionHash, data.status, data.timestamp);
