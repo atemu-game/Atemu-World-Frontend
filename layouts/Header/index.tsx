@@ -10,11 +10,9 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { useAccount, useConnect } from '@starknet-react/core';
 import { useDispatch } from 'react-redux';
-import { AccountInterface } from 'starknet';
-import { axiosHandlerNoBearer } from '@/config/axiosConfig';
-import { ACCESS_TOKEN } from '@/utils/constants';
-import { setUserAdress, setUserLoading } from '@/redux/user/user-slice';
-import { setCookie } from '@/utils/cookie';
+
+import { setUserLoading } from '@/redux/user/user-slice';
+
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 import LoadingConnectWallet from '@/components/Animation/LoadingConnectWallet';
