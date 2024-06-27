@@ -3,7 +3,7 @@ import HomeIcon from '@/public/assets/icons/home.svg';
 import IncentiveIcon from '@/public/assets/icons/incentive_token.svg';
 import LanguageIcon from '@/public/assets/icons/language.svg';
 import FuelIcon from '@/public/assets/icons/gas.svg';
-import ExplorerIcon from '@/public/assets/icons/explore.svg';
+import BliztIcon from '@/public/assets/icons/explore.svg';
 import LeaderIcon from '@/public/assets/icons/leaderboard.svg';
 import { usePathname } from 'next/navigation';
 
@@ -27,9 +27,9 @@ const ListPage = ({ sx }: IProps) => {
       label: 'Home',
     },
     {
-      link: '/explorer',
-      icon: ExplorerIcon,
-      label: 'Explorer',
+      link: '/blizt',
+      icon: BliztIcon,
+      label: 'Blizt',
     },
     {
       link: '/fuel',
@@ -75,7 +75,7 @@ const ListPage = ({ sx }: IProps) => {
           <>
             {item.isDisabled ? (
               <Box
-                key={item.label}
+                key={`${item.label}-${index}`}
                 display="flex"
                 alignItems="center"
                 flexDirection="column"

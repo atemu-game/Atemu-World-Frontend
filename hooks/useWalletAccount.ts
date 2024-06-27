@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useAuth } from './useAuth';
-import { UserWalletProps } from '@/layouts/ExplorerPage';
+import { UserWalletProps } from '@/layouts/BliztPage';
 import { axiosHandler } from '@/config/axiosConfig';
 // NOTE: It should call when only need the api call wallet
 export const useWalletAccount = () => {

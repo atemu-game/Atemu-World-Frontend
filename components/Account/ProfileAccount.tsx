@@ -25,8 +25,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 import { Contract, Provider, cairo } from 'starknet';
 import { ABIS } from '@/abis';
-import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+import systemConfig from '@/config/systemConfig';
 
 // Profile Account After Connected
 const ProfileAccount = () => {
@@ -39,7 +40,7 @@ const ProfileAccount = () => {
       const contractBlizt = new Contract(
         ABIS.bliztAbi,
         CONTRACT_ADDRESS.BLIZT,
-        new Provider({ nodeUrl: RPC_PROVIDER.TESTNET })
+        new Provider({ nodeUrl: systemConfig().RPC })
       );
 
       const data = await contractBlizt.getUserPoint(userAddress);

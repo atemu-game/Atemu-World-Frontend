@@ -8,6 +8,7 @@ import {
 } from '@/config/socketConfig';
 import {
   clearEventLog,
+  resetCreator,
   setLoadingMint,
   setPoint,
   setStatusMint,
@@ -28,9 +29,7 @@ export const useCreatorAccount = () => {
     dispatch(setLoadingMint(false));
   };
   const handleStopMint = async () => {
-    dispatch(setLoadingMint(true));
     await stopMint();
-    dispatch(setLoadingMint(false));
   };
   const handleSetPoint = (data: number) => {
     dispatch(setPoint(data));
@@ -55,6 +54,9 @@ export const useCreatorAccount = () => {
   const handleClearEventLog = () => {
     dispatch(clearEventLog());
   };
+  const handleResetCreator = () => {
+    dispatch(resetCreator());
+  };
 
   return {
     ...creatorAccount,
@@ -64,5 +66,6 @@ export const useCreatorAccount = () => {
     handleSetStatus,
     handleSetTransaction,
     handleClearEventLog,
+    handleResetCreator,
   };
 };

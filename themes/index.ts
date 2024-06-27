@@ -47,8 +47,9 @@ const Button: ComponentStyleConfig = {
       borderRadius: '0',
       fontsize: 'lg',
       fontWeight: 700,
+      transition: 'all 0.2s',
       _hover: {
-        opacity: 0.8,
+        borderColor: 'white',
       },
     },
     icon_btn: {

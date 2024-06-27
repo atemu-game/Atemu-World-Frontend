@@ -16,9 +16,10 @@ import {
 import React, { useState } from 'react';
 import { UserWalletProps } from '..';
 import { useAccount } from '@starknet-react/core';
-import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { CallData, RpcProvider, uint256 } from 'starknet';
 import { axiosHandler } from '@/config/axiosConfig';
+import systemConfig from '@/config/systemConfig';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -71,10 +72,12 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                   textOverflow="ellipsis"
                   maxWidth={{ lg: 'full', base: '300px' }}
                 >
-                  {userAddress}
+                  {userWallet.payerAddress}
                   <CopyClipBoard
                     ml={3}
-                    context={userAddress ? userAddress : ''}
+                    context={
+                      userWallet.payerAddress ? userWallet.payerAddress : ''
+                    }
                     h={4}
                     w={4}
                     aria-label="Copy Stark Address"
@@ -108,7 +111,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                       if (userAddress && account) {
                         setIsLoading(() => true);
                         const provider = new RpcProvider({
-                          nodeUrl: RPC_PROVIDER.TESTNET,
+                          nodeUrl: systemConfig().RPC,
                         });
                         account
                           .execute({
@@ -134,14 +137,14 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                             }
                           })
                           .then(res => {
-                            resolve(res);
                             refetchWallet();
                             setIsLoading(() => false);
                             onClose();
+                            resolve(res);
                           })
                           .catch(res => {
-                            rejects(res);
                             setIsLoading(() => false);
+                            rejects(res);
                           });
                       }
                     });
@@ -152,8 +155,8 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                         description: 'Deploy Success',
                       },
                       error: {
-                        title: 'Deploy rejected',
-                        description: 'Something wrong',
+                        title: 'Deploy Error',
+                        description: 'Something wrong...',
                       },
                       loading: {
                         title: 'Deploy pending',

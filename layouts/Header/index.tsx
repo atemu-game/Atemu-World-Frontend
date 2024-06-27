@@ -12,12 +12,17 @@ import { useAccount, useConnect } from '@starknet-react/core';
 import { useDispatch } from 'react-redux';
 import { AccountInterface } from 'starknet';
 import { axiosHandlerNoBearer } from '@/config/axiosConfig';
-import { ACCESS_TOKEN, RPC_PROVIDER } from '@/utils/constants';
-import { setUserAdress } from '@/redux/user/user-slice';
+import { ACCESS_TOKEN } from '@/utils/constants';
+import { setUserAdress, setUserLoading } from '@/redux/user/user-slice';
 import { setCookie } from '@/utils/cookie';
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+import systemConfig from '@/config/systemConfig';
+import LoadingConnectWallet from '@/components/Animation/LoadingConnectWallet';
+
 const Header = () => {
-  const { userAddress, prevConnector } = useAuth();
+  const { userAddress, prevConnector, isLoading } = useAuth();
   const { connectors, connect } = useConnect();
+  const { handleClearEventLog } = useCreatorAccount();
   const {
     address: addressWallet,
     status: statusWallet,
@@ -30,6 +35,7 @@ const Header = () => {
   const verifySignature = async (account: AccountInterface) => {
     try {
       if (account) {
+        dispatch(setUserLoading(true));
         const { data: dataSignMessage } = await axiosHandlerNoBearer.get(
           '/authentication/getNonce',
           {
@@ -48,7 +54,7 @@ const Header = () => {
           {
             address: addressWallet,
             signature: signature,
-            rpc: RPC_PROVIDER.TESTNET,
+            rpc: systemConfig().RPC,
           }
         );
         dispatch(setUserAdress(addressWallet));
@@ -57,6 +63,7 @@ const Header = () => {
           key: ACCESS_TOKEN,
           value: dataToken.data.token,
         });
+        dispatch(setUserLoading(false));
       }
     } catch (error) {
       toast({
@@ -66,6 +73,7 @@ const Header = () => {
         duration: 3000,
         isClosable: true,
       });
+      dispatch(setUserLoading(false));
     }
   };
   useEffect(() => {
@@ -76,14 +84,20 @@ const Header = () => {
         prevConnector != null &&
         account
       ) {
+        dispatch(setUserLoading(true));
+        handleClearEventLog();
         await verifySignature(account);
+        dispatch(setUserLoading(false));
       } else if (
         addressWallet &&
         account &&
         account.address !== addressWallet &&
         userAddress != null
       ) {
+        dispatch(setUserLoading(true));
+        handleClearEventLog();
         await verifySignature(account);
+        dispatch(setUserLoading(false));
       }
     };
     handleChangeWallet();
@@ -101,6 +115,7 @@ const Header = () => {
     };
     handleReConenct();
   }, [userAddress, prevConnector]);
+
   return (
     <HStack
       justifyContent="space-between"
@@ -175,6 +190,7 @@ const Header = () => {
           <ConnectWallet />
         )}
       </HStack>
+      <LoadingConnectWallet isOpen={isLoading} />
     </HStack>
   );
 };

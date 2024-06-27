@@ -1,9 +1,10 @@
 import { ABIS } from '@/abis';
-import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useEffect, useState } from 'react';
 import { Contract, Provider } from 'starknet';
 
 import { formatBalance } from '@/utils/formatAddress';
+import systemConfig from '@/config/systemConfig';
 interface IProps {
   address: string | null;
   token?: string;
@@ -12,7 +13,7 @@ interface IProps {
 export const useBalanceCustom = ({
   address,
   token = CONTRACT_ADDRESS.STRK,
-  provider = RPC_PROVIDER.TESTNET,
+  provider = systemConfig().RPC,
 }: IProps) => {
   const [balance, setBalance] = useState<string>('0');
   const [isLoading, setIsLoading] = useState<boolean>(false);

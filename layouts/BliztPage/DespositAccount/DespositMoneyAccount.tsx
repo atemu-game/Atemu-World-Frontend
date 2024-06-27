@@ -17,8 +17,11 @@ import { UserWalletProps } from '..';
 import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
 import { useAccount } from '@starknet-react/core';
 import { CallData, RpcProvider, uint256 } from 'starknet';
-import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useAuth } from '@/hooks/useAuth';
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+
+import systemConfig from '@/config/systemConfig';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -27,6 +30,7 @@ interface IProps {
 
 const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const { handleSetStatus, status } = useCreatorAccount();
   const [amountDesposit, setAmountDesposit] = React.useState<number>(0);
   const toast = useToast({
     position: 'top-right',
@@ -47,7 +51,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
       >
         Deposit
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent background="body" padding={4}>
           <ModalCloseButton />
@@ -88,6 +92,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                 isDisabled={isLoading}
                 type="number"
                 placeholder="Type Amount you want (ETH)"
+                defaultValue={amountDesposit}
                 onChange={e => {
                   setAmountDesposit(() => Number(e.target.value));
                 }}
@@ -112,7 +117,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                       if (userAddress && account) {
                         setIsLoading(() => true);
                         const provider = new RpcProvider({
-                          nodeUrl: RPC_PROVIDER.TESTNET,
+                          nodeUrl: systemConfig().RPC,
                         });
                         account
                           .execute({
@@ -135,6 +140,9 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                             refetchBalance();
                             resolve(res);
                             onClose();
+                            if (status === 'balance_low') {
+                              handleSetStatus('stopped');
+                            }
                             setIsLoading(() => false);
                           })
                           .catch(err => {

@@ -19,6 +19,9 @@ import ClearIcon from '@/public/assets/icons/clear.svg';
 import Link from 'next/link';
 import { CONTRACT_ADDRESS, STARKSCAN_LINK } from '@/utils/constants';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
+import WidthDrawAccount from './WidthDrawAccount';
+import { useBlock } from '@starknet-react/core';
+import { BlockTag } from 'starknet';
 interface IProps {
   userWallet: UserWalletProps;
   balance: string;
@@ -29,6 +32,7 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
     address: userWallet ? userWallet.payerAddress : '',
     token: CONTRACT_ADDRESS.ETH,
   });
+
   return (
     <Flex flexDirection="column" gap={4} width="full">
       <Flex
@@ -97,29 +101,24 @@ const MonitorTrade = ({ userWallet, balance }: IProps) => {
             _hover={{
               color: 'white',
             }}
-            onClick={() => fetchBalance()}
+            onClick={async () => {
+              await fetchBalance();
+            }}
             variant="icon_button"
             aria-label="refresh"
             icon={<Icon as={RefreshIcon} />}
           />
+          {balance && (
+            <WidthDrawAccount
+              userWallet={userWallet}
+              refetchWallet={async () => {
+                await fetchBalance();
+              }}
+            />
+          )}
         </HStack>
       </Box>
 
-      <Box
-        padding={4}
-        background={`${convertHex(colors.secondary[400], 0.05)}`}
-        border="1px solid"
-        color="white"
-        borderColor={convertHex(colors.secondary[400], 0.5)}
-        fontWeight={700}
-        display="flex"
-        flexDirection="column"
-        gap={3}
-      >
-        <Text color="secondary.400">Block : 124,500</Text>
-        <Text>You Sent : 124,500 transactions</Text>
-        <Text>Ready to mine? can start at block 123,457</Text>
-      </Box>
       <Box
         background={`${convertHex(colors.secondary[400], 0.05)}`}
         border="1px solid"
