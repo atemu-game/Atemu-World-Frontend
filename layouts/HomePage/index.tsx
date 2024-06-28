@@ -1,5 +1,5 @@
 'use client';
-import { Box, Flex, Skeleton, VStack } from '@chakra-ui/react';
+import { Box, Flex, VStack } from '@chakra-ui/react';
 import React from 'react';
 import Image from 'next/image';
 import IncentiveSection from './IncentiveSection';
