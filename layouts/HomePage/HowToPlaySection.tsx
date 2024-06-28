@@ -41,7 +41,11 @@ const HowToPlaySection = () => {
       <Text mb={8} variant="secondary">
         The are three phases of game:
       </Text>
-      <Flex flexWrap={{ md: 'nowrap', base: 'wrap' }} rowGap={6}>
+      <Flex
+        flexWrap={{ md: 'nowrap', base: 'wrap' }}
+        rowGap={6}
+        justifyContent="center"
+      >
         {ListPhasePlay.map(data => (
           <Flex
             flexDirection="column"

@@ -29,7 +29,6 @@ import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import systemConfig from '@/config/systemConfig';
 
-// Profile Account After Connected
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
   const { balance, isLoading } = useBalanceCustom({ address: userAddress });

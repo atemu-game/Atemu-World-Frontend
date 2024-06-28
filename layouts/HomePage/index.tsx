@@ -17,8 +17,7 @@ const HomePage = () => {
       gap={{ lg: '100px', md: '40px', base: '24px' }}
     >
       <Box position="relative">
-        {/*        
-        <Image
+        {/* <Image
           src="/assets/arts/home_bg.svg"
           objectFit="cover"
           width={1374.8}
@@ -26,6 +25,9 @@ const HomePage = () => {
           aria-label=""
           priority
           alt="Picture Atemu"
+          style={{
+            width: '100%',
+          }}
         /> */}
         <ChakraNextImage
           src="/assets/arts/home_bg.svg"
