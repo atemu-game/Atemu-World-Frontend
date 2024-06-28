@@ -19,10 +19,13 @@ import React, { useState } from 'react';
 import { axiosHandler } from '@/config/axiosConfig';
 
 // WidthDrawAccount Payer component Modal
-
-const WidthDrawAccount = () => {
+interface IProps {
+  refetchBalance: () => void;
+}
+const WidthDrawAccount = ({ refetchBalance }: IProps) => {
   const { userAddress } = useAuth();
   const { account } = useAccount();
+
   const { isOpen, onClose, onOpen } = useDisclosure();
   const toast = useToast({
     position: 'top-right',
@@ -30,19 +33,7 @@ const WidthDrawAccount = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [amountWidthDraw, setAmountWidthDraw] = React.useState<number>(0);
-  // const handleLoadFee = async () => {
-  //   if (account?.address) {
-  //     const { suggestedMaxFee: estimatedFee1 } =
-  //       await account.estimateInvokeFee({
-  //         contractAddress: CONTRACT_ADDRESS.ETH,
-  //         entrypoint: 'transfer',
-  //       });
-  //     console.log('Ldas', estimatedFee1);
-  //   }
-  // };
-  // useEffect(() => {
-  //   handleLoadFee();
-  // }, [account]);
+
   return (
     <>
       <Button variant="primary" onClick={onOpen}>
@@ -123,9 +114,9 @@ const WidthDrawAccount = () => {
                             tokenType: 'ETH',
                           })
                           .then((res: any) => {
-                            // refetchWallet();
                             setIsLoading(() => false);
                             onClose();
+                            refetchBalance();
                             resolve(true);
                           })
                           .catch(err => {

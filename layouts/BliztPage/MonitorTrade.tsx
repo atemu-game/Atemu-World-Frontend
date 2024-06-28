@@ -23,8 +23,9 @@ import WidthDrawAccount from './WidthDrawAccount';
 
 interface IProps {
   userWallet: UserWalletProps;
+  refetchBalance: () => void;
 }
-const MonitorTrade = ({ userWallet }: IProps) => {
+const MonitorTrade = ({ userWallet, refetchBalance }: IProps) => {
   const { eventLog, handleClearEventLog, balance } = useCreatorAccount();
 
   return (
@@ -95,12 +96,16 @@ const MonitorTrade = ({ userWallet }: IProps) => {
             _hover={{
               color: 'white',
             }}
-            onClick={async () => {}}
+            onClick={async () => {
+              refetchBalance();
+            }}
             variant="icon_button"
             aria-label="refresh"
             icon={<Icon as={RefreshIcon} />}
           />
-          {balance && <WidthDrawAccount />}
+          {balance && (
+            <WidthDrawAccount refetchBalance={() => refetchBalance()} />
+          )}
         </HStack>
       </Box>
 

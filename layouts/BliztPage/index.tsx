@@ -71,30 +71,37 @@ const BliztPage = () => {
   }, [isLoadingBalance]);
   useEffect(() => {
     if (socketAPI) {
-      socketAPI.on(BliztEvent.BLIZT_POINT, data => {
-        handleSetPoint(data);
-      });
-      socketAPI.on(BliztEvent.BLIZT_STATUS, data => {
-        handleSetStatus(data);
-        if (data === 'balance_low') {
-          toast({
-            title: 'Balance low',
-            description: 'Please deposit more ETH to continue',
-            status: 'info',
-          });
-        }
-      });
-      socketAPI.on(BliztEvent.BLIZT_BALANCE, data => {
-        console.log('CUttnr Balance', data);
-        handleSetBalance(data);
-      });
-      socketAPI.on(BliztEvent.BLIZT_TRANSACTION, data => {
-        handleSetTransaction(data.transactionHash, data.status, data.timestamp);
-      });
-      socketAPI.on('disconnect', () => {
-        socketAPI.disconnect();
-        handleSetStatus('stopped');
-      });
+      try {
+        socketAPI.on(BliztEvent.BLIZT_POINT, data => {
+          handleSetPoint(data);
+        });
+        socketAPI.on(BliztEvent.BLIZT_STATUS, data => {
+          handleSetStatus(data);
+          if (data === 'balance_low') {
+            toast({
+              title: 'Balance low',
+              description: 'Please deposit more ETH to continue',
+              status: 'info',
+            });
+          }
+        });
+        socketAPI.on(BliztEvent.BLIZT_BALANCE, data => {
+          handleSetBalance(data);
+        });
+        socketAPI.on(BliztEvent.BLIZT_TRANSACTION, data => {
+          handleSetTransaction(
+            data.transactionHash,
+            data.status,
+            data.timestamp
+          );
+        });
+        socketAPI.on('disconnect', () => {
+          socketAPI.disconnect();
+          handleSetStatus('stopped');
+        });
+      } catch (error) {
+        console.log('Error in Blizt', error);
+      }
     }
   }, [socketAPI]);
   return (
@@ -173,7 +180,12 @@ const BliztPage = () => {
             flexWrap={{ xl: 'nowrap', base: 'wrap' }}
           >
             <SettingRpc />
-            {userWallet && <MonitorTrade userWallet={userWallet} />}
+            {userWallet && (
+              <MonitorTrade
+                userWallet={userWallet}
+                refetchBalance={async () => await fetchBalance()}
+              />
+            )}
           </HStack>
         </Box>
       ) : (

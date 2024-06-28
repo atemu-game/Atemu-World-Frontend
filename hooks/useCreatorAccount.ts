@@ -58,9 +58,11 @@ export const useCreatorAccount = () => {
   const handleResetCreator = () => {
     dispatch(resetCreator());
   };
+
   const handleSetBalance = (balance: number) => {
     dispatch(setBalance(balance));
   };
+
   return {
     ...creatorAccount,
     handleStartMint,
