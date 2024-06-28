@@ -28,9 +28,6 @@ const Header = () => {
   } = useAccount();
 
   const dispatch = useDispatch();
-  const toast = useToast({
-    position: 'top-right',
-  });
 
   useEffect(() => {
     const handleChangeWallet = async () => {

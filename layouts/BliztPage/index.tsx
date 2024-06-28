@@ -1,5 +1,12 @@
 'use client';
-import { Box, Text, HStack, VStack, Skeleton } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  HStack,
+  VStack,
+  Skeleton,
+  useToast,
+} from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
@@ -14,7 +21,8 @@ import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { useBlock } from '@starknet-react/core';
 import { BlockNumber } from 'starknet';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
-import { CONTRACT_ADDRESS } from '@/utils/constants';
+import { BliztEvent, CONTRACT_ADDRESS } from '@/utils/constants';
+import { socketAPI } from '@/config/socketConfig';
 // TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
@@ -32,7 +40,14 @@ export interface UserWalletProps {
 const BliztPage = () => {
   const { userAddress } = useAuth();
   const { userWallet, refetchWallet } = useWalletAccount();
-  const { point, balance, handleSetBalance } = useCreatorAccount();
+  const {
+    point,
+    balance,
+    handleSetBalance,
+    handleSetTransaction,
+    handleSetStatus,
+    handleSetPoint,
+  } = useCreatorAccount();
 
   const { status } = useCreatorAccount();
 
@@ -40,7 +55,7 @@ const BliztPage = () => {
     refetchInterval: 10_000,
     blockIdentifier: 'latest' as BlockNumber,
   });
-
+  const toast = useToast({ position: 'top', duration: 5000, isClosable: true });
   const {
     balance: balancePayer,
     isLoading: isLoadingBalance,
@@ -54,6 +69,34 @@ const BliztPage = () => {
       handleSetBalance(Number(balancePayer));
     }
   }, [isLoadingBalance]);
+  useEffect(() => {
+    if (socketAPI) {
+      socketAPI.on(BliztEvent.BLIZT_POINT, data => {
+        handleSetPoint(data);
+      });
+      socketAPI.on(BliztEvent.BLIZT_STATUS, data => {
+        handleSetStatus(data);
+        if (data === 'balance_low') {
+          toast({
+            title: 'Balance low',
+            description: 'Please deposit more ETH to continue',
+            status: 'info',
+          });
+        }
+      });
+      socketAPI.on(BliztEvent.BLIZT_BALANCE, data => {
+        console.log('CUttnr Balance', data);
+        handleSetBalance(data);
+      });
+      socketAPI.on(BliztEvent.BLIZT_TRANSACTION, data => {
+        handleSetTransaction(data.transactionHash, data.status, data.timestamp);
+      });
+      socketAPI.on('disconnect', () => {
+        socketAPI.disconnect();
+        handleSetStatus('stopped');
+      });
+    }
+  }, [socketAPI]);
   return (
     <>
       {userAddress ? (
@@ -117,7 +160,7 @@ const BliztPage = () => {
                     refetchWallet={refetchWallet}
                     userWallet={userWallet}
                     refetchBalance={async () => {
-                      fetchBalance();
+                      await fetchBalance();
                     }}
                   />
                 </>

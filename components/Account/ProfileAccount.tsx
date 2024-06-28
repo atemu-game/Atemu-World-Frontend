@@ -106,24 +106,25 @@ const ProfileAccount = () => {
                 md: 'none',
               }}
             >
-              <Button
+              {/* <Button
                 variant="primary"
                 sx={{
                   borderColor: 'secondary.100',
                 }}
               >
                 Invite
-              </Button>
+              </Button> */}
             </MenuItem>
             <MenuItem
               display={{
                 base: 'block',
                 md: 'none',
               }}
+              as={Button}
             >
-              <Button variant="primary" rightIcon={<Icon as={StarkNetIcon} />}>
+              {/* <Button variant="primary" rightIcon={<Icon as={StarkNetIcon} />}>
                 100
-              </Button>
+              </Button> */}
             </MenuItem>
             <MenuItem isDisabled>
               <Icon as={SettingIcon} />

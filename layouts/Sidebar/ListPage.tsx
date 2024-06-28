@@ -72,10 +72,9 @@ const ListPage = ({ sx }: IProps) => {
           return false;
         };
         return (
-          <>
+          <React.Fragment key={`link-page-${item.label}-${index}`}>
             {item.isDisabled ? (
               <Box
-                key={`${item.label}-${index}`}
                 display="flex"
                 alignItems="center"
                 flexDirection="column"
@@ -89,7 +88,7 @@ const ListPage = ({ sx }: IProps) => {
                 </Text>
               </Box>
             ) : (
-              <Link href={item.link} key={item.label}>
+              <Link href={item.link}>
                 <Box
                   display="flex"
                   alignItems="center"
@@ -108,7 +107,7 @@ const ListPage = ({ sx }: IProps) => {
                 </Box>
               </Link>
             )}
-          </>
+          </React.Fragment>
         );
       })}
     </>
