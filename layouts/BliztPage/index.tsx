@@ -12,7 +12,6 @@ import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
 import { useAuth } from '@/hooks/useAuth';
 
-import { useWalletAccount } from '@/hooks/useWalletAccount';
 import DespositAccount from './DespositAccount';
 
 import MintTransfer from './MintTransfer';
@@ -23,6 +22,8 @@ import { BlockNumber } from 'starknet';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 import { BliztEvent, CONTRACT_ADDRESS } from '@/utils/constants';
 import { socketAPI } from '@/config/socketConfig';
+import { useQuery } from 'react-query';
+import { axiosHandler } from '@/config/axiosConfig';
 // TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
@@ -39,7 +40,18 @@ export interface UserWalletProps {
 }
 const BliztPage = () => {
   const { userAddress } = useAuth();
-  const { userWallet, refetchWallet } = useWalletAccount();
+  // const { userWallet, refetchWallet } = useWalletAccount();
+  const {
+    data: userWallet,
+    isLoading: isLoadingWallet,
+    refetch: refetchWallet,
+  } = useQuery({
+    queryKey: 'wallet',
+    queryFn: async () => {
+      const { data } = await axiosHandler.get('/wallet/getOrCreateWallet');
+      return data.data;
+    },
+  });
   const {
     point,
     balance,
@@ -104,6 +116,7 @@ const BliztPage = () => {
       }
     }
   }, [socketAPI]);
+
   return (
     <>
       {userAddress ? (
