@@ -67,6 +67,7 @@ const SettingRpc = () => {
               ))}
 
             {!isLoading &&
+              data &&
               data.value.map((rpc: string, index: number) => (
                 <Radio
                   variant="primary"
