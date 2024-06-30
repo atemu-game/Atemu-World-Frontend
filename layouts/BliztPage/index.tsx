@@ -193,12 +193,12 @@ const BliztPage = () => {
             flexWrap={{ xl: 'nowrap', base: 'wrap' }}
           >
             <SettingRpc />
-            {userWallet && (
-              <MonitorTrade
-                userWallet={userWallet}
-                refetchBalance={async () => await fetchBalance()}
-              />
-            )}
+
+            <MonitorTrade
+              userWallet={userWallet}
+              refetchBalance={async () => await fetchBalance()}
+              isLoadingWallet={isLoadingWallet}
+            />
           </HStack>
         </Box>
       ) : (
