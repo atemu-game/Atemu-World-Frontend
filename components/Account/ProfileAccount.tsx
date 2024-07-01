@@ -64,7 +64,7 @@ const ProfileAccount = () => {
         {isLoading ? (
           <Skeleton>00.000</Skeleton>
         ) : (
-          <>{balance ? parseFloat(balance).toFixed(3) : '0'}</>
+          <>{balance ? balance.toFixed(3) : '0'}</>
         )}
       </Button>
       {userAddress && (
