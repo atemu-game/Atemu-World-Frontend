@@ -10,6 +10,7 @@ import {
   clearEventLog,
   resetCreator,
   setBalance,
+  setCurrentRPC,
   setLoadingMint,
   setPoint,
   setStatusMint,
@@ -26,7 +27,7 @@ export const useCreatorAccount = () => {
       connectSocket();
     }
     dispatch(setLoadingMint(true));
-    await startMint();
+    await startMint(creatorAccount.currentRPC);
     dispatch(setLoadingMint(false));
   };
   const handleStopMint = async () => {
@@ -63,6 +64,9 @@ export const useCreatorAccount = () => {
     dispatch(setBalance(balance));
   };
 
+  const handleChangeRPC = (rpc: string) => {
+    dispatch(setCurrentRPC(rpc));
+  };
   return {
     ...creatorAccount,
     handleStartMint,
@@ -73,5 +77,6 @@ export const useCreatorAccount = () => {
     handleClearEventLog,
     handleResetCreator,
     handleSetBalance,
+    handleChangeRPC,
   };
 };

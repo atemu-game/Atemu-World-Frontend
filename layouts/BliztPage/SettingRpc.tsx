@@ -1,4 +1,5 @@
 import { axiosHandler, axiosHandlerNoBearer } from '@/config/axiosConfig';
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { ListPublicRPC } from '@/utils/constants';
 import { ellipseMiddle, isValidURL } from '@/utils/formatAddress';
 import {
@@ -15,11 +16,13 @@ import {
   Tooltip,
   useToast,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 
 const SettingRpc = () => {
   const [currentRPC, setCurrentRPC] = useState(''); // Choice of RPC Minting
+  const { handleChangeRPC, currentRPC: currentRPCAccount } =
+    useCreatorAccount();
   const [ownerRPC, setOwnerRPC] = useState('');
 
   const toast = useToast();
@@ -40,7 +43,8 @@ const SettingRpc = () => {
     queryKey: 'owner-rpc',
     queryFn: async () => {
       const { data } = await axiosHandler.get('/user/setting/customRPC');
-
+      if (data.data && data.data.rpcPublicStore.length > 0)
+        return data.data.rpcPublicStore;
       return data.data;
     },
   });
@@ -53,6 +57,7 @@ const SettingRpc = () => {
     },
     onSuccess: () => {
       refetchOwnerRPC();
+      setOwnerRPC('');
       toast({
         title: 'Success',
         description: 'RPC has been added',
@@ -97,6 +102,12 @@ const SettingRpc = () => {
       });
     },
   });
+
+  useEffect(() => {
+    if (currentRPC.length > 0 && currentRPCAccount !== currentRPC) {
+      handleChangeRPC(currentRPC);
+    }
+  }, [currentRPC]);
   return (
     <>
       <Box
@@ -145,14 +156,7 @@ const SettingRpc = () => {
                 </Radio>
               ))}
           </Flex>
-          <Button
-            mt={4}
-            variant="primary"
-            width="full"
-            borderColor="secondary.100"
-          >
-            Save
-          </Button>
+
           <Box position="relative" padding="10">
             <Divider />
             <AbsoluteCenter px="4" bg="body" fontWeight="bold">
@@ -162,7 +166,7 @@ const SettingRpc = () => {
           <Flex flexDirection="column" gap={4}>
             {!isLoadingOwnerRPC &&
               dataOwnerRPC &&
-              dataOwnerRPC.rpcPublicStore.map((rpc: string, index: number) => (
+              dataOwnerRPC.map((rpc: string, index: number) => (
                 <Radio
                   width="full"
                   variant="primary"
@@ -233,7 +237,6 @@ const SettingRpc = () => {
               }
 
               hanldeAddRPC.mutate(ownerRPC);
-              setOwnerRPC('');
             }}
           >
             Add RPC

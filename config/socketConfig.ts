@@ -25,8 +25,10 @@ export const disconnectSocket = () => {
   socketAPI.disconnect();
 };
 
-export const startMint = () => {
-  socketAPI.emit('startMint');
+export const startMint = (rpc: string) => {
+  socketAPI.emit('startMint', {
+    rpc: rpc,
+  });
 };
 export const stopMint = () => {
   socketAPI.emit('stopMint');
