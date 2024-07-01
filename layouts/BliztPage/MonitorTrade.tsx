@@ -42,6 +42,7 @@ const MonitorTrade = ({
         padding={4}
         gap={{ xl: 8, lg: 6, base: 0 }}
         width="full"
+        justifyContent={{ lg: 'flex-start', base: 'space-around' }}
         flexWrap={{ xl: 'nowrap', base: 'wrap' }}
       >
         <Box>
