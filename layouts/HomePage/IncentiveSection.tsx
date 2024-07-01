@@ -40,6 +40,7 @@ const IncentiveSection = () => {
             <Box
               background={convertHex(colors.body, 0.5)}
               padding={5}
+              width="full"
               backdropFilter="auto"
               backdropBlur="8px"
             >

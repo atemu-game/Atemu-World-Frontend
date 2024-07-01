@@ -9,6 +9,7 @@ import {
   HStack,
   Icon,
   IconButton,
+  Skeleton,
   Text,
   Tooltip,
 } from '@chakra-ui/react';
@@ -23,8 +24,14 @@ import WidthDrawAccount from './WidthDrawAccount';
 
 interface IProps {
   userWallet: UserWalletProps;
+  refetchBalance: () => void;
+  isLoadingWallet: boolean;
 }
-const MonitorTrade = ({ userWallet }: IProps) => {
+const MonitorTrade = ({
+  userWallet,
+  refetchBalance,
+  isLoadingWallet,
+}: IProps) => {
   const { eventLog, handleClearEventLog, balance } = useCreatorAccount();
 
   return (
@@ -35,6 +42,7 @@ const MonitorTrade = ({ userWallet }: IProps) => {
         padding={4}
         gap={{ xl: 8, lg: 6, base: 0 }}
         width="full"
+        justifyContent={{ lg: 'flex-start', base: 'space-around' }}
         flexWrap={{ xl: 'nowrap', base: 'wrap' }}
       >
         <Box>
@@ -47,14 +55,19 @@ const MonitorTrade = ({ userWallet }: IProps) => {
             borderColor="divider.100"
             justifyContent="space-between"
           >
-            <Text>{ellipseMiddle(userWallet.payerAddress, 8, 10)}</Text>
-
-            <CopyClipBoard
-              context={userWallet.payerAddress}
-              aria-label="Copy Stark Address"
-              h={4}
-              w={4}
-            />
+            {isLoadingWallet ? (
+              <Skeleton>adresss........</Skeleton>
+            ) : (
+              <>
+                <Text>{ellipseMiddle(userWallet.payerAddress, 8, 10)}</Text>
+                <CopyClipBoard
+                  context={userWallet.payerAddress}
+                  aria-label="Copy Stark Address"
+                  h={4}
+                  w={4}
+                />
+              </>
+            )}
           </HStack>
         </Box>
 
@@ -71,37 +84,56 @@ const MonitorTrade = ({ userWallet }: IProps) => {
               base: 'wrap',
             }}
           >
-            <Text
-              textOverflow="ellipsis"
-              maxWidth={{ lg: 'full', base: '300px' }}
-            >
-              {userWallet.privateKey}
-            </Text>
-            <CopyClipBoard
-              context={userWallet.privateKey}
-              h={4}
-              w={4}
-              aria-label="Copy Stark Address"
-            />
+            {isLoadingWallet ? (
+              <Skeleton>
+                0x4e6078cc617d64e1c2c6abe255ba6e68af20fb763585d5e2128eace3a462b83
+              </Skeleton>
+            ) : (
+              <>
+                <Text
+                  textOverflow="ellipsis"
+                  maxWidth={{ lg: 'full', base: '300px' }}
+                >
+                  {userWallet.privateKey}
+                </Text>
+                <CopyClipBoard
+                  context={userWallet.privateKey}
+                  h={4}
+                  w={4}
+                  aria-label="Copy Stark Address"
+                />
+              </>
+            )}
           </HStack>
         </Box>
       </Flex>
 
       <Box border="1px solid" borderColor="divider.100" padding={4}>
         <Text>Balance: </Text>
-        <HStack>
-          <Text fontWeight="bold">{balance} (ETH)</Text>
-          <IconButton
-            _hover={{
-              color: 'white',
-            }}
-            onClick={async () => {}}
-            variant="icon_button"
-            aria-label="refresh"
-            icon={<Icon as={RefreshIcon} />}
-          />
-          {balance && <WidthDrawAccount />}
-        </HStack>
+        {isLoadingWallet ? (
+          <HStack>
+            <Skeleton>Loading Balance (ETH)</Skeleton>
+            <Skeleton>Widthdraw Loading</Skeleton>
+          </HStack>
+        ) : (
+          <HStack>
+            <Text fontWeight="bold">{balance} (ETH)</Text>
+            <IconButton
+              _hover={{
+                color: 'white',
+              }}
+              onClick={async () => {
+                refetchBalance();
+              }}
+              variant="icon_button"
+              aria-label="refresh"
+              icon={<Icon as={RefreshIcon} />}
+            />
+            {balance && (
+              <WidthDrawAccount refetchBalance={() => refetchBalance()} />
+            )}
+          </HStack>
+        )}
       </Box>
 
       <Box

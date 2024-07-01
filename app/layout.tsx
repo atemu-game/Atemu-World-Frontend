@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import ProviderApp from '@/providers';
 import localFont from 'next/font/local';
-import Favicon from './favicon.ico';
+import Favicon from './icon.ico';
 import './custom.css';
 const PixelMono = localFont({
   src: [

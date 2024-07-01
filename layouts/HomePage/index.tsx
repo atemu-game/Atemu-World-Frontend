@@ -1,7 +1,7 @@
 'use client';
-import { Box, Flex, Skeleton, VStack } from '@chakra-ui/react';
+import { Box, Flex, VStack } from '@chakra-ui/react';
 import React from 'react';
-import Image from 'next/image';
+
 import IncentiveSection from './IncentiveSection';
 import DescriptionSection from './DescriptionSection';
 import HowToPlaySection from './HowToPlaySection';
@@ -17,8 +17,7 @@ const HomePage = () => {
       gap={{ lg: '100px', md: '40px', base: '24px' }}
     >
       <Box position="relative">
-        {/*        
-        <Image
+        {/* <Image
           src="/assets/arts/home_bg.svg"
           objectFit="cover"
           width={1374.8}
@@ -26,6 +25,9 @@ const HomePage = () => {
           aria-label=""
           priority
           alt="Picture Atemu"
+          style={{
+            width: '100%',
+          }}
         /> */}
         <ChakraNextImage
           src="/assets/arts/home_bg.svg"

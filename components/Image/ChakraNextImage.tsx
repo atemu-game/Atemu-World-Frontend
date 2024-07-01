@@ -46,8 +46,6 @@ export const ChakraNextImage = (props: ImageProps) => {
   return (
     <Box pos="relative" cursor="pointer" className="group">
       <ChakraNextUnwrappedImage
-        w="auto"
-        h="auto"
         loader={myLoader}
         width={width}
         quality={quality}

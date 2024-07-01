@@ -138,16 +138,17 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                           })
                           .then(res => {
                             refetchBalance();
-                            resolve(res);
+
                             onClose();
                             if (status === 'balance_low') {
                               handleSetStatus('stopped');
                             }
                             setIsLoading(() => false);
+                            resolve(res);
                           })
                           .catch(err => {
-                            reject(err);
                             setIsLoading(() => false);
+                            reject(err);
                           });
                       }
                     });

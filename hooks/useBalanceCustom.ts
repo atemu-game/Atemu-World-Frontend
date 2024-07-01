@@ -31,6 +31,7 @@ export const useBalanceCustom = ({
     setBalance(() => formatBalanceData.toString());
     setIsLoading(false);
   };
+
   useEffect(() => {
     if (address) {
       fetchBalance();
