@@ -55,7 +55,7 @@ const MonitorTrade = ({
             borderColor="divider.100"
             justifyContent="space-between"
           >
-            {isLoadingWallet ? (
+            {isLoadingWallet && !userWallet ? (
               <Skeleton>adresss........</Skeleton>
             ) : (
               <>

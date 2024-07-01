@@ -17,7 +17,7 @@ import DespositAccount from './DespositAccount';
 import MintTransfer from './MintTransfer';
 import RequireConnectWallet from '@/components/ConnectWallet/RequireConnectWallet';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
-import { useBlock } from '@starknet-react/core';
+import { useAccount, useBlock } from '@starknet-react/core';
 import { BlockNumber } from 'starknet';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 import { BliztEvent, CONTRACT_ADDRESS } from '@/utils/constants';
@@ -40,7 +40,7 @@ export interface UserWalletProps {
 }
 const BliztPage = () => {
   const { userAddress } = useAuth();
-  // const { userWallet, refetchWallet } = useWalletAccount();
+
   const {
     data: userWallet,
     isLoading: isLoadingWallet,
@@ -49,6 +49,9 @@ const BliztPage = () => {
     queryKey: 'wallet',
     queryFn: async () => {
       const { data } = await axiosHandler.get('/wallet/getOrCreateWallet');
+      console.log('adta', data.data);
+      // eslint-disable-next-line no-use-before-define
+      await fetchBalance();
       return data.data;
     },
   });
@@ -76,11 +79,7 @@ const BliztPage = () => {
     address: userWallet ? userWallet.payerAddress : '',
     token: CONTRACT_ADDRESS.ETH,
   });
-  useEffect(() => {
-    if (!isLoadingBalance) {
-      handleSetBalance(Number(balancePayer));
-    }
-  }, [isLoadingBalance]);
+
   useEffect(() => {
     if (socketAPI) {
       try {
@@ -98,6 +97,7 @@ const BliztPage = () => {
           }
         });
         socketAPI.on(BliztEvent.BLIZT_BALANCE, data => {
+          console.log('Balance Data', data);
           handleSetBalance(data);
         });
         socketAPI.on(BliztEvent.BLIZT_TRANSACTION, data => {
@@ -116,6 +116,24 @@ const BliztPage = () => {
       }
     }
   }, [socketAPI]);
+  useEffect(() => {
+    const handleChangeWallet = async () => {
+      if (userWallet) {
+        handleSetBalance(Number(balancePayer));
+      }
+    };
+    handleChangeWallet();
+  }, [balancePayer]);
+  useEffect(() => {
+    const handleChangeWallet = async () => {
+      console.log('Change Walet');
+      if (userWallet) {
+        await refetchWallet();
+        console.log('Not Update ?');
+      }
+    };
+    handleChangeWallet();
+  }, [userAddress]);
 
   return (
     <>
@@ -190,7 +208,7 @@ const BliztPage = () => {
           <HStack
             alignItems="flex-start"
             gap={4}
-            flexWrap={{ xl: 'nowrap', base: 'wrap' }}
+            flexWrap={{ xl: 'nowrap', base: 'wrap-reverse' }}
           >
             <SettingRpc />
 

@@ -15,7 +15,7 @@ export const useBalanceCustom = ({
   token = CONTRACT_ADDRESS.STRK,
   provider = systemConfig().RPC,
 }: IProps) => {
-  const [balance, setBalance] = useState<string>('0');
+  const [balance, setBalance] = useState(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchBalance = async () => {
@@ -28,14 +28,17 @@ export const useBalanceCustom = ({
     setIsLoading(true);
     const initialValue = await contractBalance.balanceOf(address);
     const formatBalanceData = parseFloat(formatBalance(initialValue, 18));
-    setBalance(() => formatBalanceData.toString());
+    setBalance(() => formatBalanceData);
     setIsLoading(false);
   };
 
   useEffect(() => {
-    if (address) {
-      fetchBalance();
-    }
+    const handleLoadBlance = async () => {
+      if (address) {
+        await fetchBalance();
+      }
+    };
+    handleLoadBlance();
   }, [address]);
   return {
     isLoading,
