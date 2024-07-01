@@ -53,11 +53,12 @@ const SettingRpc = () => {
       const { data } = await axiosHandler.post('/user/setting/customRPC', {
         rpc,
       });
+      setOwnerRPC('');
       return data;
     },
     onSuccess: () => {
       refetchOwnerRPC();
-      setOwnerRPC('');
+
       toast({
         title: 'Success',
         description: 'RPC has been added',
@@ -66,10 +67,10 @@ const SettingRpc = () => {
         isClosable: true,
       });
     },
-    onError: () => {
+    onError: (error: any) => {
       toast({
         title: 'Error',
-        description: 'RPC has not been added',
+        description: error.response.data.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -188,7 +189,7 @@ const SettingRpc = () => {
             onChange={event => {
               setOwnerRPC(() => event.target.value);
             }}
-            defaultValue={ownerRPC}
+            value={ownerRPC}
           />
           <Button
             variant="primary"
