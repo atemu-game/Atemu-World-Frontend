@@ -49,7 +49,6 @@ const BliztPage = () => {
     queryKey: 'wallet',
     queryFn: async () => {
       const { data } = await axiosHandler.get('/wallet/getOrCreateWallet');
-      console.log('adta', data.data);
       // eslint-disable-next-line no-use-before-define
       await fetchBalance();
       return data.data;
@@ -70,7 +69,11 @@ const BliztPage = () => {
     refetchInterval: 10_000,
     blockIdentifier: 'latest' as BlockNumber,
   });
-  const toast = useToast({ position: 'top', duration: 5000, isClosable: true });
+  const toast = useToast({
+    position: 'top-right',
+    duration: 5000,
+    isClosable: true,
+  });
   const {
     balance: balancePayer,
     isLoading: isLoadingBalance,
@@ -97,7 +100,6 @@ const BliztPage = () => {
           }
         });
         socketAPI.on(BliztEvent.BLIZT_BALANCE, data => {
-          console.log('Balance Data', data);
           handleSetBalance(data);
         });
         socketAPI.on(BliztEvent.BLIZT_TRANSACTION, data => {
@@ -111,8 +113,20 @@ const BliztPage = () => {
           socketAPI.disconnect();
           handleSetStatus('stopped');
         });
-      } catch (error) {
-        console.log('Error in Blizt', error);
+        socketAPI.on('error', message => {
+          handleSetStatus('stopped');
+          toast({
+            title: 'Error',
+            description: message,
+            status: 'error',
+          });
+        });
+      } catch (error: any) {
+        toast({
+          title: 'Error',
+          description: error.message,
+          status: 'error',
+        });
       }
     }
   }, [socketAPI]);
@@ -126,10 +140,8 @@ const BliztPage = () => {
   }, [balancePayer]);
   useEffect(() => {
     const handleChangeWallet = async () => {
-      console.log('Change Walet');
       if (userWallet) {
         await refetchWallet();
-        console.log('Not Update ?');
       }
     };
     handleChangeWallet();
