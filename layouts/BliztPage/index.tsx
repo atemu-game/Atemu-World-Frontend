@@ -220,7 +220,7 @@ const BliztPage = () => {
           <HStack
             alignItems="flex-start"
             gap={4}
-            flexWrap={{ xl: 'nowrap', base: 'wrap-reverse' }}
+            flexWrap={{ lg: 'nowrap', base: 'wrap' }}
           >
             <SettingRpc />
 

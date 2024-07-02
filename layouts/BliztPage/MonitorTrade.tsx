@@ -116,7 +116,7 @@ const MonitorTrade = ({
             <Skeleton>Widthdraw Loading</Skeleton>
           </HStack>
         ) : (
-          <HStack>
+          <HStack flexWrap="wrap">
             <Text fontWeight="bold">{balance} (ETH)</Text>
             <IconButton
               _hover={{

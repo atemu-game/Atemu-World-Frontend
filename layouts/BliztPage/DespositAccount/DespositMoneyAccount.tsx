@@ -46,6 +46,7 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
         variant="primary"
         minW="200px"
         borderColor="white"
+        w={{ md: 'inherit', base: 'full' }}
         onClick={onOpen}
         isLoading={isLoading}
       >

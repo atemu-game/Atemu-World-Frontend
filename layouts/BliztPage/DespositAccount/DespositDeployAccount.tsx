@@ -40,6 +40,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
         variant="primary"
         minW="200px"
         borderColor="white"
+        w={{ md: 'inherit', base: 'full' }}
         isLoading={isLoading}
         onClick={() => {
           onOpen();
