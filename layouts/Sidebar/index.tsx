@@ -10,7 +10,8 @@ const Sidebar = () => {
       padding={6}
       borderRight="1px solid"
       minH="100vh"
-      borderRightColor="divider.100"
+      w="180px"
+      borderRightColor="primary.100"
       display={{ base: 'none', md: 'flex' }}
     >
       <Box

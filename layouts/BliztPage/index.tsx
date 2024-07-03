@@ -233,7 +233,7 @@ const BliztPage = () => {
         </Box>
       ) : (
         <VStack margin="auto" height="full" justifyContent="center">
-          <Box>
+          <Box width="full">
             <RequireConnectWallet />
           </Box>
         </VStack>

@@ -4,18 +4,31 @@ import ProviderApp from '@/providers';
 import localFont from 'next/font/local';
 import Favicon from './icon.ico';
 import './custom.css';
-const PixelMono = localFont({
+
+const CrimsonPro = localFont({
   src: [
     {
-      path: './fonts/PixelOperatorMono.ttf',
+      path: './fonts/CrimsonPro-ExtraLight.ttf',
+      weight: '300',
+    },
+    {
+      path: './fonts/CrimsonPro-Light.ttf',
       weight: '400',
     },
     {
-      path: './fonts/PixelOperatorMono-Bold.ttf',
+      path: './fonts/CrimsonPro-Regular.ttf',
+      weight: '500',
+    },
+    {
+      path: './fonts/CrimsonPro-SemiBold.ttf',
+      weight: '600',
+    },
+    {
+      path: './fonts/CrimsonPro-ExtraBold.ttf',
       weight: '700',
     },
   ],
-  variable: '--font-family-pixel-mono',
+  variable: '--font-family-crimson-pro',
 });
 export const metadata: Metadata = {
   title: 'Atemu | Fully On-Chain Strategy Card Game ',
@@ -61,7 +74,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${PixelMono.className}`}>
+      <body className={`${CrimsonPro.className}`}>
         <ProviderApp>{children}</ProviderApp>
       </body>
     </html>

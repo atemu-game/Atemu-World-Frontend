@@ -82,9 +82,7 @@ const ListPage = ({ sx }: IProps) => {
                 {...sx}
               >
                 <Icon as={item.icon} height={6} width={6} />
-                <Text fontSize="lg" fontWeight={700}>
-                  {item.label}
-                </Text>
+                <Text fontWeight={600}>{item.label}</Text>
               </Box>
             ) : (
               <Link href={item.link}>

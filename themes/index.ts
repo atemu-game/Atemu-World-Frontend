@@ -2,23 +2,13 @@ import { convertHex } from '@/utils/convertHex';
 import { ComponentStyleConfig, extendTheme } from '@chakra-ui/react';
 export const colors = {
   primary: {
-    100: '#FFD91A',
+    100: '#DFAA6C',
+    200: '#12141A',
   },
   divider: {
     100: '#3A3A3C',
   },
-  // shader: {
-  //   50: '#FFFBE8',
-  //   100: '#FFF7D1',
-  //   200: '#FFF0A3',
-  //   300: '#FFE876',
-  //   400: '#FFE148',
-  //   500: '#FFD91A',
-  //   600: '#CCAE15',
-  //   700: '#998210',
-  //   800: '#66570A',
-  //   900: '#332B05',
-  // },
+
   secondary: {
     100: '#FFF734',
     200: '#EF46BA',
@@ -28,12 +18,16 @@ export const colors = {
     600: '#FFCB29',
   },
   body: '#0D0E13',
+  gradient: {
+    100: 'linear-gradient(90.73deg, #E8B77C -5.34%, #FDD969 56.57%, #B27122 116.05%)',
+  },
 };
 const styles = {
   global: {
     body: {
       background: colors.body,
       color: 'rgba(255, 255, 255, 0.5)',
+      fontWeight: 500,
     },
   },
 };
@@ -66,28 +60,30 @@ const Text: ComponentStyleConfig = {
   variants: {
     title: {
       fontSize: '1.5rem',
-      fontWeight: 700,
+      fontWeight: 600,
       textTransform: 'uppercase',
       mb: 4,
-      color: 'white',
+      color: 'primary.100',
     },
     sub_title: {
       fontSize: 'lg',
-      fontWeight: 700,
+      fontWeight: 600,
       textTransform: 'uppercase',
       color: 'white',
     },
     primary: {
       color: 'white',
-      fontWeight: 700,
       textShadow: `0px 0px 12px #FFFFFF80`,
     },
 
     secondary: {
       color: 'secondary.600',
-      fontWeight: 700,
-
       textShadow: `0px 0px 12px rgba(255, 247, 52, 0.5)`,
+    },
+    gradient_text: {
+      background: 'gradient.100',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
     },
   },
 };
@@ -177,6 +173,30 @@ const Radio: ComponentStyleConfig = {
     },
   },
 };
+export const CardBox: ComponentStyleConfig = {
+  baseStyle: {
+    width: '100%',
+    height: '100%',
+    // padding: () => ({
+    //   base: 6,
+    //   md: 8,
+    // }),
+  },
+  variants: {
+    shadow: () => ({
+      border: '2px solid',
+      boxShadow: `0px 4px 16px 0px #E8B77C26 inset, 
+       0px -4px 16px 0px #E8B77C26 inset, 
+       4px 0px 16px 0px #E8B77C13 inset, 
+       -4px 0px 16px 0px #E8B77C13 inset`,
+      borderImage:
+        'linear-gradient(90.73deg, rgba(232, 183, 124, 0.075) -5.34%, rgba(253, 217, 105, 0.075) 51.67%, rgba(178, 113, 34, 0.075) 116.05%)',
+    }),
+  },
+  defaultProps: {
+    variant: 'shadow',
+  },
+};
 const theme = extendTheme({
   colors,
   styles,
@@ -186,6 +206,7 @@ const theme = extendTheme({
     Menu,
     Input,
     Radio,
+    CardBox,
   },
 });
 

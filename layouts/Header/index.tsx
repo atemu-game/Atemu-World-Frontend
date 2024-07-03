@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Text, useToast } from '@chakra-ui/react';
+import { Box, Button, HStack, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import LogoIcon from '@/public/assets/logo/atemu_logo_long.svg';
 
@@ -78,8 +78,9 @@ const Header = () => {
       top={0}
       zIndex={99}
       background="body"
+      backgroundImage={`url('./assets/arts/banner.svg')`}
       borderBottom="1px solid"
-      borderBottomColor="divider.100"
+      borderBottomColor="primary.100"
     >
       <Box
         display={{
@@ -102,10 +103,10 @@ const Header = () => {
 
         <Text
           fontSize="24px"
-          fontWeight={700}
+          fontWeight={600}
           textTransform="uppercase"
-          color="
-        white"
+          variant="gradient_text"
+          dropShadow={`0px 4px 16px 0px #1E1E1EBF`}
         >
           - the supreme card trading game
         </Text>
