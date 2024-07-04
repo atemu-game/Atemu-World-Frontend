@@ -1,15 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 
-import { Box, Button } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { colors } from '@/themes';
 import { ellipseMiddle } from '@/utils/formatAddress';
 interface IProps {
   dataSeries: any;
+  totalPoint: number;
+  isSpinning: boolean;
+  timer?: number;
+  winner?: string;
 }
-const LotteryWheel = ({ dataSeries }: IProps) => {
+const LotteryWheel = ({ dataSeries, totalPoint, isSpinning }: IProps) => {
   const trigger = useRef(null);
-  const [isSpinning, setIsSpinning] = React.useState(false);
   const radToDeg = (r: number) => (r * 180) / Math.PI;
   const findWinner = (data: any) => {
     const sliceSize = 360 / data.length;
@@ -30,17 +33,14 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
     return -1;
   };
   let chart: any;
-  const findTheWinner = () => {
-    //trigger.current && (trigger.current as any).chart
 
+  const findTheWinner = () => {
     if (chart) {
       let strengthSlider = 0;
       let dragSlider = 0;
       let lengthSlider = 10;
       let animationSlider = -25;
-      let t; // animation
-      //   let chart = (trigger.current as any).chart;
-
+      let t;
       chart.setTitle({
         text: 'Wheel is spinning...',
       });
@@ -82,7 +82,7 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
             physics.angleVel = physics.threshold * 0.98;
             physics.angle = startAngle;
             chart.setTitle({
-              text: 'Waiting to finish...',
+              text: 'Waiting ...',
             });
           }
         } else {
@@ -120,7 +120,11 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
       }, animationSpeed);
     }
   };
-
+  useEffect(() => {
+    if (isSpinning) {
+      findTheWinner();
+    }
+  }, [isSpinning]);
   useEffect(() => {
     if (trigger.current) {
       // Create the chart
@@ -129,7 +133,9 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       chart = Highcharts.chart('chart-wheel', {
         chart: {
-          animation: false,
+          animation: {
+            duration: 1000,
+          },
           backgroundColor: 'transparent',
           margin: [0, 0, 0, 0],
           spacingTop: 0,
@@ -152,6 +158,43 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
                 })
                 .add();
             },
+            render: function (this: any) {
+              if (this.customCircles) {
+                this.customCircles.destroy();
+                this.customCircles = undefined;
+              }
+              //Declare data
+              let ren = this.renderer,
+                centerX = this.plotLeft + this.plotSizeX / 2,
+                centerY = this.plotTop + this.plotSizeY / 2,
+                radius = [this.series[0].data[0].shapeArgs.r];
+              this.customCircles = this.renderer.g('customCircles').add();
+
+              //Render custom circles
+              radius.forEach(rad => {
+                ren
+                  .circle(centerX, centerY, rad)
+                  .attr({
+                    fill: 'none',
+                    stroke: 'white',
+                    'stroke-width': 10,
+                  })
+                  .add(this.customCircles);
+              });
+
+              // Cover the inner border
+              ren
+                .circle(
+                  centerX,
+                  centerY,
+                  this.series[0].data[0].shapeArgs.innerR
+                )
+                .attr({
+                  fill: 'transparent',
+                  stroke: 'none',
+                })
+                .add(this.customCircles);
+            },
           },
         },
         accessibility: {
@@ -163,11 +206,12 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
         },
         title: {
-          text: 'Generating Randomness...',
+          text: totalPoint,
           verticalAlign: 'middle',
           floating: true,
           style: {
-            color: 'white',
+            fontSize: '68px',
+            color: colors.primary[100],
           },
         },
         series: [
@@ -200,8 +244,8 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
             size: '100%',
             allowPointSelect: true,
             cursor: 'pointer',
-            borderRadius: 5,
-
+            borderRadius: 0,
+            borderWidth: '0',
             dataLabels: {
               enabled: true,
               format: `<b>{point.name}</b><br>{point.percentage:.1f} %`,
@@ -232,25 +276,12 @@ const LotteryWheel = ({ dataSeries }: IProps) => {
   }, []);
 
   return (
-    <>
-      <Box
-        width={{ lg: '500px', base: '300px' }}
-        height={{ lg: '500px', base: '300px' }}
-        id="chart-wheel"
-        ref={trigger}
-      ></Box>
-      <Button
-        variant="primary"
-        onClick={() => {
-          setIsSpinning(() => true);
-          findTheWinner();
-          setIsSpinning(() => false);
-        }}
-        isDisabled={isSpinning}
-      >
-        Spin
-      </Button>
-    </>
+    <Box
+      width={{ lg: '500px', base: '300px' }}
+      height={{ lg: '500px', base: '300px' }}
+      id="chart-wheel"
+      ref={trigger}
+    ></Box>
   );
 };
 

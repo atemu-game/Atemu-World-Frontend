@@ -59,6 +59,18 @@ const FuelPage = () => {
       percentage: 45,
     },
   ];
+  const [isSpinning, setIsSpinning] = React.useState(false);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setIsSpinning(true);
+      // Code to run every 2 seconds
+    }, 2000);
+
+    return () => {
+      setIsSpinning(false);
+      clearInterval(interval);
+    };
+  }, []);
 
   const ListTestAtrr = [
     'attribute',
@@ -103,7 +115,11 @@ const FuelPage = () => {
             >
               <Text variant="title">Current Round</Text>
               <VStack>
-                <LotteryWheel dataSeries={CurentPlayerMock} />
+                <LotteryWheel
+                  dataSeries={CurentPlayerMock}
+                  totalPoint={25}
+                  isSpinning={isSpinning}
+                />
               </VStack>
             </Box>
           </Flex>
@@ -152,9 +168,7 @@ const FuelPage = () => {
           <Card padding={4}>
             <Text variant="title">Card Prize</Text>
             <Image
-              border="1px solid"
-              borderColor="divider.100"
-              src="/assets/arts/back_card.png"
+              src="/assets/arts/card_test.svg"
               aria-label="Back Side Card"
             />
             <Flex gap={3} flexWrap="wrap" mt={4}>
