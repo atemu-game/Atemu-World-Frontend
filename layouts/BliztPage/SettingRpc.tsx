@@ -1,6 +1,9 @@
+import Card from '@/components/Card';
 import { axiosHandler, axiosHandlerNoBearer } from '@/config/axiosConfig';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+import { colors } from '@/themes';
 import { ListPublicRPC } from '@/utils/constants';
+import { convertHex } from '@/utils/convertHex';
 import { ellipseMiddle, isValidURL } from '@/utils/formatAddress';
 import {
   AbsoluteCenter,
@@ -110,17 +113,8 @@ const SettingRpc = () => {
     }
   }, [currentRPC]);
   return (
-    <>
-      <Box
-        padding={4}
-        border="1px solid"
-        borderColor="divider.100"
-        maxW={{ lg: '400px', base: 'full' }}
-        width={'full'}
-        display="flex"
-        flexDirection="column"
-        gap={6}
-      >
+    <Card w={{ md: '500px', base: 'full' }}>
+      <Box padding={4} display="flex" flexDirection="column" gap={6}>
         <Text variant="sub_title">RPCs</Text>
         <Box>
           <Text mb={8}>
@@ -152,7 +146,16 @@ const SettingRpc = () => {
                   key={`RPC-Select-${index}-${rpc}`}
                 >
                   <Tooltip hasArrow label={rpc} placement="top">
-                    {ellipseMiddle(rpc, 15, 15)}
+                    <Text
+                      fontWeight={600}
+                      color={
+                        rpc == currentRPC
+                          ? 'primary.100'
+                          : convertHex(colors.primary[100], 0.5)
+                      }
+                    >
+                      {ellipseMiddle(rpc, 15, 15)}
+                    </Text>
                   </Tooltip>
                 </Radio>
               ))}
@@ -194,6 +197,7 @@ const SettingRpc = () => {
           <Button
             variant="primary"
             width="full"
+            height={12}
             borderColor="secondary.100"
             onClick={() => {
               if (!isValidURL(ownerRPC)) {
@@ -258,7 +262,7 @@ const SettingRpc = () => {
           </Button>
         </Box>
       </Box>
-    </>
+    </Card>
   );
 };
 

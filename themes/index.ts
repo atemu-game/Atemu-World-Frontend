@@ -4,6 +4,7 @@ export const colors = {
   primary: {
     100: '#DFAA6C',
     200: '#12141A',
+    300: '#131417',
   },
   divider: {
     100: '#3A3A3C',
@@ -35,15 +36,26 @@ const styles = {
 const Button: ComponentStyleConfig = {
   variants: {
     primary: {
-      color: 'white',
-      border: '1px solid',
-      borderColor: 'divider.100',
-      borderRadius: '0',
+      background: `url('./assets/arts/bg_button.svg')`,
+      overflow: 'hidden',
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+
+      minWidth: '120px',
+      height: '48px',
+      // borderRadius: '4px',
+      // border: '1px solid',
       fontsize: 'lg',
       fontWeight: 700,
       transition: 'all 0.2s',
+      color: 'primary.100',
       _hover: {
-        borderColor: 'white',
+        background: `url('./assets/arts/bg_button_hover.svg')`,
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        color: 'primary.300',
       },
     },
     icon_btn: {
@@ -69,7 +81,7 @@ const Text: ComponentStyleConfig = {
       fontSize: 'lg',
       fontWeight: 600,
       textTransform: 'uppercase',
-      color: 'white',
+      color: 'primary.100',
     },
     primary: {
       color: 'white',
@@ -148,19 +160,20 @@ const Radio: ComponentStyleConfig = {
     primary: {
       control: {
         borderColor: 'primary.100',
-        bg: convertHex(colors.primary[100], 0.4),
+        bg: 'primary.100',
         height: 6,
         width: 6,
         'data-checked': {
-          bg: 'secondary.500',
+          bg: 'primary.100',
         },
         _checked: {
-          bg: convertHex(colors.secondary[400], 0.4),
-          borderColor: 'secondary.400',
-          color: 'secondary.400',
+          bg: convertHex(colors.primary[100], 0.4),
+          borderColor: 'primary.100',
+          color: 'primary.100',
+
           _hover: {
             bg: 'white',
-            borderColor: 'secondary.400',
+            borderColor: 'primary.100',
           },
         },
 
@@ -175,8 +188,8 @@ const Radio: ComponentStyleConfig = {
 };
 export const CardBox: ComponentStyleConfig = {
   baseStyle: {
-    width: '100%',
-    height: '100%',
+    // width: '100%',
+    // height: '100%',
     // padding: () => ({
     //   base: 6,
     //   md: 8,
@@ -184,13 +197,30 @@ export const CardBox: ComponentStyleConfig = {
   },
   variants: {
     shadow: () => ({
-      border: '2px solid',
-      boxShadow: `0px 4px 16px 0px #E8B77C26 inset, 
-       0px -4px 16px 0px #E8B77C26 inset, 
-       4px 0px 16px 0px #E8B77C13 inset, 
+      background: 'primary.200',
+      border: '2px solid transparent',
+      borderImageSlice: 2,
+      boxShadow: `0px 4px 16px 0px #E8B77C26 inset,
+       0px -4px 16px 0px #E8B77C26 inset,
+       4px 0px 16px 0px #E8B77C13 inset,
        -4px 0px 16px 0px #E8B77C13 inset`,
-      borderImage:
+      borderImageSource:
         'linear-gradient(90.73deg, rgba(232, 183, 124, 0.075) -5.34%, rgba(253, 217, 105, 0.075) 51.67%, rgba(178, 113, 34, 0.075) 116.05%)',
+    }),
+    content: () => ({
+      background: 'primary.100',
+      color: 'primary.200',
+      px: 4,
+      py: 2,
+      border: '2px solid transparent',
+      borderImageSlice: 2,
+
+      boxShadow: `0px 4px 16px 0px #E8B77C26 inset,
+       0px -4px 16px 0px #E8B77C26 inset,
+       4px 0px 16px 0px #E8B77C13 inset,
+       -4px 0px 16px 0px #E8B77C13 inset`,
+      borderImageSource:
+        'linear-gradient(90.73deg, #E8B77C -5.34%, #FDD969 51.67%, #B27122 116.05%)',
     }),
   },
   defaultProps: {

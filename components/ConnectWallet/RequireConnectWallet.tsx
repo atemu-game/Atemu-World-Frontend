@@ -12,7 +12,7 @@ const RequireConnectWallet = () => {
         gap={4}
         height="100vh"
         width="full"
-        bgColor="primary.200"
+        // bgColor="primary.200"
         backgroundImage={`url('./assets/arts/bg_require_connect.svg')`}
         backgroundPosition="center"
         justifyContent="center"

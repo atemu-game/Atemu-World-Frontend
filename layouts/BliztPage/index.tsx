@@ -24,6 +24,7 @@ import { BliztEvent, CONTRACT_ADDRESS } from '@/utils/constants';
 import { socketAPI } from '@/config/socketConfig';
 import { useQuery } from 'react-query';
 import { axiosHandler } from '@/config/axiosConfig';
+import Card from '@/components/Card';
 // TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
@@ -152,13 +153,13 @@ const BliztPage = () => {
       {userAddress ? (
         <Box>
           <Text variant="title">Explorer</Text>
-          <HStack
+          <Card
             padding={4}
             mb={4}
             width="full"
             justifyContent="space-between"
-            border="1px solid"
-            borderColor="divider.100"
+            display="flex"
+            alignItems="center"
             flexWrap="wrap"
           >
             <Box>
@@ -173,7 +174,7 @@ const BliztPage = () => {
             </Box>
             <Box>
               {!isLoadingBlock && dataBlock ? (
-                <Text fontWeight="bold" color="white">
+                <Text fontWeight="bold" color="primary.100">
                   {(dataBlock as any).block_number}
                 </Text>
               ) : (
@@ -183,20 +184,20 @@ const BliztPage = () => {
               <Text>Current Block</Text>
             </Box>
             <Box>
-              <Text fontWeight="bold" color="white">
+              <Text fontWeight="bold" color="primary.100">
                 1,654,456
               </Text>
               <Text>Current TX</Text>
             </Box>
             <Box>
               {isLoadingBalance}
-              <Text fontWeight="bold" color="white">
+              <Text fontWeight="bold" color="primary.100">
                 {Number(balance).toFixed(3)} ETH
               </Text>
               <Text>Wallet Balance</Text>
             </Box>
             <Box>
-              <Text fontWeight="bold" color="white">
+              <Text fontWeight="bold" color="primary.100">
                 {point}
               </Text>
               <Text>Point Balance</Text>
@@ -216,10 +217,12 @@ const BliztPage = () => {
                 </>
               )}
             </HStack>
-          </HStack>
+          </Card>
+
           <HStack
             alignItems="flex-start"
-            gap={4}
+            gap={2}
+            overflowX="hidden"
             flexWrap={{ lg: 'nowrap', base: 'wrap' }}
           >
             <SettingRpc />

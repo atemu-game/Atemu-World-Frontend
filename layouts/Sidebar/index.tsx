@@ -21,6 +21,8 @@ const Sidebar = () => {
         flexDir="column"
         gap={6}
         display="flex"
+        alignItems="center"
+        justifyContent="center"
       >
         <ListPage />
       </Box>

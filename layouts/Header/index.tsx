@@ -111,6 +111,7 @@ const Header = () => {
           - the supreme card trading game
         </Text>
       </HStack>
+
       <HStack gap={3}>
         <Link href="https://demo.atemu.xyz/" target="_blank">
           <Button

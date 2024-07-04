@@ -21,6 +21,7 @@ import Link from 'next/link';
 import { STARKSCAN_LINK } from '@/utils/constants';
 
 import WidthDrawAccount from './WidthDrawAccount';
+import Card from '@/components/Card';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -35,29 +36,32 @@ const MonitorTrade = ({
   const { eventLog, handleClearEventLog, balance } = useCreatorAccount();
 
   return (
-    <Flex flexDirection="column" gap={4} width="full">
-      <Flex
-        border="1px solid"
-        borderColor="divider.100"
+    <Flex flexDirection="column" gap={4} width="full" flexGrow={1}>
+      <Card
+        as={HStack}
         padding={4}
-        gap={{ xl: 8, lg: 6, base: 0 }}
+        gap={{ md: 6, base: 0 }}
         width="full"
-        justifyContent={{ lg: 'flex-start', base: 'space-around' }}
-        flexWrap={{ xl: 'nowrap', base: 'wrap' }}
+        // justifyContent={{ lg: 'flex-start', base: 'space-between' }}
+        alignItems="flex-start"
+        justifyContent="flex-start"
+        flexWrap={{ lg: 'nowrap', base: 'wrap' }}
       >
         <Box>
           <Text variant="sub_title" mb={2}>
             Your Starknet Address
           </Text>
-          <HStack
+          <Card
+            variant="content"
+            as={HStack}
             padding={2}
-            border="1px solid"
-            borderColor="divider.100"
             justifyContent="space-between"
           >
             {!isLoadingWallet && userWallet ? (
               <>
-                <Text>{ellipseMiddle(userWallet.payerAddress, 8, 10)}</Text>
+                <Text fontWeight="bold">
+                  {ellipseMiddle(userWallet.payerAddress, 8, 10)}
+                </Text>
                 <CopyClipBoard
                   context={userWallet.payerAddress}
                   aria-label="Copy Stark Address"
@@ -68,17 +72,17 @@ const MonitorTrade = ({
             ) : (
               <Skeleton>Address ........</Skeleton>
             )}
-          </HStack>
+          </Card>
         </Box>
 
         <Box>
           <Text variant="sub_title" mb={2}>
             Your Secret Key
           </Text>
-          <HStack
+          <Card
+            variant="content"
+            as={HStack}
             padding={2}
-            border="1px solid"
-            borderColor="divider.100"
             flexWrap={{
               md: 'nowrap',
               base: 'wrap',
@@ -88,9 +92,10 @@ const MonitorTrade = ({
               <>
                 <Text
                   textOverflow="ellipsis"
+                  fontWeight="bold"
                   maxWidth={{ lg: 'full', base: '300px' }}
                 >
-                  {userWallet.privateKey}
+                  {ellipseMiddle(userWallet.privateKey, 15, 15)}
                 </Text>
                 <CopyClipBoard
                   context={userWallet.privateKey}
@@ -104,12 +109,13 @@ const MonitorTrade = ({
                 0x4e6078cc617d64e1c2c6abe255ba6e68af20fb763585d5e2128eace3a462b83
               </Skeleton>
             )}
-          </HStack>
+          </Card>
         </Box>
-      </Flex>
+      </Card>
 
-      <Box border="1px solid" borderColor="divider.100" padding={4}>
-        <Text>Balance: </Text>
+      <Card padding={4}>
+        <Text variant="sub_title">ETH fund balance </Text>
+
         {isLoadingWallet ? (
           <HStack>
             <Skeleton>Loading Balance (ETH)</Skeleton>
@@ -117,24 +123,29 @@ const MonitorTrade = ({
           </HStack>
         ) : (
           <HStack flexWrap="wrap">
-            <Text fontWeight="bold">{balance} (ETH)</Text>
-            <IconButton
-              _hover={{
-                color: 'white',
-              }}
-              onClick={async () => {
-                refetchBalance();
-              }}
-              variant="icon_button"
-              aria-label="refresh"
-              icon={<Icon as={RefreshIcon} />}
-            />
+            <Card height="36px" variant="content" as={HStack} padding={2}>
+              <Text fontWeight="bold" fontSize="sm">
+                {balance} (ETH)
+              </Text>
+              <IconButton
+                _hover={{
+                  color: 'white',
+                }}
+                onClick={async () => {
+                  refetchBalance();
+                }}
+                variant="icon_button"
+                aria-label="refresh"
+                icon={<Icon as={RefreshIcon} h={6} w={6} />}
+              />
+            </Card>
+
             {balance && (
               <WidthDrawAccount refetchBalance={() => refetchBalance()} />
             )}
           </HStack>
         )}
-      </Box>
+      </Card>
 
       <Box
         background={`${convertHex(colors.secondary[400], 0.05)}`}
