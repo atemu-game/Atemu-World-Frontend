@@ -1,3 +1,4 @@
+import Card from '@/components/Card';
 import NumberSpinder from '@/components/Input/NumberSpinder';
 import { Box, Button, Flex, HStack, Input, Text } from '@chakra-ui/react';
 import React from 'react';
@@ -24,14 +25,7 @@ const YourEntries = () => {
   ];
   const [entry, setEntry] = React.useState(ListOption[0].value);
   return (
-    <Box
-      padding={4}
-      border="1px solid"
-      borderColor="divider.100"
-      display="flex"
-      flexDirection="column"
-      gap={4}
-    >
+    <Card padding={4} display="flex" flexDirection="column" gap={4}>
       <Text textTransform="uppercase" variant="sub_title">
         Your entries
       </Text>
@@ -92,7 +86,7 @@ const YourEntries = () => {
       <Button variant="primary" width="full" borderColor="secondary.100">
         Add Selection
       </Button>
-    </Box>
+    </Card>
   );
 };
 

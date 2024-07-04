@@ -107,18 +107,18 @@ export const Menu: ComponentStyleConfig = {
         padding: 4,
         border: 'none',
         borderRadius: '0',
-        bg: 'gray.800',
+        bg: 'primary.300',
         // transform: 'translate3d(13px, 26px, 0px)!important',
       },
       item: {
         bg: 'inherit',
-        color: 'gray.200',
+
         px: 2,
         py: 3,
         display: 'flex',
         gap: 4,
         _hover: {
-          background: 'gray.700',
+          background: '[gray].700',
         },
       },
       command: {

@@ -27,11 +27,13 @@ interface IProps {
   userWallet: UserWalletProps;
   refetchBalance: () => void;
   isLoadingWallet: boolean;
+  isLoadingBalance: boolean;
 }
 const MonitorTrade = ({
   userWallet,
   refetchBalance,
   isLoadingWallet,
+  isLoadingBalance,
 }: IProps) => {
   const { eventLog, handleClearEventLog, balance } = useCreatorAccount();
 
@@ -124,9 +126,14 @@ const MonitorTrade = ({
         ) : (
           <HStack flexWrap="wrap">
             <Card height="36px" variant="content" as={HStack} padding={2}>
-              <Text fontWeight="bold" fontSize="sm">
-                {balance} (ETH)
-              </Text>
+              {isLoadingBalance ? (
+                <Skeleton>Loading Balance....</Skeleton>
+              ) : (
+                <Text fontWeight="bold" fontSize="sm">
+                  {balance?.toFixed(8)} (ETH)
+                </Text>
+              )}
+
               <IconButton
                 _hover={{
                   color: 'white',

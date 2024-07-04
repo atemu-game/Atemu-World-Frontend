@@ -49,6 +49,7 @@ const BliztPage = () => {
   } = useQuery({
     queryKey: 'wallet',
     queryFn: async () => {
+      if (!userAddress) return;
       const { data } = await axiosHandler.get('/wallet/getOrCreateWallet');
       // eslint-disable-next-line no-use-before-define
       await fetchBalance();
@@ -141,8 +142,9 @@ const BliztPage = () => {
   }, [balancePayer]);
   useEffect(() => {
     const handleChangeWallet = async () => {
-      if (userWallet) {
+      if (userAddress) {
         await refetchWallet();
+        await fetchBalance();
       }
     };
     handleChangeWallet();
@@ -190,10 +192,14 @@ const BliztPage = () => {
               <Text>Current TX</Text>
             </Box>
             <Box>
-              {isLoadingBalance}
-              <Text fontWeight="bold" color="primary.100">
-                {Number(balance).toFixed(3)} ETH
-              </Text>
+              {isLoadingBalance ? (
+                <Skeleton>999999</Skeleton>
+              ) : (
+                <Text fontWeight="bold" color="primary.100">
+                  {Number(balance).toFixed(3)} ETH
+                </Text>
+              )}
+
               <Text>Wallet Balance</Text>
             </Box>
             <Box>
@@ -228,6 +234,7 @@ const BliztPage = () => {
             <SettingRpc />
 
             <MonitorTrade
+              isLoadingBalance={isLoadingBalance}
               userWallet={userWallet}
               refetchBalance={async () => await fetchBalance()}
               isLoadingWallet={isLoadingWallet}

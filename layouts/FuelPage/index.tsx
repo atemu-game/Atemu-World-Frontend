@@ -14,6 +14,7 @@ import CurrentPlayer from './CurrentPlayer';
 import YourEntries from './YourEntries';
 
 import LotteryWheel from '@/components/LotteryWheel';
+import Card from '@/components/Card';
 export interface PlayerProps {
   address: string;
   pointTotal: number;
@@ -81,6 +82,7 @@ const FuelPage = () => {
       >
         <Flex flexDirection="column" gap={4} width="full">
           <Flex
+            as={Card}
             gap={4}
             justifyContent="space-between"
             flexWrap={{ lg: 'nowrap', base: 'wrap-reverse' }}
@@ -91,9 +93,13 @@ const FuelPage = () => {
 
             <Box
               padding={4}
-              border="1px solid"
-              borderColor="divider.100"
               width="full"
+              borderLeft="2px solid transparent"
+              style={{
+                borderImageSlice: 2,
+                borderImageSource:
+                  'linear-gradient(90.73deg, rgba(232, 183, 124, 0.15) -5.34%, rgba(253, 217, 105, 0.15) 51.67%, rgba(178, 113, 34, 0.15) 116.05%)',
+              }}
             >
               <Text variant="title">Current Round</Text>
               <VStack>
@@ -105,7 +111,7 @@ const FuelPage = () => {
           <YourEntries />
         </Flex>
         <Flex flexDirection="column" gap={4} width="380px">
-          <Box border="1px solid" borderColor="divider.100">
+          <Card>
             <Box padding={4}>
               <HStack justifyContent="space-between" mb={5}>
                 <Text variant="sub_title">Round: 23,234</Text>
@@ -141,9 +147,9 @@ const FuelPage = () => {
                 <Text>Participants </Text>
               </Box>
             </Grid>
-          </Box>
+          </Card>
 
-          <Box border="1px solid" borderColor="divider.100" padding={4}>
+          <Card padding={4}>
             <Text variant="title">Card Prize</Text>
             <Image
               border="1px solid"
@@ -167,7 +173,7 @@ const FuelPage = () => {
                 );
               })}
             </Flex>
-          </Box>
+          </Card>
         </Flex>
       </HStack>
     </Flex>
