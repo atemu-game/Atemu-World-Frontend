@@ -17,7 +17,7 @@ import DespositAccount from './DespositAccount';
 import MintTransfer from './MintTransfer';
 import RequireConnectWallet from '@/components/ConnectWallet/RequireConnectWallet';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
-import { useAccount, useBlock } from '@starknet-react/core';
+import { useBlock } from '@starknet-react/core';
 import { BlockNumber } from 'starknet';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 import { BliztEvent, CONTRACT_ADDRESS } from '@/utils/constants';
@@ -139,7 +139,7 @@ const BliztPage = () => {
       }
     };
     handleChangeWallet();
-  }, [balancePayer]);
+  }, [userWallet]);
   useEffect(() => {
     const handleChangeWallet = async () => {
       if (userAddress) {
@@ -150,6 +150,7 @@ const BliztPage = () => {
     handleChangeWallet();
   }, [userAddress]);
 
+  console.log('Current Balance', balancePayer);
   return (
     <>
       {userAddress ? (
@@ -196,7 +197,7 @@ const BliztPage = () => {
                 <Skeleton>999999</Skeleton>
               ) : (
                 <Text fontWeight="bold" color="primary.100">
-                  {Number(balance).toFixed(3)} ETH
+                  {balancePayer && Number(balancePayer).toFixed(3)} ETH
                 </Text>
               )}
 
@@ -234,6 +235,7 @@ const BliztPage = () => {
             <SettingRpc />
 
             <MonitorTrade
+              balance={balancePayer}
               isLoadingBalance={isLoadingBalance}
               userWallet={userWallet}
               refetchBalance={async () => await fetchBalance()}

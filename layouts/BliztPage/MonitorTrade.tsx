@@ -26,16 +26,18 @@ import Card from '@/components/Card';
 interface IProps {
   userWallet: UserWalletProps;
   refetchBalance: () => void;
+  balance: number;
   isLoadingWallet: boolean;
   isLoadingBalance: boolean;
 }
 const MonitorTrade = ({
   userWallet,
   refetchBalance,
+  balance,
   isLoadingWallet,
   isLoadingBalance,
 }: IProps) => {
-  const { eventLog, handleClearEventLog, balance } = useCreatorAccount();
+  const { eventLog, handleClearEventLog } = useCreatorAccount();
 
   return (
     <Flex flexDirection="column" gap={4} width="full" flexGrow={1}>
@@ -126,11 +128,11 @@ const MonitorTrade = ({
         ) : (
           <HStack flexWrap="wrap">
             <Card height="36px" variant="content" as={HStack} padding={2}>
-              {isLoadingBalance ? (
+              {isLoadingBalance && balance != null ? (
                 <Skeleton>Loading Balance....</Skeleton>
               ) : (
                 <Text fontWeight="bold" fontSize="sm">
-                  {balance?.toFixed(8)} (ETH)
+                  {balance?.toFixed(4)} (ETH)
                 </Text>
               )}
 
