@@ -17,24 +17,11 @@ const HomePage = () => {
       gap={{ lg: '100px', md: '40px', base: '24px' }}
     >
       <Box position="relative">
-        {/* <Image
-          src="/assets/arts/home_bg.svg"
-          objectFit="cover"
-          width={1374.8}
-          height={773.3}
-          aria-label=""
-          priority
-          alt="Picture Atemu"
-          style={{
-            width: '100%',
-          }}
-        /> */}
         <ChakraNextImage
           src="/assets/arts/home_bg.svg"
           width={1374.8}
           height={773.3}
           aria-label=""
-          priority
           alt="Picture Atemu"
         />
       </Box>

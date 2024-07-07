@@ -86,7 +86,7 @@ const BliztPage = () => {
   });
 
   useEffect(() => {
-    if (socketAPI) {
+    if (socketAPI && socketAPI.active) {
       try {
         socketAPI.on(BliztEvent.BLIZT_POINT, data => {
           handleSetPoint(data);
@@ -150,7 +150,6 @@ const BliztPage = () => {
     handleChangeWallet();
   }, [userAddress]);
 
-  console.log('Current Balance', balancePayer);
   return (
     <>
       {userAddress ? (

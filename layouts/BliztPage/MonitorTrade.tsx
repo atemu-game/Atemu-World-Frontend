@@ -132,7 +132,7 @@ const MonitorTrade = ({
                 <Skeleton>Loading Balance....</Skeleton>
               ) : (
                 <Text fontWeight="bold" fontSize="sm">
-                  {balance?.toFixed(4)} (ETH)
+                  {balance?.toFixed(8)} (ETH)
                 </Text>
               )}
 
