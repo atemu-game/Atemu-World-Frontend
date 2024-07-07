@@ -23,7 +23,7 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 
 const SettingRpc = () => {
-  const [currentRPC, setCurrentRPC] = useState(''); // Choice of RPC Minting
+  const [currentRPC, setCurrentRPC] = useState(ListPublicRPC[0]); // Choice of RPC Minting
   const { handleChangeRPC, currentRPC: currentRPCAccount } =
     useCreatorAccount();
   const [ownerRPC, setOwnerRPC] = useState('');

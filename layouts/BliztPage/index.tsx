@@ -41,7 +41,14 @@ export interface UserWalletProps {
 }
 const BliztPage = () => {
   const { userAddress } = useAuth();
-
+  const {
+    point,
+    balance,
+    handleSetBalance,
+    handleSetTransaction,
+    handleSetStatus,
+    handleSetPoint,
+  } = useCreatorAccount();
   const {
     data: userWallet,
     isLoading: isLoadingWallet,
@@ -51,19 +58,24 @@ const BliztPage = () => {
     queryFn: async () => {
       if (!userAddress) return;
       const { data } = await axiosHandler.get('/wallet/getOrCreateWallet');
-      // eslint-disable-next-line no-use-before-define
-      await fetchBalance();
       return data.data;
     },
   });
   const {
-    point,
-    balance,
-    handleSetBalance,
-    handleSetTransaction,
-    handleSetStatus,
-    handleSetPoint,
-  } = useCreatorAccount();
+    data: dataBalancePayer,
+    isLoading: isLoadingBalancePayer,
+    refetch: refetchBalancePayer,
+  } = useQuery({
+    queryKey: 'balancePayer',
+    queryFn: async () => {
+      if (userWallet) {
+        return;
+      }
+      const { data } = await axiosHandler.get('/wallet/getBalancePayer');
+      handleSetBalance(data.data.balanceEth);
+      return data.data;
+    },
+  });
 
   const { status } = useCreatorAccount();
 
@@ -75,14 +87,6 @@ const BliztPage = () => {
     position: 'top-right',
     duration: 5000,
     isClosable: true,
-  });
-  const {
-    balance: balancePayer,
-    isLoading: isLoadingBalance,
-    fetchBalance,
-  } = useBalanceCustom({
-    address: userWallet ? userWallet.payerAddress : '',
-    token: CONTRACT_ADDRESS.ETH,
   });
 
   useEffect(() => {
@@ -132,19 +136,11 @@ const BliztPage = () => {
       }
     }
   }, [socketAPI]);
-  useEffect(() => {
-    const handleChangeWallet = async () => {
-      if (userWallet) {
-        handleSetBalance(Number(balancePayer));
-      }
-    };
-    handleChangeWallet();
-  }, [userWallet]);
+
   useEffect(() => {
     const handleChangeWallet = async () => {
       if (userAddress) {
         await refetchWallet();
-        await fetchBalance();
       }
     };
     handleChangeWallet();
@@ -192,11 +188,11 @@ const BliztPage = () => {
               <Text>Current TX</Text>
             </Box>
             <Box>
-              {isLoadingBalance ? (
+              {isLoadingBalancePayer ? (
                 <Skeleton>999999</Skeleton>
               ) : (
                 <Text fontWeight="bold" color="primary.100">
-                  {balancePayer && Number(balancePayer).toFixed(3)} ETH
+                  {balance && Number(balance).toFixed(3)} ETH
                 </Text>
               )}
 
@@ -210,17 +206,19 @@ const BliztPage = () => {
             </Box>
 
             <HStack gap={3} flexWrap="wrap">
-              {userWallet && (
+              {!isLoadingWallet ? (
                 <>
                   {userWallet.deployHash && <MintTransfer />}
                   <DespositAccount
                     refetchWallet={refetchWallet}
                     userWallet={userWallet}
                     refetchBalance={async () => {
-                      await fetchBalance();
+                      await refetchBalancePayer();
                     }}
                   />
                 </>
+              ) : (
+                <Skeleton>Loading Content Information Wallet</Skeleton>
               )}
             </HStack>
           </Card>
@@ -234,10 +232,10 @@ const BliztPage = () => {
             <SettingRpc />
 
             <MonitorTrade
-              balance={balancePayer}
-              isLoadingBalance={isLoadingBalance}
+              balance={balance}
+              isLoadingBalance={isLoadingBalancePayer}
               userWallet={userWallet}
-              refetchBalance={async () => await fetchBalance()}
+              refetchBalance={async () => await refetchBalancePayer()}
               isLoadingWallet={isLoadingWallet}
             />
           </HStack>

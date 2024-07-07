@@ -30,7 +30,7 @@ export const useBalanceCustom = ({
     const formatBalanceData = parseFloat(formatBalance(initialValue, 18));
     setBalance(() => formatBalanceData);
     setIsLoading(false);
-    return formatBalance;
+    return formatBalanceData;
   };
 
   useEffect(() => {

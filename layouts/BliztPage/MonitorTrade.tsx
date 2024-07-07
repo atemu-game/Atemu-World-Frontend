@@ -26,7 +26,7 @@ import Card from '@/components/Card';
 interface IProps {
   userWallet: UserWalletProps;
   refetchBalance: () => void;
-  balance: number;
+  balance: number | null;
   isLoadingWallet: boolean;
   isLoadingBalance: boolean;
 }
@@ -128,12 +128,12 @@ const MonitorTrade = ({
         ) : (
           <HStack flexWrap="wrap">
             <Card height="36px" variant="content" as={HStack} padding={2}>
-              {isLoadingBalance && balance != null ? (
-                <Skeleton>Loading Balance....</Skeleton>
-              ) : (
+              {!isLoadingBalance && balance != null ? (
                 <Text fontWeight="bold" fontSize="sm">
-                  {balance?.toFixed(8)} (ETH)
+                  {Number(balance).toFixed(8)} (ETH)
                 </Text>
+              ) : (
+                <Skeleton>Loading Balance</Skeleton>
               )}
 
               <IconButton
