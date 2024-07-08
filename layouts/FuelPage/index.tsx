@@ -118,7 +118,8 @@ const FuelPage = () => {
                 <LotteryWheel
                   dataSeries={CurentPlayerMock}
                   totalPoint={25}
-                  isSpinning={isSpinning}
+                  timer={10}
+                  winner={CurentPlayerMock[0].address}
                 />
               </VStack>
             </Box>

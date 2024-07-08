@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import Highcharts from 'highcharts';
+import Highcharts, { pad } from 'highcharts';
 
 import { Box } from '@chakra-ui/react';
 import { colors } from '@/themes';
@@ -7,14 +7,15 @@ import { ellipseMiddle } from '@/utils/formatAddress';
 interface IProps {
   dataSeries: any;
   totalPoint: number;
-  isSpinning: boolean;
-  timer?: number;
+
+  timer: number;
   winner?: string;
 }
-const LotteryWheel = ({ dataSeries, totalPoint, isSpinning }: IProps) => {
+const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
   const trigger = useRef(null);
   const radToDeg = (r: number) => (r * 180) / Math.PI;
   const findWinner = (data: any) => {
+    //random Here
     const sliceSize = 360 / data.length;
     const winThreshold = 360 - sliceSize;
     let sliceBeginning;
@@ -104,11 +105,14 @@ const LotteryWheel = ({ dataSeries, totalPoint, isSpinning }: IProps) => {
           ) {
             const nextWinner = findWinner(chart.series[0].data);
             if (currentWinner == nextWinner) {
+              // chart.setTitle({
+              //   text:
+              //     'The winner is ' +
+              //     chart.series[0].data[currentWinner].name +
+              //     '!',
+              // });
               chart.setTitle({
-                text:
-                  'The winner is ' +
-                  chart.series[0].data[currentWinner].name +
-                  '!',
+                text: '',
               });
               foundPossibleWinner = false;
             } else {
@@ -120,11 +124,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, isSpinning }: IProps) => {
       }, animationSpeed);
     }
   };
-  useEffect(() => {
-    if (isSpinning) {
-      findTheWinner();
-    }
-  }, [isSpinning]);
+
   useEffect(() => {
     if (trigger.current) {
       // Create the chart
@@ -134,7 +134,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, isSpinning }: IProps) => {
       chart = Highcharts.chart('chart-wheel', {
         chart: {
           animation: {
-            duration: 1000,
+            duration: 500,
           },
           backgroundColor: 'transparent',
           margin: [0, 0, 0, 0],
@@ -178,6 +178,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, isSpinning }: IProps) => {
                     fill: 'none',
                     stroke: 'white',
                     'stroke-width': 10,
+                    padding: 3,
                   })
                   .add(this.customCircles);
               });
@@ -203,7 +204,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, isSpinning }: IProps) => {
           },
         },
         tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+          pointFormat: 'Point Percentage: <b>{point.percentage:.1f}%</b>',
         },
         title: {
           text: totalPoint,
@@ -216,6 +217,17 @@ const LotteryWheel = ({ dataSeries, totalPoint, isSpinning }: IProps) => {
         },
         series: [
           {
+            states: {
+              hover: {
+                halo: {
+                  attributes: {
+                    fill: 'none',
+                    // 'stroke-width': 1,
+                    // stroke: 'gray',
+                  },
+                },
+              },
+            },
             type: 'pie',
             size: '100%',
             dataLabels: {
@@ -263,18 +275,32 @@ const LotteryWheel = ({ dataSeries, totalPoint, isSpinning }: IProps) => {
       // Create the arrow at the top.
       triangle = chart.renderer
         .path([
-          ['M', chart.chartWidth / 2 - 10, chart.plotTop - 5],
-          ['L', chart.chartWidth / 2 + 10, chart.plotTop - 5],
-          ['L', chart.chartWidth / 2, chart.plotTop + 10],
+          ['M', chart.chartWidth / 2 - 20, chart.plotTop - 10],
+          ['L', chart.chartWidth / 2 + 20, chart.plotTop - 10],
+          ['L', chart.chartWidth / 2, chart.plotTop + 20],
           ['Z'],
         ])
         .attr({
-          fill: colors.secondary[100],
+          fill: 'white',
+          zIndex: 100,
         })
         .add();
     }
-  }, []);
 
+    const countdown = setInterval(() => {
+      if (timer > 0) {
+        timer--;
+      } else {
+        clearInterval(countdown);
+
+        findTheWinner();
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(countdown);
+    };
+  }, [timer]);
   return (
     <Box
       width={{ lg: '500px', base: '300px' }}

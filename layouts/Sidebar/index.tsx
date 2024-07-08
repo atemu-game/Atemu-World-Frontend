@@ -16,7 +16,7 @@ const Sidebar = () => {
     >
       <Box
         position="sticky"
-        top={100}
+        top={120}
         left={0}
         flexDir="column"
         gap={6}
