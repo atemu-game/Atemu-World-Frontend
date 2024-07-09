@@ -37,6 +37,11 @@ const ListPage = ({ sx }: IProps) => {
       label: 'Fuel',
     },
     {
+      link: '/leaderboard',
+      icon: LeaderIcon,
+      label: 'Leaderboard',
+    },
+    {
       link: '/incentives',
       icon: IncentiveIcon,
       label: 'Incentives',
@@ -46,12 +51,6 @@ const ListPage = ({ sx }: IProps) => {
       link: '/trade-zone',
       icon: LanguageIcon,
       label: 'Trade-zone',
-      isDisabled: true,
-    },
-    {
-      link: '/leaderboard',
-      icon: LeaderIcon,
-      label: 'Upcoming',
       isDisabled: true,
     },
   ];
