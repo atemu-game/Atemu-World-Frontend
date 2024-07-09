@@ -19,8 +19,8 @@ import RequireConnectWallet from '@/components/ConnectWallet/RequireConnectWalle
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { useBlock } from '@starknet-react/core';
 import { BlockNumber } from 'starknet';
-import { useBalanceCustom } from '@/hooks/useBalanceCustom';
-import { BliztEvent, CONTRACT_ADDRESS } from '@/utils/constants';
+
+import { BliztEvent } from '@/utils/constants';
 import { socketAPI } from '@/config/socketConfig';
 import { useQuery } from 'react-query';
 import { axiosHandler } from '@/config/axiosConfig';
@@ -206,7 +206,7 @@ const BliztPage = () => {
             </Box>
 
             <HStack gap={3} flexWrap="wrap">
-              {!isLoadingWallet ? (
+              {!isLoadingWallet && userWallet ? (
                 <>
                   {userWallet.deployHash && <MintTransfer />}
                   <DespositAccount
