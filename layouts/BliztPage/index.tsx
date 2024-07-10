@@ -68,9 +68,7 @@ const BliztPage = () => {
   } = useQuery({
     queryKey: 'balancePayer',
     queryFn: async () => {
-      if (userWallet) {
-        return;
-      }
+      if (!userAddress) return;
       const { data } = await axiosHandler.get('/wallet/getBalancePayer');
       handleSetBalance(data.data.balanceEth);
       return data.data;
@@ -141,6 +139,7 @@ const BliztPage = () => {
     const handleChangeWallet = async () => {
       if (userAddress) {
         await refetchWallet();
+        await refetchBalancePayer();
       }
     };
     handleChangeWallet();
@@ -192,7 +191,7 @@ const BliztPage = () => {
                 <Skeleton>999999</Skeleton>
               ) : (
                 <Text fontWeight="bold" color="primary.100">
-                  {balance && Number(balance).toFixed(3)} ETH
+                  {Number(balance).toFixed(3)} ETH
                 </Text>
               )}
 
