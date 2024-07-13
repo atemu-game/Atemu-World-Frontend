@@ -27,9 +27,9 @@ const ListPage = ({ sx }: IProps) => {
       label: 'Home',
     },
     {
-      link: '/blizt',
+      link: '/blitz',
       icon: BliztIcon,
-      label: 'Blizt',
+      label: 'Blitz',
     },
     {
       link: '/fuel',

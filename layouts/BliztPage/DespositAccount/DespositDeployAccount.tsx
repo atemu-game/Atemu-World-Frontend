@@ -21,6 +21,7 @@ import { CallData, RpcProvider, uint256 } from 'starknet';
 import { axiosHandler } from '@/config/axiosConfig';
 import systemConfig from '@/config/systemConfig';
 import Card from '@/components/Card';
+import { formatBalance } from '@/utils/formatAddress';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -35,6 +36,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
     isClosable: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+
   return (
     <>
       <Button
@@ -106,8 +108,6 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                     flexGrow={1}
                     width="fit-content"
                     variant="primary"
-                    color="black"
-                    background="secondary.100"
                     isLoading={isLoading}
                     onClick={() => {
                       const deployPromise = new Promise((resolve, rejects) => {
@@ -148,6 +148,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                             })
                             .catch(res => {
                               setIsLoading(() => false);
+                              console.log('Error', res);
                               rejects(res);
                             });
                         }
