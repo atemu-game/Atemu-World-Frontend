@@ -21,7 +21,6 @@ import { CallData, RpcProvider, uint256 } from 'starknet';
 import { axiosHandler } from '@/config/axiosConfig';
 import systemConfig from '@/config/systemConfig';
 import Card from '@/components/Card';
-import { formatBalance } from '@/utils/formatAddress';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -159,10 +158,10 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                           title: 'Deploy resolved',
                           description: 'Deploy Success',
                         },
-                        error: {
+                        error: error => ({
                           title: 'Deploy Error',
-                          description: 'Something wrong...',
-                        },
+                          description: error.message,
+                        }),
                         loading: {
                           title: 'Deploy pending',
                           description: 'Please wait.....',
