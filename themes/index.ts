@@ -35,8 +35,13 @@ export const colors = {
        0px -4px 16px 0px ${convertHex('#FFFFFF', 0.75)} inset,
        4px 0px 16px 0px ${convertHex('#2FD3B5', 0.5)} inset,
        -4px 0px 16px 0px ${convertHex('#2FD3B5', 0.05)} inset`,
+    300: `0px 4px 16px 0px #FF505026 inset,
+    0px -4px 16px 0px #FF505026 inset,
+    4px 0px 16px 0px #FF505026 inset,
+    -4px 0px 16px 0px #FF505026 inset`,
   },
 };
+
 const styles = {
   global: {
     body: {

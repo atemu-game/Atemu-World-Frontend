@@ -23,6 +23,7 @@ import { socketAPI } from '@/config/socketConfig';
 import { useQuery } from 'react-query';
 import { axiosHandler } from '@/config/axiosConfig';
 import Card from '@/components/Card';
+import { colors } from '@/themes';
 // TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
@@ -148,7 +149,17 @@ const BliztPage = () => {
       <Text variant="title">Blitz</Text>
       {userAddress ? (
         <Box>
-          <Card variant="shadow" textAlign="center" py={10}>
+          <Card
+            variant="shadow"
+            textAlign="center"
+            py={10}
+            style={{
+              boxShadow:
+                status == 'started' ? 'inherit' : colors.boxShadow[300],
+              backgroundColor: status == 'started' ? 'inherit' : '#FF505013',
+              border: status == 'started' ? 'inherit' : '2px solid #FF505026',
+            }}
+          >
             <Text color="#FFFFFFBF" fontSize="36px" fontWeight={600}>
               Your Points
             </Text>
