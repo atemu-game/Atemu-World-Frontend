@@ -4,12 +4,18 @@ import TimeReminder from '@/components/TimeReminder';
 import { axiosHandlerNoBearer } from '@/config/axiosConfig';
 import { useAuth } from '@/hooks/useAuth';
 import {
-  Box,
   Flex,
   Grid,
   HStack,
   Skeleton,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
   Text,
+  Th,
+  Thead,
+  Tr,
   VStack,
 } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
@@ -71,48 +77,44 @@ const LeaderPage = () => {
         </HStack>
       </Card>
       <Card mt={6}>
-        <Grid
-          gridTemplateColumns="repeat(4,1fr)"
-          py={4}
-          px={8}
-          gap={6}
-          bg="primary.100"
-          border="1px solid"
-          borderColor="primary.200"
-          color="primary.300"
-          fontSize="lg"
-          fontWeight="bold"
-        >
-          {ListHeader.map((header, index) => (
-            <Text key={`leadboard-${index}`}>{header}</Text>
-          ))}
-        </Grid>
-
-        <Grid gridTemplateColumns="repeat(4,1fr)" py={4} px={8} gap={6}>
-          {!isLoadingLeaderBoard ? (
-            <>
-              {dataLeaderboard.items.map((item: any, index: number) => (
-                <React.Fragment key={`leaderboard-${index}`}>
-                  <Text>{index + 1}</Text>
-                  <Text>{item.address}</Text>
-                  <Text>{item.points}</Text>
-                  <Text>{item.updatedAt}</Text>
-                </React.Fragment>
-              ))}
-            </>
-          ) : (
-            <>
-              {Array.from({ length: 10 }).map((_, index) => (
-                <React.Fragment key={`skeleton-${index}`}>
-                  <Skeleton>Loading Rank</Skeleton>
-                  <Skeleton>Loading Rank</Skeleton>
-                  <Skeleton>Loading Rank</Skeleton>
-                  <Skeleton>Loading Rank</Skeleton>
-                </React.Fragment>
-              ))}
-            </>
-          )}
-        </Grid>
+        <TableContainer>
+          <Table variant="leaderboard" colorScheme="teal">
+            <Thead>
+              <Tr>
+                {ListHeader.map((header, index) => (
+                  <Th key={`${index}-header-board`}>{header}</Th>
+                ))}
+              </Tr>
+            </Thead>
+            <Tbody>
+              {!isLoadingLeaderBoard ? (
+                <>
+                  {dataLeaderboard.items.map((item: any, index: number) => (
+                    <Tr key={`leaderboard-${index}`}>
+                      <Td>{index + 1}</Td>
+                      <Td>{item.address}</Td>
+                      <Td>{item.points}</Td>
+                      <Td>{item.updatedAt}</Td>
+                    </Tr>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {Array.from({ length: 10 }).map((_, index) => (
+                    <Tr key={`leaderboard-${index}`}>
+                      <Td>Rank</Td>
+                      <Td>
+                        0x018bd03138fa59a84bbcae32efa4b80726b242897e4378fdb016f66333c3aeb4
+                      </Td>
+                      <Td>100</Td>
+                      <Td>100000</Td>
+                    </Tr>
+                  ))}
+                </>
+              )}
+            </Tbody>
+          </Table>
+        </TableContainer>
       </Card>
     </Flex>
   );

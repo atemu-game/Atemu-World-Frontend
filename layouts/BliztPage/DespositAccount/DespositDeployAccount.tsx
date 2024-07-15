@@ -40,7 +40,8 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
     <>
       <Button
         variant="primary"
-        minW="200px"
+        // minW="200px"
+
         borderColor="white"
         w={{ md: 'inherit', base: 'full' }}
         isLoading={isLoading}
@@ -48,7 +49,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
           onOpen();
         }}
       >
-        Deploy Account
+        Deploy
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg">
         <ModalOverlay />

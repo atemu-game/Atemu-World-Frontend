@@ -6,6 +6,7 @@ import { ellipseMiddle } from '@/utils/formatAddress';
 import {
   Box,
   Flex,
+  Grid,
   HStack,
   Icon,
   IconButton,
@@ -22,9 +23,11 @@ import { STARKSCAN_LINK } from '@/utils/constants';
 
 import WidthDrawAccount from './WidthDrawAccount';
 import Card from '@/components/Card';
+import DespositAccount from './DespositAccount';
 
 interface IProps {
   userWallet: UserWalletProps;
+  refetchWallet: () => void;
   refetchBalance: () => void;
   balance: number | null;
   isLoadingWallet: boolean;
@@ -33,6 +36,7 @@ interface IProps {
 const MonitorTrade = ({
   userWallet,
   refetchBalance,
+  refetchWallet,
   balance,
   isLoadingWallet,
   isLoadingBalance,
@@ -41,120 +45,108 @@ const MonitorTrade = ({
 
   return (
     <Flex flexDirection="column" gap={4} width="full" flexGrow={1}>
-      <Card
-        as={HStack}
-        padding={4}
-        gap={{ md: 6, base: 0 }}
-        width="full"
-        // justifyContent={{ lg: 'flex-start', base: 'space-between' }}
-        alignItems="flex-start"
-        justifyContent="flex-start"
-        flexWrap={{ lg: 'nowrap', base: 'wrap' }}
-      >
-        <Box>
-          <Text variant="sub_title" mb={2}>
-            Your Starknet Address
-          </Text>
-          <Card
-            variant="content"
-            as={HStack}
-            padding={2}
-            justifyContent="space-between"
-          >
-            {!isLoadingWallet && userWallet ? (
-              <>
-                <Text fontWeight="bold">
-                  {ellipseMiddle(userWallet.payerAddress, 8, 10)}
-                </Text>
-                <CopyClipBoard
-                  context={userWallet.payerAddress}
-                  aria-label="Copy Stark Address"
-                  h={4}
-                  w={4}
-                />
-              </>
-            ) : (
-              <Skeleton>Address ........</Skeleton>
-            )}
-          </Card>
-        </Box>
-
-        <Box>
-          <Text variant="sub_title" mb={2}>
-            Your Secret Key
-          </Text>
-          <Card
-            variant="content"
-            as={HStack}
-            padding={2}
-            flexWrap={{
-              md: 'nowrap',
-              base: 'wrap',
-            }}
-          >
-            {!isLoadingWallet && userWallet ? (
-              <>
-                <Text
-                  textOverflow="ellipsis"
-                  fontWeight="bold"
-                  maxWidth={{ lg: 'full', base: '300px' }}
-                >
-                  {ellipseMiddle(userWallet.privateKey, 15, 15)}
-                </Text>
-                <CopyClipBoard
-                  context={userWallet.privateKey}
-                  h={4}
-                  w={4}
-                  aria-label="Copy Stark Address"
-                />
-              </>
-            ) : (
-              <Skeleton>
-                0x4e6078cc617d64e1c2c6abe255ba6e68af20fb763585d5e2128eace3a462b83
-              </Skeleton>
-            )}
-          </Card>
-        </Box>
-      </Card>
-
-      <Card padding={4}>
-        <Text variant="sub_title">ETH fund balance </Text>
-
-        {isLoadingWallet ? (
-          <HStack>
-            <Skeleton>Loading Balance (ETH)</Skeleton>
-            <Skeleton>Widthdraw Loading</Skeleton>
-          </HStack>
-        ) : (
-          <HStack flexWrap="wrap">
-            <Card height="36px" variant="content" as={HStack} padding={2}>
-              {!isLoadingBalance && balance != null ? (
-                <Text fontWeight="bold" fontSize="sm">
-                  {Number(balance).toFixed(8)} (ETH)
-                </Text>
+      <Grid gridTemplateColumns={{ md: 'repeat(2,1fr)' }} gap={4}>
+        <Card
+          as={HStack}
+          padding={4}
+          height="full"
+          gap={{ md: 6, base: 0 }}
+          alignItems="flex-start"
+          justifyContent="flex-start"
+          flexWrap={{ lg: 'nowrap', base: 'wrap' }}
+        >
+          <Box>
+            <Text mb={2}>Your Starknet Address</Text>
+            <Card variant="content" as={HStack} justifyContent="space-between">
+              {!isLoadingWallet && userWallet ? (
+                <>
+                  <Text fontWeight="bold">
+                    {ellipseMiddle(userWallet.payerAddress, 6, 4)}
+                  </Text>
+                  <CopyClipBoard
+                    context={userWallet.payerAddress}
+                    aria-label="Copy Stark Address"
+                    h={3}
+                    w={3}
+                  />
+                </>
               ) : (
-                <Skeleton>Loading Balance</Skeleton>
+                <Skeleton>0x0716...4c69</Skeleton>
               )}
-
-              <IconButton
-                _hover={{
-                  color: 'white',
-                }}
-                onClick={async () => {
-                  refetchBalance();
-                }}
-                variant="icon_button"
-                aria-label="refresh"
-                icon={<Icon as={RefreshIcon} h={6} w={6} />}
-              />
             </Card>
+          </Box>
 
-            {balance && (
-              <WidthDrawAccount refetchBalance={() => refetchBalance()} />
-            )}
-          </HStack>
-        )}
-      </Card>
+          <Box>
+            <Text mb={2}>Your Secret Key</Text>
+            <Card
+              variant="content"
+              as={HStack}
+              flexWrap={{
+                md: 'nowrap',
+                base: 'wrap',
+              }}
+            >
+              {!isLoadingWallet && userWallet ? (
+                <>
+                  <Text textOverflow="ellipsis" fontWeight="bold">
+                    {ellipseMiddle(userWallet.privateKey, 6, 6)}
+                  </Text>
+                  <CopyClipBoard
+                    context={userWallet.privateKey}
+                    h={4}
+                    w={4}
+                    aria-label="Copy Stark Address"
+                  />
+                </>
+              ) : (
+                <Skeleton>0x498a...0fab01</Skeleton>
+              )}
+            </Card>
+          </Box>
+        </Card>
+
+        <Card padding={4} height="full" flexGrow={1}>
+          <Text mb={2}>ETH fund balance </Text>
+
+          {isLoadingWallet ? (
+            <HStack>
+              <Skeleton>Loading Balance (ETH)</Skeleton>
+              <Skeleton>Widthdraw Loading</Skeleton>
+            </HStack>
+          ) : (
+            <HStack flexWrap="wrap">
+              <Card variant="content" as={HStack}>
+                {!isLoadingBalance && balance != null ? (
+                  <Text fontWeight="bold" fontSize="sm">
+                    {Number(balance).toFixed(5)} (ETH)
+                  </Text>
+                ) : (
+                  <Skeleton>Loading Balance</Skeleton>
+                )}
+                <Icon
+                  onClick={async () => {
+                    refetchBalance();
+                  }}
+                  as={RefreshIcon}
+                  h={3}
+                  w={3}
+                />
+              </Card>
+
+              {balance && (
+                <WidthDrawAccount refetchBalance={() => refetchBalance()} />
+              )}
+              <DespositAccount
+                refetchWallet={refetchWallet}
+                userWallet={userWallet}
+                refetchBalance={async () => {
+                  await refetchBalance();
+                }}
+              />
+            </HStack>
+          )}
+        </Card>
+      </Grid>
 
       <Card
         variant="content"

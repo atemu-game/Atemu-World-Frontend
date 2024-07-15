@@ -1,5 +1,9 @@
 import { convertHex } from '@/utils/convertHex';
-import { ComponentStyleConfig, extendTheme } from '@chakra-ui/react';
+import {
+  ComponentStyleConfig,
+  extendTheme,
+  StyleFunctionProps,
+} from '@chakra-ui/react';
 export const colors = {
   primary: {
     100: '#DFAA6C',
@@ -21,6 +25,16 @@ export const colors = {
   body: '#0D0E13',
   gradient: {
     100: 'linear-gradient(90.73deg, #E8B77C -5.34%, #FDD969 56.57%, #B27122 116.05%)',
+  },
+  boxShadow: {
+    100: `0px 4px 16px 0px #E8B77C26 inset,
+       0px -4px 16px 0px #E8B77C26 inset,
+       4px 0px 16px 0px #E8B77C13 inset,
+       -4px 0px 16px 0px #E8B77C13 inset`,
+    200: `0px 4px 16px 0px #2FD3B5 inset,
+       0px -4px 16px 0px ${convertHex('#FFFFFF', 0.75)} inset,
+       4px 0px 16px 0px ${convertHex('#2FD3B5', 0.5)} inset,
+       -4px 0px 16px 0px ${convertHex('#2FD3B5', 0.05)} inset`,
   },
 };
 const styles = {
@@ -74,7 +88,6 @@ const Text: ComponentStyleConfig = {
       fontSize: '1.5rem',
       fontWeight: 600,
       textTransform: 'uppercase',
-      mb: 4,
       color: 'primary.100',
     },
     sub_title: {
@@ -211,10 +224,9 @@ export const CardBox: ComponentStyleConfig = {
       background: 'primary.100',
       color: 'primary.200',
       px: 4,
-      py: 2,
+      py: 1,
       border: '2px solid transparent',
       borderImageSlice: 2,
-
       boxShadow: `0px 4px 16px 0px #E8B77C26 inset,
        0px -4px 16px 0px #E8B77C26 inset,
        4px 0px 16px 0px #E8B77C13 inset,
@@ -227,6 +239,27 @@ export const CardBox: ComponentStyleConfig = {
     variant: 'shadow',
   },
 };
+export const Table: ComponentStyleConfig = {
+  variants: {
+    leaderboard: (props: StyleFunctionProps) => ({
+      table: {
+        wordBreak: 'break-all',
+      },
+      thead: {
+        background: 'primary.100',
+        fontSize: 'lg',
+        color: 'primary.300',
+      },
+      tbody: {
+        td: {
+          fontWeight: '700',
+          color: 'primary.100',
+        },
+      },
+    }),
+  },
+};
+
 const theme = extendTheme({
   colors,
   styles,
@@ -237,6 +270,7 @@ const theme = extendTheme({
     Input,
     Radio,
     CardBox,
+    Table,
   },
 });
 

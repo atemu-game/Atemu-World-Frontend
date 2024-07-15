@@ -147,96 +147,106 @@ const BliztPage = () => {
 
   return (
     <>
+      <Text variant="title">Blitz</Text>
       {userAddress ? (
         <Box>
-          <Text variant="title">Explorer</Text>
-          <Card
-            padding={4}
-            mb={4}
-            width="full"
-            justifyContent="space-between"
-            display="flex"
-            alignItems="center"
-            flexWrap="wrap"
-          >
-            <Box>
-              <Text
-                fontWeight="bold"
-                color="secondary.400"
-                textTransform="capitalize"
-              >
-                {status}
-              </Text>
-              <Text>Status</Text>
-            </Box>
-            <Box>
-              {!isLoadingBlock && dataBlock ? (
-                <Text fontWeight="bold" color="primary.100">
-                  {(dataBlock as any).block_number}
-                </Text>
-              ) : (
-                <Skeleton>999999</Skeleton>
-              )}
-
-              <Text>Current Block</Text>
-            </Box>
-            <Box>
-              <Text fontWeight="bold" color="primary.100">
-                1,654,456
-              </Text>
-              <Text>Current TX</Text>
-            </Box>
-            <Box>
-              {isLoadingBalancePayer ? (
-                <Skeleton>999999</Skeleton>
-              ) : (
-                <Text fontWeight="bold" color="primary.100">
-                  {Number(balance).toFixed(3)} ETH
-                </Text>
-              )}
-
-              <Text>Wallet Balance</Text>
-            </Box>
-            <Box>
-              <Text fontWeight="bold" color="primary.100">
-                {point}
-              </Text>
-              <Text>Point Balance</Text>
-            </Box>
-
-            <HStack gap={3} flexWrap="wrap">
-              {!isLoadingWallet && userWallet ? (
-                <>
-                  {userWallet.deployHash && <MintTransfer />}
-                  <DespositAccount
-                    refetchWallet={refetchWallet}
-                    userWallet={userWallet}
-                    refetchBalance={async () => {
-                      await refetchBalancePayer();
-                    }}
-                  />
-                </>
-              ) : (
-                <Skeleton>Loading Content Information Wallet</Skeleton>
-              )}
-            </HStack>
+          <Card variant="shadow" textAlign="center" py={10}>
+            <Text color="#FFFFFFBF" fontSize="48px" fontWeight={600}>
+              Your Points
+            </Text>
+            <Text
+              fontWeight="900"
+              fontSize="124px"
+              color={status == 'started' ? 'secondary.400' : 'secondary.300'}
+            >
+              {point}
+            </Text>
           </Card>
 
           <HStack
             alignItems="flex-start"
             gap={2}
+            mt={4}
             overflowX="hidden"
             flexWrap={{ lg: 'nowrap', base: 'wrap' }}
           >
             <SettingRpc />
 
-            <MonitorTrade
-              balance={balance}
-              isLoadingBalance={isLoadingBalancePayer}
-              userWallet={userWallet}
-              refetchBalance={async () => await refetchBalancePayer()}
-              isLoadingWallet={isLoadingWallet}
-            />
+            <Box width="full">
+              <Card
+                padding={4}
+                mb={4}
+                width="full"
+                justifyContent="space-between"
+                display="flex"
+                alignItems="center"
+                flexWrap="wrap"
+              >
+                <Box>
+                  <Text
+                    fontWeight="bold"
+                    color="secondary.400"
+                    textTransform="capitalize"
+                  >
+                    {status}
+                  </Text>
+                  <Text>Status</Text>
+                </Box>
+                <Box>
+                  {!isLoadingBlock && dataBlock ? (
+                    <Text fontWeight="bold" color="primary.100">
+                      {(dataBlock as any).block_number}
+                    </Text>
+                  ) : (
+                    <Skeleton>999999</Skeleton>
+                  )}
+
+                  <Text>Current Block</Text>
+                </Box>
+                <Box>
+                  <Text fontWeight="bold" color="primary.100">
+                    1,654,456
+                  </Text>
+                  <Text>Current TX</Text>
+                </Box>
+                <Box>
+                  {isLoadingBalancePayer ? (
+                    <Skeleton>999999</Skeleton>
+                  ) : (
+                    <Text fontWeight="bold" color="primary.100">
+                      {Number(balance).toFixed(3)} ETH
+                    </Text>
+                  )}
+
+                  <Text>Wallet Balance</Text>
+                </Box>
+
+                {/* <HStack gap={3} flexWrap="wrap">
+                  {!isLoadingWallet && userWallet ? (
+                    <>
+                      {userWallet.deployHash && <MintTransfer />}
+                      <DespositAccount
+                        refetchWallet={refetchWallet}
+                        userWallet={userWallet}
+                        refetchBalance={async () => {
+                          await refetchBalancePayer();
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <Skeleton>Loading Content Information Wallet</Skeleton>
+                  )}
+                </HStack> */}
+              </Card>
+              <MonitorTrade
+                balance={balance}
+                isLoadingBalance={isLoadingBalancePayer}
+                userWallet={userWallet}
+                refetchWallet={async () => await refetchWallet()}
+                refetchBalance={async () => await refetchBalancePayer()}
+                isLoadingWallet={isLoadingWallet}
+              />
+            </Box>
           </HStack>
         </Box>
       ) : (

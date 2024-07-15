@@ -37,8 +37,8 @@ const WidthDrawAccount = ({ refetchBalance }: IProps) => {
 
   return (
     <>
-      <Button variant="primary" onClick={onOpen} height="64px">
-        Width Draw
+      <Button variant="primary" width="fit-content" onClick={onOpen}>
+        Withdraw
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
@@ -78,12 +78,7 @@ const WidthDrawAccount = ({ refetchBalance }: IProps) => {
                 </Text>
               </Card>
               <Text>Estimated ETH to WidthDraw</Text>
-              {/* <HStack justifyContent="space-between">
-                <Text>Fees to deploy account:</Text>
-                <Text fontWeight="bold" color="white">
-                  {userWallet.feeDeploy}
-                </Text>
-              </HStack> */}
+
               <Input
                 isDisabled={isLoading}
                 type="number"
