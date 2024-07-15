@@ -85,6 +85,16 @@ const Button: ComponentStyleConfig = {
         opacity: 0.5,
       },
     },
+    secondary: {
+      color: 'primary.300',
+      cursor: 'pointer',
+      background: 'primary.100',
+      borderRadius: '0',
+      padding: 2,
+      border: '1px solid transparent',
+      borderImageSlice: 1,
+      borderImageSource: `linear-gradient(90.73deg, #E8B77C -5.34%, #FDD969 51.67%, #B27122 116.05%)`,
+    },
   },
 };
 const Text: ComponentStyleConfig = {
@@ -156,12 +166,16 @@ const Input: ComponentStyleConfig = {
   variants: {
     primary: {
       field: {
-        border: '1px solid',
+        border: '2px solid transparent',
         borderColor: 'divider.100',
         borderRadius: '0',
-        bg: 'inherit',
+        bg: 'primary.100',
+        borderImageSlice: 2,
+        borderImageSource: `linear-gradient(90.73deg, #E8B77C -5.34%, #FDD969 51.67%, #B27122 116.05%)`,
+        color: 'primary.300',
+        fontWeight: 'bold',
         _placeholder: {
-          color: 'rgba(255, 255, 255, 0.5)',
+          color: 'primary.300',
         },
         _hover: {
           borderColor: 'secondary.400',

@@ -96,6 +96,7 @@ const FuelPage = () => {
           <Flex
             as={Card}
             gap={4}
+            border="none"
             justifyContent="space-between"
             flexWrap={{ lg: 'nowrap', base: 'wrap-reverse' }}
           >
@@ -110,18 +111,13 @@ const FuelPage = () => {
               backgroundImage={`url('/assets/arts/bg_whale.svg')`}
               backgroundPosition="center"
               backgroundSize="contain"
-              style={{
-                borderImageSlice: 2,
-                borderImageSource:
-                  'linear-gradient(90.73deg, rgba(232, 183, 124, 0.15) -5.34%, rgba(253, 217, 105, 0.15) 51.67%, rgba(178, 113, 34, 0.15) 116.05%)',
-              }}
             >
               <Text variant="title">Current Round</Text>
               <VStack>
                 <LotteryWheel
                   dataSeries={CurentPlayerMock}
                   totalPoint={25}
-                  timer={10}
+                  timer={50}
                   winner={CurentPlayerMock[0].address}
                 />
               </VStack>
@@ -156,14 +152,25 @@ const FuelPage = () => {
                 </Box>
               </Grid>
             </Box>
-            <Divider />
+            <Divider
+              border="1px solid transparent"
+              style={{
+                borderImageSlice: 1,
+                borderImageSource: `linear-gradient(90.73deg, rgba(232, 183, 124, 0.5) -5.34%, rgba(253, 217, 105, 0.5) 51.67%, rgba(178, 113, 34, 0.5) 116.05%)
+              `,
+              }}
+            />
             <Grid gridTemplateColumns={'repeat(2,1fr)'} gap={4} padding={4}>
               <Box flexGrow={1}>
-                <Text>25k</Text>
+                <Text fontWeight="bold" color="primary.100">
+                  25k
+                </Text>
                 <Text>Prize Pool </Text>
               </Box>
               <Box flexGrow={1}>
-                <Text>5/500</Text>
+                <Text fontWeight="bold" color="primary.100">
+                  5/500
+                </Text>
                 <Text>Participants </Text>
               </Box>
             </Grid>

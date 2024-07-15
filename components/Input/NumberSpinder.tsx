@@ -1,4 +1,11 @@
-import { Button, HStack, Input, useNumberInput } from '@chakra-ui/react';
+import {
+  Button,
+  HStack,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  useNumberInput,
+} from '@chakra-ui/react';
 import React from 'react';
 
 const NumberSpinder = () => {
@@ -14,12 +21,13 @@ const NumberSpinder = () => {
   const input = getInputProps();
 
   return (
-    <HStack border="1px solid" borderColor="divider.100">
-      <Button variant="unstyled" {...inc}>
+    <HStack border="1px solid" borderColor="divider.100" gap={0}>
+      <Button variant="secondary" fontWeight="bold" {...inc}>
         +
       </Button>
-      <Input variant="unstyled" {...input} type="number" />
-      <Button variant="unstyled" {...dec}>
+      <Input variant="primary" {...input} type="number" />
+
+      <Button variant="secondary" fontWeight="bold" {...dec}>
         -
       </Button>
     </HStack>

@@ -124,7 +124,30 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
       }, animationSpeed);
     }
   };
+  const updateCircle = (newTimer: number) => {
+    if (chart) {
+      const centerX = chart.plotLeft + chart.plotSizeX / 2;
+      const centerY = chart.plotTop + chart.plotSizeY / 2;
+      const radius = chart.series[0].data[0].shapeArgs.r;
+      const angle = newTimer * 360;
 
+      // const overlayArc = chart.renderer
+      //   .arc(centerX, centerY, radius, radius, 0, angle)
+      //   .attr({
+      //     fill: 'none',
+      //     stroke: '#DFAA6C',
+      //     'stroke-width': 10,
+      //     zIndex: 3,
+      //   });
+
+      if (chart.customOverlay) {
+        chart.customOverlay.destroy();
+        chart.customOverlay = undefined;
+      }
+      chart.customOverlay = chart.renderer.g('timer-atemu').add();
+      // overlayArc.add(chart.customOverlay);
+    }
+  };
   useEffect(() => {
     if (trigger.current) {
       // Create the chart
@@ -176,7 +199,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
                   .circle(centerX, centerY, rad)
                   .attr({
                     fill: 'none',
-                    stroke: 'white',
+                    stroke: '#E8B77C1A',
                     'stroke-width': 10,
                     padding: 3,
                   })
@@ -281,7 +304,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
           ['Z'],
         ])
         .attr({
-          fill: 'white',
+          fill: '#DFAA6C',
           zIndex: 100,
         })
         .add();
@@ -290,6 +313,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
     const countdown = setInterval(() => {
       if (timer > 0) {
         timer--;
+        updateCircle(timer);
       } else {
         clearInterval(countdown);
 
@@ -301,6 +325,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
       clearInterval(countdown);
     };
   }, [timer]);
+
   return (
     <Box
       width={{ lg: '500px', base: '300px' }}

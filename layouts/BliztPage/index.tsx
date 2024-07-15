@@ -24,6 +24,8 @@ import { useQuery } from 'react-query';
 import { axiosHandler } from '@/config/axiosConfig';
 import Card from '@/components/Card';
 import { colors } from '@/themes';
+import { convertHex } from '@/utils/convertHex';
+import { color } from 'highcharts';
 // TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
@@ -155,9 +157,17 @@ const BliztPage = () => {
             py={10}
             style={{
               boxShadow:
-                status == 'started' ? 'inherit' : colors.boxShadow[300],
-              backgroundColor: status == 'started' ? 'inherit' : '#FF505013',
-              border: status == 'started' ? 'inherit' : '2px solid #FF505026',
+                status == 'started'
+                  ? colors.boxShadow[200]
+                  : colors.boxShadow[300],
+              backgroundColor:
+                status == 'started'
+                  ? convertHex(colors.secondary[400], 0.075)
+                  : convertHex(colors.secondary[300], 0.075),
+              border:
+                status == 'started'
+                  ? colors.boxShadow[200]
+                  : '2px solid #FF505026',
             }}
           >
             <Text color="#FFFFFFBF" fontSize="36px" fontWeight={600}>

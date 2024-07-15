@@ -133,9 +133,12 @@ const MonitorTrade = ({
                 />
               </Card>
 
-              {userWallet.deployHash && balance && (
-                <WidthDrawAccount refetchBalance={() => refetchBalance()} />
-              )}
+              {!isLoadingWallet &&
+                userWallet &&
+                userWallet.deployHash &&
+                balance && (
+                  <WidthDrawAccount refetchBalance={() => refetchBalance()} />
+                )}
               <DespositAccount
                 refetchWallet={refetchWallet}
                 userWallet={userWallet}
