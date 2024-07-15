@@ -172,7 +172,7 @@ const MonitorTrade = ({
         >
           <Text>Events Log</Text>
           <HStack>
-            {!isLoadingWallet && userWallet.deployHash ? (
+            {!isLoadingWallet && userWallet && userWallet.deployHash ? (
               <Link
                 href={`${STARK_SCAN.LINK_ACCOUNT}/${userWallet.payerAddress}`}
                 target="_blank"

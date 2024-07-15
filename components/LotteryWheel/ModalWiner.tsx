@@ -13,7 +13,7 @@ const ModalWiner = ({
   pointTotal,
 }: ModalWinerProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={true} onClose={onClose}>
       <ModalOverlay />
       <ModalBody></ModalBody>
     </Modal>

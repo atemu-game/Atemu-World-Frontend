@@ -43,7 +43,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
       let animationSlider = -25;
       let t;
       chart.setTitle({
-        text: 'Wheel is spinning...',
+        text: 'Spinning...',
       });
       let physics = {
         force: 0,

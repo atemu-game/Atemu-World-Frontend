@@ -107,6 +107,9 @@ const FuelPage = () => {
               padding={4}
               width="full"
               borderLeft="2px solid transparent"
+              backgroundImage={`url('/assets/arts/bg_whale.svg')`}
+              backgroundPosition="center"
+              backgroundSize="contain"
               style={{
                 borderImageSlice: 2,
                 borderImageSource:
