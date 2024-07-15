@@ -108,9 +108,14 @@ const FuelPage = () => {
               padding={4}
               width="full"
               borderLeft="2px solid transparent"
+              style={{
+                borderImageSlice: 2,
+                borderImageSource: ` linear-gradient(90.73deg, rgba(232, 183, 124, 0.15) -5.34%, rgba(253, 217, 105, 0.15) 51.67%, rgba(178, 113, 34, 0.15) 116.05%)`,
+              }}
               backgroundImage={`url('/assets/arts/bg_whale.svg')`}
+              bgRepeat="no-repeat"
               backgroundPosition="center"
-              backgroundSize="contain"
+              backgroundSize="cover"
             >
               <Text variant="title">Current Round</Text>
               <VStack>
@@ -129,10 +134,9 @@ const FuelPage = () => {
         <Flex flexDirection="column" gap={4} width="380px">
           <Card>
             <Box padding={4}>
-              <HStack justifyContent="space-between" mb={5}>
-                <Text variant="sub_title">Round: 23,234</Text>
-                <Box>1:30:00</Box>
-              </HStack>
+              <Text mb={5} variant="sub_title">
+                Round: 23,234
+              </Text>
               <Grid gridTemplateColumns={'repeat(2,1fr)'} gap={4}>
                 <Box>
                   <Text>25k</Text>

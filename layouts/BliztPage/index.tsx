@@ -25,7 +25,7 @@ import { axiosHandler } from '@/config/axiosConfig';
 import Card from '@/components/Card';
 import { colors } from '@/themes';
 import { convertHex } from '@/utils/convertHex';
-import { color } from 'highcharts';
+
 // TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
