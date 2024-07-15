@@ -82,6 +82,7 @@ const BliztPage = () => {
     refetchInterval: 10_000,
     blockIdentifier: 'latest' as BlockNumber,
   });
+
   const toast = useToast({
     position: 'top-right',
     duration: 5000,
@@ -223,7 +224,7 @@ const BliztPage = () => {
 
                   <Text>Current Block</Text>
                 </Box>
-                <Box>
+                {/* <Box>
                   <Text fontWeight="bold" color="primary.100">
                     1,654,456
                   </Text>
@@ -239,7 +240,7 @@ const BliztPage = () => {
                   )}
 
                   <Text>Wallet Balance</Text>
-                </Box>
+                </Box> */}
                 <Box>
                   {!isLoadingWallet && userWallet ? (
                     <>{userWallet.deployHash && <MintTransfer />}</>

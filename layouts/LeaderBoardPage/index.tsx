@@ -59,7 +59,15 @@ const LeaderPage = () => {
   return (
     <Flex flexDirection="column">
       <Text variant="title">Leaderboard</Text>
-      <Card as={VStack} py={6}>
+      <Card
+        as={VStack}
+        py={6}
+        variant="content_secondary"
+        backgroundImage={`url('/assets/arts/bg_leaderboard.svg')`}
+        bgPosition="center"
+        bgRepeat="no-repeat"
+        bgSize="cover"
+      >
         <Text>Season 1</Text>
         <Text
           fontSize="24px"
@@ -112,12 +120,23 @@ const LeaderPage = () => {
                 <>
                   {Array.from({ length: 10 }).map((_, index) => (
                     <Tr key={`leaderboard-${index}`}>
-                      <Td>Rank</Td>
                       <Td>
-                        0x018bd03138fa59a84bbcae32efa4b80726b242897e4378fdb016f66333c3aeb4
+                        <Skeleton>Rank</Skeleton>
                       </Td>
-                      <Td>100</Td>
-                      <Td>100000</Td>
+
+                      <Td>
+                        <Skeleton>
+                          0x05a2f4c3bcbe542d6a655fb31eca2914f884dd8a1c23ea0b1b210746c28cfa3a
+                        </Skeleton>
+                      </Td>
+
+                      <Td>
+                        <Skeleton>3070</Skeleton>
+                      </Td>
+
+                      <Td>
+                        <Skeleton>July 13, 2024 at 04:49 AM</Skeleton>
+                      </Td>
                     </Tr>
                   ))}
                 </>

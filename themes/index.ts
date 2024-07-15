@@ -253,6 +253,16 @@ const CardBox: ComponentStyleConfig = {
       borderImageSource:
         'linear-gradient(90.73deg, #E8B77C -5.34%, #FDD969 51.67%, #B27122 116.05%)',
     }),
+    content_secondary: {
+      border: '1px solid transparent',
+      color: '#FFFFFFBF',
+      background: `${convertHex(colors.secondary[400], 0.05)}`,
+      borderColor: convertHex(colors.secondary[400], 0.5),
+      boxShadow: `0px 4px 16px 0px #2FD3B5 inset,
+       0px -4px 16px 0px ${convertHex('#FFFFFF', 0.75)} inset,
+       4px 0px 16px 0px ${convertHex('#2FD3B5', 0.5)} inset,
+       -4px 0px 16px 0px ${convertHex('#2FD3B5', 0.05)} inset`,
+    },
   },
   defaultProps: {
     variant: 'shadow',

@@ -57,7 +57,6 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
       <Modal isOpen={isOpen} onClose={onClose} isCentered variant="primary">
         <ModalOverlay />
         <ModalContent>
-          <ModalCloseButton />
           <ModalBody>
             <Flex flexDirection="column" gap={5}>
               <Box>

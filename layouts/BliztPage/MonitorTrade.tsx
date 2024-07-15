@@ -152,15 +152,7 @@ const MonitorTrade = ({
       </Grid>
 
       <Card
-        variant="content"
-        background={`${convertHex(colors.secondary[400], 0.05)}`}
-        border="1px solid "
-        color="white"
-        borderColor={convertHex(colors.secondary[400], 0.5)}
-        boxShadow={`0px 4px 16px 0px #2FD3B5 inset,
-       0px -4px 16px 0px ${convertHex('#FFFFFF', 0.75)} inset,
-       4px 0px 16px 0px ${convertHex('#2FD3B5', 0.5)} inset,
-       -4px 0px 16px 0px ${convertHex('#2FD3B5', 0.05)} inset`}
+        variant="content_secondary"
         fontWeight={700}
         height={500}
         position="relative"
