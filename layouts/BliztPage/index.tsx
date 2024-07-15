@@ -12,8 +12,6 @@ import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
 import { useAuth } from '@/hooks/useAuth';
 
-import DespositAccount from './DespositAccount';
-
 import MintTransfer from './MintTransfer';
 import RequireConnectWallet from '@/components/ConnectWallet/RequireConnectWallet';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
@@ -151,10 +149,11 @@ const BliztPage = () => {
       {userAddress ? (
         <Box>
           <Card variant="shadow" textAlign="center" py={10}>
-            <Text color="#FFFFFFBF" fontSize="48px" fontWeight={600}>
+            <Text color="#FFFFFFBF" fontSize="36px" fontWeight={600}>
               Your Points
             </Text>
             <Text
+              lineHeight="normal"
               fontWeight="900"
               fontSize="124px"
               color={status == 'started' ? 'secondary.400' : 'secondary.300'}
@@ -220,23 +219,13 @@ const BliztPage = () => {
 
                   <Text>Wallet Balance</Text>
                 </Box>
-
-                {/* <HStack gap={3} flexWrap="wrap">
+                <Box>
                   {!isLoadingWallet && userWallet ? (
-                    <>
-                      {userWallet.deployHash && <MintTransfer />}
-                      <DespositAccount
-                        refetchWallet={refetchWallet}
-                        userWallet={userWallet}
-                        refetchBalance={async () => {
-                          await refetchBalancePayer();
-                        }}
-                      />
-                    </>
+                    <>{userWallet.deployHash && <MintTransfer />}</>
                   ) : (
                     <Skeleton>Loading Content Information Wallet</Skeleton>
                   )}
-                </HStack> */}
+                </Box>
               </Card>
               <MonitorTrade
                 balance={balance}

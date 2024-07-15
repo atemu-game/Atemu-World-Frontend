@@ -1,8 +1,10 @@
 'use client';
 import Card from '@/components/Card';
+import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
 import TimeReminder from '@/components/TimeReminder';
 import { axiosHandlerNoBearer } from '@/config/axiosConfig';
 import { useAuth } from '@/hooks/useAuth';
+import { formatDateData } from '@/utils/date';
 import {
   Flex,
   Grid,
@@ -92,9 +94,17 @@ const LeaderPage = () => {
                   {dataLeaderboard.items.map((item: any, index: number) => (
                     <Tr key={`leaderboard-${index}`}>
                       <Td>{index + 1}</Td>
-                      <Td>{item.address}</Td>
+                      <Td as={HStack}>
+                        <Text color="primary.100">{item.address}</Text>
+
+                        <CopyClipBoard
+                          context={item.address}
+                          color="primary.100"
+                          aria-label="Copy Clipboard"
+                        />
+                      </Td>
                       <Td>{item.points}</Td>
-                      <Td>{item.updatedAt}</Td>
+                      <Td>{formatDateData(new Date(item.updatedAt))}</Td>
                     </Tr>
                   ))}
                 </>

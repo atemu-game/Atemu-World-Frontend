@@ -113,7 +113,7 @@ const Text: ComponentStyleConfig = {
   },
 };
 
-export const Menu: ComponentStyleConfig = {
+const Menu: ComponentStyleConfig = {
   variants: {
     profile: {
       list: {
@@ -199,7 +199,7 @@ const Radio: ComponentStyleConfig = {
     },
   },
 };
-export const CardBox: ComponentStyleConfig = {
+const CardBox: ComponentStyleConfig = {
   baseStyle: {
     // width: '100%',
     // height: '100%',
@@ -239,7 +239,7 @@ export const CardBox: ComponentStyleConfig = {
     variant: 'shadow',
   },
 };
-export const Table: ComponentStyleConfig = {
+const Table: ComponentStyleConfig = {
   variants: {
     leaderboard: (props: StyleFunctionProps) => ({
       table: {
@@ -259,6 +259,30 @@ export const Table: ComponentStyleConfig = {
     }),
   },
 };
+const Modal: ComponentStyleConfig = {
+  variants: {
+    primary: {
+      overlay: {
+        background: 'rgba(0, 0, 0, 0.5)',
+      },
+      dialog: {
+        background: 'primary.300',
+        padding: 4,
+        borderRadius: '0',
+        boxShadow: ` 0px 4px 16px 0px #E8B77C40 inset, 0px -4px 16px 0px #E8B77C40 inset,4px 0px 16px 0px #E8B77C26 inset,-4px 0px 16px 0px #E8B77C26 inset`,
+      },
+      body: {
+        background: 'primary.300',
+        px: 5,
+        py: 8,
+        border: '2px solid transparent',
+        borderImageSlice: 2,
+        borderImageSource:
+          'linear-gradient(90.73deg, rgba(232, 183, 124, 0.5) -5.34%, rgba(253, 217, 105, 0.5) 51.67%, rgba(178, 113, 34, 0.5) 116.05%)',
+      },
+    },
+  },
+};
 
 const theme = extendTheme({
   colors,
@@ -271,6 +295,7 @@ const theme = extendTheme({
     Radio,
     CardBox,
     Table,
+    Modal,
   },
 });
 

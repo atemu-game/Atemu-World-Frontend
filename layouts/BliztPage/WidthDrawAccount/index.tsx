@@ -18,6 +18,7 @@ import React, { useState } from 'react';
 
 import { axiosHandler } from '@/config/axiosConfig';
 import Card from '@/components/Card';
+import { ellipseMiddle } from '@/utils/formatAddress';
 
 // WidthDrawAccount Payer component Modal
 interface IProps {
@@ -40,9 +41,9 @@ const WidthDrawAccount = ({ refetchBalance }: IProps) => {
       <Button variant="primary" width="fit-content" onClick={onOpen}>
         Withdraw
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered variant="primary">
         <ModalOverlay />
-        <ModalContent background="body">
+        <ModalContent>
           <ModalBody>
             <Flex flexDirection="column" gap={5}>
               <Text variant="title" textAlign="center">
@@ -67,7 +68,7 @@ const WidthDrawAccount = ({ refetchBalance }: IProps) => {
                   textOverflow="ellipsis"
                   maxWidth={{ lg: 'full', base: '300px' }}
                 >
-                  {userAddress}
+                  {userAddress && ellipseMiddle(userAddress, 16, 16)}
                   <CopyClipBoard
                     ml={3}
                     context={userAddress ? userAddress : ''}
@@ -97,8 +98,6 @@ const WidthDrawAccount = ({ refetchBalance }: IProps) => {
                   flexGrow={1}
                   width="fit-content"
                   variant="primary"
-                  color="black"
-                  background="secondary.100"
                   isLoading={isLoading}
                   isDisabled={amountWidthDraw === 0}
                   onClick={() => {

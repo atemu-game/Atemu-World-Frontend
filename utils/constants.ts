@@ -36,4 +36,7 @@ export enum BliztEvent {
 
 export type TXRType = 'success' | 'rejected' | 'error' | 'reverted';
 
-export const STARKSCAN_LINK = 'https://sepolia.starkscan.co/tx';
+export enum STARK_SCAN {
+  LINK_TX = 'https://sepolia.starkscan.co/tx',
+  LINK_ACCOUNT = 'https://sepolia.starkscan.co/contract',
+}

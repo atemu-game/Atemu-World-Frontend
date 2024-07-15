@@ -19,11 +19,11 @@ import { UserWalletProps } from '.';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import ClearIcon from '@/public/assets/icons/clear.svg';
 import Link from 'next/link';
-import { STARKSCAN_LINK } from '@/utils/constants';
 
 import WidthDrawAccount from './WidthDrawAccount';
 import Card from '@/components/Card';
 import DespositAccount from './DespositAccount';
+import { STARK_SCAN } from '@/utils/constants';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -133,7 +133,7 @@ const MonitorTrade = ({
                 />
               </Card>
 
-              {balance && (
+              {userWallet.deployHash && balance && (
                 <WidthDrawAccount refetchBalance={() => refetchBalance()} />
               )}
               <DespositAccount
@@ -171,12 +171,27 @@ const MonitorTrade = ({
           justifyContent="space-between"
         >
           <Text>Events Log</Text>
-          <IconButton
-            onClick={handleClearEventLog}
-            icon={<Icon as={ClearIcon} height={5} width={5} />}
-            aria-label="icon clear button"
-            variant="icon_btn"
-          />
+          <HStack>
+            {!isLoadingWallet && userWallet.deployHash ? (
+              <Link
+                href={`${STARK_SCAN.LINK_ACCOUNT}/${userWallet.payerAddress}`}
+                target="_blank"
+              >
+                <Text color="white" textDecoration="underline">
+                  {ellipseMiddle(userWallet.payerAddress, 6, 6)}
+                </Text>
+              </Link>
+            ) : (
+              <Skeleton>0x498a...0fab01</Skeleton>
+            )}
+
+            <IconButton
+              onClick={handleClearEventLog}
+              icon={<Icon as={ClearIcon} height={5} width={5} />}
+              aria-label="icon clear button"
+              variant="icon_btn"
+            />
+          </HStack>
         </HStack>
 
         <Flex
@@ -198,7 +213,7 @@ const MonitorTrade = ({
                   <Text>{currentDate}</Text>
                   <Tooltip hasArrow label="View in Starkscan" placement="top">
                     <Link
-                      href={`${STARKSCAN_LINK}/${log.transactionHash}`}
+                      href={`${STARK_SCAN.LINK_TX}/${log.transactionHash}`}
                       target="_blank"
                     >
                       {log.transactionHash}
