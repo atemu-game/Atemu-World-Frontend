@@ -16,7 +16,7 @@ import MintTransfer from './MintTransfer';
 import RequireConnectWallet from '@/components/ConnectWallet/RequireConnectWallet';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { useBlock } from '@starknet-react/core';
-import { BlockNumber, num, ResponseParser } from 'starknet';
+import { BlockNumber, num } from 'starknet';
 
 import { BliztEvent } from '@/utils/constants';
 import { socketAPI } from '@/config/socketConfig';
@@ -42,14 +42,7 @@ export interface UserWalletProps {
 }
 const BliztPage = () => {
   const { userAddress } = useAuth();
-  const {
-    point,
-    balance,
-    handleSetBalance,
-    handleSetTransaction,
-    handleSetStatus,
-    handleSetPoint,
-  } = useCreatorAccount();
+  const { point, balance, handleSetBalance } = useCreatorAccount();
   const {
     data: userWallet,
     isLoading: isLoadingWallet,
@@ -82,60 +75,6 @@ const BliztPage = () => {
     refetchInterval: 10_000,
     blockIdentifier: 'latest' as BlockNumber,
   });
-
-  const toast = useToast({
-    position: 'top-right',
-    duration: 5000,
-    isClosable: true,
-  });
-
-  useEffect(() => {
-    if (socketAPI && socketAPI.active) {
-      try {
-        socketAPI.on(BliztEvent.BLIZT_POINT, data => {
-          handleSetPoint(data);
-        });
-        socketAPI.on(BliztEvent.BLIZT_STATUS, data => {
-          handleSetStatus(data);
-          if (data === 'balance_low') {
-            toast({
-              title: 'Balance low',
-              description: 'Please deposit more ETH to continue',
-              status: 'info',
-            });
-          }
-        });
-        socketAPI.on(BliztEvent.BLIZT_BALANCE, data => {
-          handleSetBalance(data);
-        });
-        socketAPI.on(BliztEvent.BLIZT_TRANSACTION, data => {
-          handleSetTransaction(
-            data.transactionHash,
-            data.status,
-            data.timestamp
-          );
-        });
-        socketAPI.on('disconnect', () => {
-          socketAPI.disconnect();
-          handleSetStatus('stopped');
-        });
-        socketAPI.on('error', message => {
-          handleSetStatus('stopped');
-          toast({
-            title: 'Error',
-            description: message,
-            status: 'error',
-          });
-        });
-      } catch (error: any) {
-        toast({
-          title: 'Error',
-          description: error.message,
-          status: 'error',
-        });
-      }
-    }
-  }, [socketAPI]);
 
   useEffect(() => {
     const handleChangeWallet = async () => {
@@ -174,14 +113,29 @@ const BliztPage = () => {
             <Text color="#FFFFFFBF" fontSize="36px" fontWeight={600}>
               Your Points
             </Text>
-            <Text
-              lineHeight="normal"
-              fontWeight="900"
-              fontSize="124px"
-              color={status == 'started' ? 'secondary.400' : 'secondary.300'}
-            >
-              {point}
-            </Text>
+            {point == undefined ? (
+              <Skeleton>
+                <Text
+                  lineHeight="normal"
+                  fontWeight="900"
+                  fontSize="124px"
+                  color={
+                    status == 'started' ? 'secondary.400' : 'secondary.300'
+                  }
+                >
+                  Loading Point
+                </Text>
+              </Skeleton>
+            ) : (
+              <Text
+                lineHeight="normal"
+                fontWeight="900"
+                fontSize="124px"
+                color={status == 'started' ? 'secondary.400' : 'secondary.300'}
+              >
+                {point}
+              </Text>
+            )}
           </Card>
 
           <HStack

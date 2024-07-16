@@ -40,7 +40,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
       let strengthSlider = 0;
       let dragSlider = 0;
       let lengthSlider = 10;
-      let animationSlider = -25;
+      let animationSlider = 25;
       let t;
       chart.setTitle({
         text: 'Spinning...',
@@ -255,7 +255,8 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
           pointFormat: 'Point Percentage: <b>{point.percentage:.1f}%</b>',
         },
         title: {
-          text: totalPoint,
+          // text: totalPoint,
+          text: timer,
           verticalAlign: 'middle',
           floating: true,
           style: {
@@ -338,6 +339,9 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
     const countdown = setInterval(() => {
       if (timer > 0) {
         timer--;
+        chart.setTitle({
+          text: timer.toString(),
+        });
         updateCircle(timer);
       } else {
         findTheWinner();

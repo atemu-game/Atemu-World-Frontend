@@ -28,10 +28,10 @@ const MintTransfer = () => {
 
     // Cleanup the event listener on component unmount
     return () => {
-      handleSetStatus('stopped');
-      if (socketAPI) {
-        disconnectSocket();
-      }
+      // handleSetStatus('stopped');
+      // if (socketAPI) {
+      //   disconnectSocket();
+      // }
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
