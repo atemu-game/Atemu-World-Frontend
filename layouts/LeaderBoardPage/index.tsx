@@ -64,18 +64,25 @@ const LeaderPage = () => {
         py={6}
         variant="content_secondary"
         backgroundImage={`url('/assets/arts/bg_leaderboard.svg')`}
+        bg={`linear-gradient(90deg, rgba(255, 150, 52, 0.15) -15.67%, rgba(255, 80, 80, 0.15) 118.84%)`}
         bgPosition="center"
         bgRepeat="no-repeat"
+        boxShadow={`0px 4px 16px 0px #FF963440 inset,0px -4px 16px 0px #EF468340 inset,4px 0px 16px 0px #FF963426 inset,-4px 0px 16px 0px #EF468326 inset`}
+        style={{
+          borderImageSource: `linear-gradient(90deg, rgba(255, 150, 52, 0.5) -15.67%, rgba(255, 80, 80, 0.5) 118.84%)`,
+        }}
         bgSize="cover"
       >
         <Text>Season 1</Text>
         <Text
-          fontSize="24px"
-          fontWeight="bold"
-          color="secondary.400"
+          fontSize="36px"
+          lineHeight="normal"
+          variant="gradient_text"
+          bg="linear-gradient(90deg, #FF9634 -15.67%, #FF5050 118.84%)"
           textTransform="uppercase"
+          fontWeight="bold"
         >
-          Rise of the ash
+          Rise from the ash
         </Text>
         <HStack>
           <Text>Time remaining:</Text>

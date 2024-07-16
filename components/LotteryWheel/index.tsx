@@ -126,51 +126,51 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
   };
   const updateCircle = (newTimer: number) => {
     if (chart) {
-      // if (chart.customOverlay) {
-      //   chart.customOverlay.destroy();
-      //   chart.customOverlay = undefined;
-      // }
-      // const centerX = chart.plotLeft + chart.plotSizeX / 2;
-      // const centerY = chart.plotTop + chart.plotSizeY / 2;
-      // const radius = chart.series[0].data[0].shapeArgs.r;
-      // const angle = newTimer * 360;
-
-      // const overlayArc = chart.renderer
-      //   .arc(centerX, centerY, radius, radius, 0, angle)
-      //   .attr({
-      //     fill: 'none',
-      //     stroke: '#DFAA6C',
-      //     'stroke-width': 10,
-      //     zIndex: 3,
-      //   });
-
-      // chart.customOverlay = chart.renderer.g('timer-atemu').add();
-      // overlayArc.add(chart.customOverlay);
-
       if (chart.customOverlay) {
         chart.customOverlay.destroy();
         chart.customOverlay = undefined;
       }
+      const centerX = chart.plotLeft + chart.plotSizeX / 2;
+      const centerY = chart.plotTop + chart.plotSizeY / 2;
+      const radius = chart.series[0].data[0].shapeArgs.r;
+      const angle = newTimer * 360;
 
-      let ren = chart.renderer,
-        centerX = chart.plotLeft + chart.plotSizeX / 2,
-        centerY = chart.plotTop + chart.plotSizeY / 2,
-        radius = [chart.series[0].data[0].shapeArgs.r];
-      chart.customCircles = chart.renderer.g('customCircles').add();
+      const overlayArc = chart.renderer
+        .arc(centerX, centerY, radius, radius, 0, angle)
+        .attr({
+          fill: 'none',
+          stroke: '#DFAA6C',
+          'stroke-width': 10,
+          zIndex: 3,
+        });
 
-      //Render custom circles
+      chart.customOverlay = chart.renderer.g('timer-atemu').add();
+      overlayArc.add(chart.customOverlay);
 
-      radius.forEach(rad => {
-        ren
-          .circle(centerX, centerY, rad)
-          .attr({
-            fill: 'none',
-            stroke: 'red',
-            'stroke-width': 10,
-            padding: 3,
-          })
-          .add(chart.customCircles);
-      });
+      // if (chart.customOverlay) {
+      //   chart.customOverlay.destroy();
+      //   chart.customOverlay = undefined;
+      // }
+
+      // let ren = chart.renderer,
+      //   centerX = chart.plotLeft + chart.plotSizeX / 2,
+      //   centerY = chart.plotTop + chart.plotSizeY / 2,
+      //   radius = [chart.series[0].data[0].shapeArgs.r];
+      // chart.customCircles = chart.renderer.g('customCircles').add();
+
+      // //Render custom circles
+
+      // radius.forEach(rad => {
+      //   ren
+      //     .circle(centerX, centerY, rad)
+      //     .attr({
+      //       fill: 'none',
+      //       stroke: 'red',
+      //       'stroke-width': 10,
+      //       padding: 3,
+      //     })
+      //     .add(chart.customCircles);
+      // });
     }
   };
   useEffect(() => {

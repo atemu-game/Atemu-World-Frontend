@@ -16,7 +16,7 @@ import MintTransfer from './MintTransfer';
 import RequireConnectWallet from '@/components/ConnectWallet/RequireConnectWallet';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { useBlock } from '@starknet-react/core';
-import { BlockNumber } from 'starknet';
+import { BlockNumber, num, ResponseParser } from 'starknet';
 
 import { BliztEvent } from '@/utils/constants';
 import { socketAPI } from '@/config/socketConfig';
@@ -25,8 +25,8 @@ import { axiosHandler } from '@/config/axiosConfig';
 import Card from '@/components/Card';
 import { colors } from '@/themes';
 import { convertHex } from '@/utils/convertHex';
+import { formatBalance } from '@/utils/formatAddress';
 
-// TODO MOVE NEW TYPE
 export interface UserWalletProps {
   payerAddress: string;
 
@@ -224,23 +224,23 @@ const BliztPage = () => {
 
                   <Text>Current Block</Text>
                 </Box>
-                {/* <Box>
-                  <Text fontWeight="bold" color="primary.100">
-                    1,654,456
-                  </Text>
-                  <Text>Current TX</Text>
-                </Box>
                 <Box>
-                  {isLoadingBalancePayer ? (
-                    <Skeleton>999999</Skeleton>
-                  ) : (
+                  {!isLoadingBlock && dataBlock ? (
                     <Text fontWeight="bold" color="primary.100">
-                      {Number(balance).toFixed(3)} ETH
+                      {formatBalance(
+                        num.getDecimalString(
+                          (dataBlock as any).l1_gas_price.price_in_fri
+                        ) as any,
+                        18
+                      )}
                     </Text>
+                  ) : (
+                    <Skeleton>999999</Skeleton>
                   )}
 
-                  <Text>Wallet Balance</Text>
-                </Box> */}
+                  <Text>Estimate Gas</Text>
+                </Box>
+
                 <Box>
                   {!isLoadingWallet && userWallet ? (
                     <>{userWallet.deployHash && <MintTransfer />}</>

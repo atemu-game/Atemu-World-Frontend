@@ -10,7 +10,6 @@ interface IProps {
 const ShowCounter = ({ days, hours, minutes, seconds }: IProps) => {
   return (
     <HStack
-      my={{ md: 6, base: 4 }}
       gap={1}
       flexWrap={{ md: 'nowrap', base: 'wrap' }}
       justifyContent="center"

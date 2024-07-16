@@ -15,6 +15,7 @@ import YourEntries from './YourEntries';
 
 import LotteryWheel from '@/components/LotteryWheel';
 import Card from '@/components/Card';
+
 export interface PlayerProps {
   address: string;
   pointTotal: number;
