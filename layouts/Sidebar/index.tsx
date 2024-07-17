@@ -7,7 +7,7 @@ const Sidebar = () => {
     <Box
       flexDir="column"
       gap={6}
-      padding={6}
+      py={6}
       borderRight="1px solid"
       minH="100vh"
       w="180px"

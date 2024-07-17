@@ -55,7 +55,7 @@ const styles = {
 const Button: ComponentStyleConfig = {
   variants: {
     primary: {
-      background: `url('./assets/arts/bg_button.svg')`,
+      background: `url('./assets/arts/bg/bg_button.svg')`,
       overflow: 'hidden',
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',
@@ -70,7 +70,7 @@ const Button: ComponentStyleConfig = {
       transition: 'all 0.2s',
       color: 'primary.100',
       _hover: {
-        background: `url('./assets/arts/bg_button_hover.svg')`,
+        background: `url('./assets/arts/bg/bg_button_hover.svg')`,
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',

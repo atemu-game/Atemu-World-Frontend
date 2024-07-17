@@ -119,7 +119,7 @@ const FuelPage = () => {
                 borderImageSlice: 2,
                 borderImageSource: ` linear-gradient(90.73deg, rgba(232, 183, 124, 0.15) -5.34%, rgba(253, 217, 105, 0.15) 51.67%, rgba(178, 113, 34, 0.15) 116.05%)`,
               }}
-              backgroundImage={`url('/assets/arts/bg_whale.svg')`}
+              backgroundImage={`url('/assets/arts/bg/bg_whale.svg')`}
               bgRepeat="no-repeat"
               backgroundPosition="center"
               backgroundSize="cover"

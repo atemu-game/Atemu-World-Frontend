@@ -63,7 +63,7 @@ const LeaderPage = () => {
         as={VStack}
         py={6}
         variant="content_secondary"
-        backgroundImage={`url('/assets/arts/bg_leaderboard.svg')`}
+        backgroundImage={`url('/assets/arts/bg/bg_leaderboard.svg')`}
         bg={`linear-gradient(90deg, rgba(255, 150, 52, 0.15) -15.67%, rgba(255, 80, 80, 0.15) 118.84%)`}
         bgPosition="center"
         bgRepeat="no-repeat"

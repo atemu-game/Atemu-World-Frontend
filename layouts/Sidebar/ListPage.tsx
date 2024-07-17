@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 
 import { Box, BoxProps, Icon, Text } from '@chakra-ui/react';
 import Link from 'next/link';
+import { colors } from '@/themes';
 
 interface ListPageProps {
   link: string;
@@ -91,22 +92,33 @@ const ListPage = ({ sx }: IProps) => {
                 <Text fontWeight={600}>{item.label}</Text>
               </Box>
             ) : (
-              <Link href={item.link}>
+              <Link
+                href={item.link}
+                style={{
+                  width: '100%',
+                }}
+              >
                 <Box
                   display="flex"
                   alignItems="center"
+                  justifyContent="center"
                   flexDirection="column"
+                  py={2}
                   transition="all 0.3s"
-                  color={pageActive() ? 'white' : 'inherit'}
+                  background={pageActive() ? 'primary.300' : 'transparent'}
+                  boxShadow={pageActive() ? colors.boxShadow[100] : 'none'}
+                  borderLeft={
+                    pageActive() ? '8px solid' : '8px solid transparent'
+                  }
+                  borderLeftColor={pageActive() ? 'primary.100' : 'transparent'}
+                  color={pageActive() ? 'primary.100' : 'inherit'}
                   _hover={{
-                    color: 'white',
+                    color: 'primary.100',
                   }}
                   {...sx}
                 >
-                  <Icon as={item.icon} height={6} width={6} />
-                  <Text fontSize="lg" fontWeight={700}>
-                    {item.label}
-                  </Text>
+                  <Icon as={item.icon} height={12} width={12} />
+                  <Text fontWeight={700}>{item.label}</Text>
                 </Box>
               </Link>
             )}

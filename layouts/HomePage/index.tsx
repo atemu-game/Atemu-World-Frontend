@@ -18,7 +18,7 @@ const HomePage = () => {
     >
       <Box position="relative">
         <ChakraNextImage
-          src="/assets/arts/home_bg.svg"
+          src="/assets/arts/bg/home_bg.svg"
           width={1374.8}
           height={773.3}
           aria-label=""

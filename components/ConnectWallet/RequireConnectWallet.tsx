@@ -13,7 +13,7 @@ const RequireConnectWallet = () => {
         height="100vh"
         width="full"
         // bgColor="primary.200"
-        backgroundImage={`url('./assets/arts/bg_require_connect.svg')`}
+        backgroundImage={`url('./assets/arts/bg/bg_require_connect.svg')`}
         backgroundPosition="center"
         justifyContent="center"
         alignItems="center"

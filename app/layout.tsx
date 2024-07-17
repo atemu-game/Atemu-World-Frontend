@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     description: 'Atemu Game of RYG Labs',
     images: [
       {
-        url: './public/assets/arts/home_bg.svg',
+        url: './public/assets/arts/bg/home_bg.svg',
         width: 1200,
         height: 600,
         type: 'image/png',
