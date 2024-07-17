@@ -15,6 +15,9 @@ import YourEntries from './YourEntries';
 
 import LotteryWheel from '@/components/LotteryWheel';
 import Card from '@/components/Card';
+import TimeReminder from '@/components/TimeReminder';
+import { useCountdown } from '@/hooks/useCountDown';
+import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
 
 export interface PlayerProps {
   address: string;
@@ -81,6 +84,9 @@ const FuelPage = () => {
     'spell',
     'trap',
   ];
+  const [days, hours, minutes, seconds] = useCountdown(
+    new Date().getTime() + 45 * 60 * 1000
+  );
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
@@ -118,7 +124,32 @@ const FuelPage = () => {
               backgroundPosition="center"
               backgroundSize="cover"
             >
-              <Text variant="title">Current Round</Text>
+              <HStack justifyContent="space-between">
+                <Text variant="title">Current Round</Text>
+
+                <Card variant="content_secondary" px={2}>
+                  <HStack>
+                    <DateTimeDisplay
+                      value={minutes}
+                      type={'M'}
+                      style={{
+                        fontWeight: 'bold',
+                        bg: 'secondary.400',
+                      }}
+                    />
+                    <p>:</p>
+                    <DateTimeDisplay
+                      value={seconds}
+                      type={'S'}
+                      style={{
+                        fontWeight: 'bold',
+                        bg: 'secondary.400',
+                      }}
+                    />
+                  </HStack>
+                </Card>
+              </HStack>
+
               <VStack>
                 <LotteryWheel
                   dataSeries={CurentPlayerMock}

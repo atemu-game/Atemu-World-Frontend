@@ -105,12 +105,6 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
           ) {
             const nextWinner = findWinner(chart.series[0].data);
             if (currentWinner == nextWinner) {
-              // chart.setTitle({
-              //   text:
-              //     'The winner is ' +
-              //     chart.series[0].data[currentWinner].name +
-              //     '!',
-              // });
               chart.setTitle({
                 text: '',
               });
@@ -133,7 +127,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
       const centerX = chart.plotLeft + chart.plotSizeX / 2;
       const centerY = chart.plotTop + chart.plotSizeY / 2;
       const radius = chart.series[0].data[0].shapeArgs.r;
-      const angle = newTimer * 360;
+      const angle = newTimer * dataSeries.length * (Math.pow(Math.PI, 2) / 360);
 
       const overlayArc = chart.renderer
         .arc(centerX, centerY, radius, radius, 0, angle)
@@ -141,7 +135,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
           fill: 'none',
           stroke: '#DFAA6C',
           'stroke-width': 10,
-          zIndex: 3,
+          zIndex: 13,
         });
 
       chart.customOverlay = chart.renderer.g('timer-atemu').add();
@@ -156,7 +150,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
       //   centerX = chart.plotLeft + chart.plotSizeX / 2,
       //   centerY = chart.plotTop + chart.plotSizeY / 2,
       //   radius = [chart.series[0].data[0].shapeArgs.r];
-      // chart.customCircles = chart.renderer.g('customCircles').add();
+      // chart.customCircles = chart.renderer.g('timer-atemu').add();
 
       // //Render custom circles
 
@@ -181,9 +175,9 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       chart = Highcharts.chart('chart-wheel', {
         chart: {
-          animation: {
-            duration: 500,
-          },
+          // animation: {
+          //   duration: 500,
+          // },
           backgroundColor: 'transparent',
           margin: [0, 0, 0, 0],
           spacingTop: 0,
@@ -226,7 +220,6 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
                     fill: 'none',
                     stroke: '#E8B77C1A',
                     'stroke-width': 10,
-                    padding: 20,
                   })
                   .add(this.customCircles);
               });
