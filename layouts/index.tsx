@@ -16,6 +16,9 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
           width="full"
           flexDirection="column"
           background={`url('./assets/arts/banner.svg')`}
+          backgroundSize="cover"
+          backgroundPosition="center"
+          backgroundRepeat="no-repeat"
         >
           <Header />
           <Flex width="full" position="sticky">

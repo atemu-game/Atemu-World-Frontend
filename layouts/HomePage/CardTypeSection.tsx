@@ -1,8 +1,8 @@
 import { Box, Grid, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-import CardImg1 from '@/public/assets/arts/card_1.png';
-import CardImg2 from '@/public/assets/arts/card_2.png';
-import CardImg3 from '@/public/assets/arts/card_3.png';
+import CardImg1 from '@/public/assets/arts/card/card_1.png';
+import CardImg2 from '@/public/assets/arts/card/card_2.png';
+import CardImg3 from '@/public/assets/arts/card/card_3.png';
 import Image from 'next/image';
 const CardTypeSection = () => {
   const ListCard = [

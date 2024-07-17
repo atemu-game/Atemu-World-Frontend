@@ -1,10 +1,10 @@
 import React from 'react';
-import HomeIcon from '@/public/assets/icons/home.svg';
-import IncentiveIcon from '@/public/assets/icons/incentive_token.svg';
-import LanguageIcon from '@/public/assets/icons/language.svg';
-import FuelIcon from '@/public/assets/icons/gas.svg';
-import BliztIcon from '@/public/assets/icons/explore.svg';
-import LeaderIcon from '@/public/assets/icons/leaderboard.svg';
+import HomeIcon from '@/public/assets/arts/sidebar/home.svg';
+
+import FuelIcon from '@/public/assets/arts/sidebar/fuel.svg';
+import BlitzIcon from '@/public/assets/arts/sidebar/blitz.svg';
+import LeaderboardIcon from '@/public/assets/arts/sidebar/leaderboard.svg';
+import SpinIcon from '@/public/assets/arts/sidebar/spin.svg';
 import { usePathname } from 'next/navigation';
 
 import { Box, BoxProps, Icon, Text } from '@chakra-ui/react';
@@ -28,7 +28,7 @@ const ListPage = ({ sx }: IProps) => {
     },
     {
       link: '/blitz',
-      icon: BliztIcon,
+      icon: BlitzIcon,
       label: 'Blitz',
     },
     {
@@ -37,22 +37,28 @@ const ListPage = ({ sx }: IProps) => {
       label: 'Fuel',
     },
     {
+      link: '/spin-of-fate',
+      icon: SpinIcon,
+      label: 'Spin Of Fate',
+    },
+    {
       link: '/leaderboard',
-      icon: LeaderIcon,
+      icon: LeaderboardIcon,
       label: 'Leaderboard',
     },
-    {
-      link: '/incentives',
-      icon: IncentiveIcon,
-      label: 'Incentives',
-      isDisabled: true,
-    },
-    {
-      link: '/trade-zone',
-      icon: LanguageIcon,
-      label: 'Trade-zone',
-      isDisabled: true,
-    },
+
+    // {
+    //   link: '/incentives',
+    //   icon: IncentiveIcon,
+    //   label: 'Incentives',
+    //   isDisabled: true,
+    // },
+    // {
+    //   link: '/trade-zone',
+    //   icon: LanguageIcon,
+    //   label: 'Trade-zone',
+    //   isDisabled: true,
+    // },
   ];
   const path = usePathname();
   return (
