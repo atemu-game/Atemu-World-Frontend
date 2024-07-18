@@ -1,6 +1,9 @@
+import Card from '@/components/Card';
 import { axiosHandler, axiosHandlerNoBearer } from '@/config/axiosConfig';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+import { colors } from '@/themes';
 import { ListPublicRPC } from '@/utils/constants';
+import { convertHex } from '@/utils/convertHex';
 import { ellipseMiddle, isValidURL } from '@/utils/formatAddress';
 import {
   AbsoluteCenter,
@@ -20,7 +23,7 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 
 const SettingRpc = () => {
-  const [currentRPC, setCurrentRPC] = useState(''); // Choice of RPC Minting
+  const [currentRPC, setCurrentRPC] = useState(ListPublicRPC[0]); // Choice of RPC Minting
   const { handleChangeRPC, currentRPC: currentRPCAccount } =
     useCreatorAccount();
   const [ownerRPC, setOwnerRPC] = useState('');
@@ -53,11 +56,12 @@ const SettingRpc = () => {
       const { data } = await axiosHandler.post('/user/setting/customRPC', {
         rpc,
       });
+      setOwnerRPC('');
       return data;
     },
     onSuccess: () => {
       refetchOwnerRPC();
-      setOwnerRPC('');
+
       toast({
         title: 'Success',
         description: 'RPC has been added',
@@ -66,10 +70,10 @@ const SettingRpc = () => {
         isClosable: true,
       });
     },
-    onError: () => {
+    onError: (error: any) => {
       toast({
         title: 'Error',
-        description: 'RPC has not been added',
+        description: error.response.data.message,
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -109,17 +113,8 @@ const SettingRpc = () => {
     }
   }, [currentRPC]);
   return (
-    <>
-      <Box
-        padding={4}
-        border="1px solid"
-        borderColor="divider.100"
-        maxW={{ lg: '400px', base: 'full' }}
-        width={'full'}
-        display="flex"
-        flexDirection="column"
-        gap={6}
-      >
+    <Card w={{ md: '500px', base: 'full' }}>
+      <Box padding={4} display="flex" flexDirection="column" gap={6}>
         <Text variant="sub_title">RPCs</Text>
         <Box>
           <Text mb={8}>
@@ -151,7 +146,16 @@ const SettingRpc = () => {
                   key={`RPC-Select-${index}-${rpc}`}
                 >
                   <Tooltip hasArrow label={rpc} placement="top">
-                    {ellipseMiddle(rpc, 15, 15)}
+                    <Text
+                      fontWeight={600}
+                      color={
+                        rpc == currentRPC
+                          ? 'primary.100'
+                          : convertHex(colors.primary[100], 0.5)
+                      }
+                    >
+                      {ellipseMiddle(rpc, 15, 15)}
+                    </Text>
                   </Tooltip>
                 </Radio>
               ))}
@@ -188,11 +192,12 @@ const SettingRpc = () => {
             onChange={event => {
               setOwnerRPC(() => event.target.value);
             }}
-            defaultValue={ownerRPC}
+            value={ownerRPC}
           />
           <Button
             variant="primary"
             width="full"
+            height={12}
             borderColor="secondary.100"
             onClick={() => {
               if (!isValidURL(ownerRPC)) {
@@ -257,7 +262,7 @@ const SettingRpc = () => {
           </Button>
         </Box>
       </Box>
-    </>
+    </Card>
   );
 };
 

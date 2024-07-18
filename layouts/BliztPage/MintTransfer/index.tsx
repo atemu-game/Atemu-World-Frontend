@@ -28,10 +28,10 @@ const MintTransfer = () => {
 
     // Cleanup the event listener on component unmount
     return () => {
-      handleSetStatus('stopped');
-      if (socketAPI) {
-        disconnectSocket();
-      }
+      // handleSetStatus('stopped');
+      // if (socketAPI) {
+      //   disconnectSocket();
+      // }
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
@@ -44,6 +44,7 @@ const MintTransfer = () => {
           variant="primary"
           borderColor="secondary.400"
           minW="200px"
+          w={{ md: 'inherit', base: 'full' }}
           isLoading={isLoading}
           onClick={async () => {
             handleSetStatus('starting');
@@ -61,6 +62,7 @@ const MintTransfer = () => {
           border="1px solid"
           borderColor="secondary.400"
           minW="200px"
+          w={{ md: 'inherit', base: 'full' }}
           cursor="not-allowed"
         >
           <Spinner color="secondary.400" />
@@ -74,6 +76,7 @@ const MintTransfer = () => {
           color="secondary.300"
           key="stop"
           minW="200px"
+          w={{ md: 'inherit', base: 'full' }}
           isLoading={isLoading}
           onClick={async () => {
             handleSetStatus('stopping');
@@ -92,6 +95,7 @@ const MintTransfer = () => {
           borderColor="secondary.300"
           color="secondary.300"
           key="stop"
+          w={{ md: 'inherit', base: 'full' }}
           minW="200px"
           isLoading={true}
         >

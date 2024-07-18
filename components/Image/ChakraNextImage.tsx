@@ -22,7 +22,7 @@ const myLoader = (resolverProps: ImageLoaderProps): string => {
   return `${resolverProps.src}?w=${resolverProps.width}&q=${resolverProps.quality}`;
 };
 
-const shimmer = (w: number, h: number) => `
+export const shimmer = (w: number, h: number) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <linearGradient id="g">
@@ -42,7 +42,7 @@ const toBase64 = (str: string) =>
     : window.btoa(str);
 
 export const ChakraNextImage = (props: ImageProps) => {
-  const { src, alt, width, quality, height, priority, ...rest } = props;
+  const { src, alt, width, quality, height, ...rest } = props;
   return (
     <Box pos="relative" cursor="pointer" className="group">
       <ChakraNextUnwrappedImage
@@ -50,7 +50,7 @@ export const ChakraNextImage = (props: ImageProps) => {
         width={width}
         quality={quality}
         height={height}
-        priority={priority}
+        priority
         placeholder="blur"
         blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
         src={src}

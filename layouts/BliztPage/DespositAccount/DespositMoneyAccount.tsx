@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Flex,
   HStack,
@@ -22,6 +23,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 import systemConfig from '@/config/systemConfig';
+import Card from '@/components/Card';
+import { ellipseMiddle } from '@/utils/formatAddress';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -44,38 +47,47 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
     <>
       <Button
         variant="primary"
-        minW="200px"
         borderColor="white"
+        w={{ md: 'inherit', base: 'full' }}
         onClick={onOpen}
         isLoading={isLoading}
       >
         Deposit
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered variant="primary">
         <ModalOverlay />
-        <ModalContent background="body" padding={4}>
-          <ModalCloseButton />
+        <ModalContent>
           <ModalBody>
             <Flex flexDirection="column" gap={5}>
-              <Text variant="title" textAlign="center">
-                Deposit ETH Fund
-              </Text>
-              <Text>Please deposit your ETH fund to this account</Text>
-              <Text>Your ETH-Fund wallet</Text>
-              <HStack
-                padding={2}
-                border="1px solid"
-                borderColor="divider.100"
-                flexWrap={{
-                  md: 'nowrap',
-                  base: 'wrap',
-                }}
-              >
-                <Text
-                  textOverflow="ellipsis"
-                  maxWidth={{ lg: 'full', base: '300px' }}
+              <Box>
+                <Text variant="title" textAlign="center" mb={2}>
+                  Deposit ETH Fund
+                </Text>
+                <Text textAlign="center">
+                  Please deposit your ETH fund to this account
+                </Text>
+              </Box>
+
+              <Box>
+                <Text variant="sub_title" mb={2}>
+                  Your ETH-Fund wallet
+                </Text>
+                <HStack
+                  as={Card}
+                  variant="content"
+                  padding={2}
+                  justifyContent="space-between"
+                  flexWrap={{
+                    md: 'nowrap',
+                    base: 'wrap',
+                  }}
                 >
-                  {userWallet.payerAddress}
+                  <Text
+                    textOverflow="ellipsis"
+                    maxWidth={{ lg: 'full', base: '300px' }}
+                  >
+                    {ellipseMiddle(userWallet.payerAddress, 14, 14)}
+                  </Text>
                   <CopyClipBoard
                     ml={3}
                     context={
@@ -85,18 +97,24 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                     w={4}
                     aria-label="Copy Stark Address"
                   />
-                </Text>
-              </HStack>
+                </HStack>
+              </Box>
 
-              <Input
-                isDisabled={isLoading}
-                type="number"
-                placeholder="Type Amount you want (ETH)"
-                defaultValue={amountDesposit}
-                onChange={e => {
-                  setAmountDesposit(() => Number(e.target.value));
-                }}
-              />
+              <Box>
+                <Text variant="sub_title" mb={2}>
+                  Desposit Amount
+                </Text>
+                <Input
+                  isDisabled={isLoading}
+                  type="number"
+                  placeholder="Type Amount you want (ETH)"
+                  defaultValue={amountDesposit}
+                  onChange={e => {
+                    setAmountDesposit(() => Number(e.target.value));
+                  }}
+                />
+              </Box>
+
               <Text>
                 NOTE: Deposited ETH fund is used for deploy account (at the
                 first time) auto generate from your wallet.
@@ -109,8 +127,6 @@ const DespositMoneyAccount = ({ userWallet, refetchBalance }: IProps) => {
                   flexGrow={1}
                   width="fit-content"
                   variant="primary"
-                  color="black"
-                  background="secondary.100"
                   isLoading={isLoading}
                   onClick={() => {
                     const despositPromise = new Promise((resolve, reject) => {

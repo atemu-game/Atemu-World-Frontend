@@ -35,10 +35,12 @@ const PageDrawer = () => {
             display="flex"
             flexDirection="column"
             gap={6}
+            width="full"
           >
             <ListPage
               sx={{
                 flexDirection: 'row',
+                width: 'full',
                 gap: 4,
                 onClick: onClose,
               }}

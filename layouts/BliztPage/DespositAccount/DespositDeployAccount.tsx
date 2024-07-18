@@ -6,7 +6,6 @@ import {
   HStack,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalOverlay,
   Text,
@@ -20,6 +19,8 @@ import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { CallData, RpcProvider, uint256 } from 'starknet';
 import { axiosHandler } from '@/config/axiosConfig';
 import systemConfig from '@/config/systemConfig';
+import Card from '@/components/Card';
+import { ellipseMiddle } from '@/utils/formatAddress';
 
 interface IProps {
   userWallet: UserWalletProps;
@@ -34,31 +35,41 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
     isClosable: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+
   return (
     <>
       <Button
         variant="primary"
-        minW="200px"
+        // minW="200px"
+
         borderColor="white"
+        w={{ md: 'inherit', base: 'full' }}
         isLoading={isLoading}
         onClick={() => {
           onOpen();
         }}
       >
-        Deploy Account
+        Deploy To Start
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg">
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        size="lg"
+        variant="primary"
+      >
         <ModalOverlay />
 
-        <ModalContent background="body" padding={4}>
-          <ModalCloseButton />
+        <ModalContent>
           <ModalBody>
             <Flex flexDirection="column" gap={5}>
               <Text variant="title" textAlign="center">
                 Deposit ETH Fund
               </Text>
               <Text>Please deposit your ETH fund to this account</Text>
-              <Text>Your ETH-Fund wallet</Text>
+              <Text color="primary.100" fontWeight="bold">
+                Your ETH-Fund wallet
+              </Text>
               <HStack
                 padding={2}
                 border="1px solid"
@@ -72,23 +83,26 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                   textOverflow="ellipsis"
                   maxWidth={{ lg: 'full', base: '300px' }}
                 >
-                  {userWallet.payerAddress}
+                  {ellipseMiddle(userWallet.payerAddress, 24, 24)}
                   <CopyClipBoard
                     ml={3}
+                    color="primary.100"
                     context={
                       userWallet.payerAddress ? userWallet.payerAddress : ''
                     }
-                    h={4}
-                    w={4}
+                    h={5}
+                    w={5}
                     aria-label="Copy Stark Address"
                   />
                 </Text>
               </HStack>
               <Text>Estimated ETH to deposit</Text>
               <HStack justifyContent="space-between">
-                <Text>Fees to deploy account:</Text>
+                <Text color="primary.100" fontWeight="bold">
+                  Fees to deploy account:
+                </Text>
                 <Text fontWeight="bold" color="white">
-                  {userWallet.feeDeploy}
+                  {Number(userWallet.feeDeploy).toFixed(7)}
                 </Text>
               </HStack>
               <Text>
@@ -103,8 +117,6 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                   flexGrow={1}
                   width="fit-content"
                   variant="primary"
-                  color="black"
-                  background="secondary.100"
                   isLoading={isLoading}
                   onClick={() => {
                     const deployPromise = new Promise((resolve, rejects) => {
@@ -144,6 +156,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                           })
                           .catch(res => {
                             setIsLoading(() => false);
+                            console.log('Error', res);
                             rejects(res);
                           });
                       }
@@ -154,10 +167,10 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                         title: 'Deploy resolved',
                         description: 'Deploy Success',
                       },
-                      error: {
+                      error: error => ({
                         title: 'Deploy Error',
-                        description: 'Something wrong...',
-                      },
+                        description: error.message,
+                      }),
                       loading: {
                         title: 'Deploy pending',
                         description: 'Please wait.....',

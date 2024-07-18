@@ -6,20 +6,29 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import NextTopLoader from 'nextjs-toploader';
 import { colors } from '@/themes';
+import Scrollbar from '@/components/Scrollbar';
 const DefaultLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <NextTopLoader color={colors.primary[100]} showSpinner={false} />
-      <Flex width="full" flexDirection="column">
-        <Header />
-
-        <Flex width="full" position="sticky">
-          <Sidebar />
-          <Box padding={4} flex={1} width="full" as="main">
-            {children}
-          </Box>
+      <Scrollbar height="100vh">
+        <Flex
+          width="full"
+          flexDirection="column"
+          background={`url('./assets/arts/banner.svg')`}
+          backgroundSize="cover"
+          backgroundPosition="center"
+          backgroundRepeat="no-repeat"
+        >
+          <Header />
+          <Flex width="full" position="sticky">
+            <Sidebar />
+            <Box flex={1} width="full" as="main" padding={4}>
+              {children}
+            </Box>
+          </Flex>
         </Flex>
-      </Flex>
+      </Scrollbar>
     </>
   );
 };

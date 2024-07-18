@@ -15,16 +15,20 @@ const DespositAccount = ({
 }: IProps) => {
   return (
     <>
-      {userWallet.deployHash ? (
-        <DespositMoneyAccount
-          userWallet={userWallet}
-          refetchBalance={refetchBalance}
-        />
-      ) : (
-        <DespositDeployAccount
-          userWallet={userWallet}
-          refetchWallet={refetchWallet}
-        />
+      {userWallet && (
+        <>
+          {userWallet.deployHash ? (
+            <DespositMoneyAccount
+              userWallet={userWallet}
+              refetchBalance={refetchBalance}
+            />
+          ) : (
+            <DespositDeployAccount
+              userWallet={userWallet}
+              refetchWallet={refetchWallet}
+            />
+          )}
+        </>
       )}
     </>
   );

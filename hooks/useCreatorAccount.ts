@@ -26,6 +26,9 @@ export const useCreatorAccount = () => {
     if (!socketAPI) {
       connectSocket();
     }
+    if (socketAPI && socketAPI.connected == false) {
+      socketAPI.connect();
+    }
     dispatch(setLoadingMint(true));
     await startMint(creatorAccount.currentRPC);
     dispatch(setLoadingMint(false));

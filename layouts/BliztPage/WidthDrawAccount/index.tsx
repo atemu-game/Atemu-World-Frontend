@@ -17,6 +17,8 @@ import { useAccount } from '@starknet-react/core';
 import React, { useState } from 'react';
 
 import { axiosHandler } from '@/config/axiosConfig';
+import Card from '@/components/Card';
+import { ellipseMiddle } from '@/utils/formatAddress';
 
 // WidthDrawAccount Payer component Modal
 interface IProps {
@@ -36,12 +38,12 @@ const WidthDrawAccount = ({ refetchBalance }: IProps) => {
 
   return (
     <>
-      <Button variant="primary" onClick={onOpen}>
-        Width Draw (Payer Account)
+      <Button variant="primary" width="fit-content" onClick={onOpen}>
+        Withdraw
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered variant="primary">
         <ModalOverlay />
-        <ModalContent background="body">
+        <ModalContent>
           <ModalBody>
             <Flex flexDirection="column" gap={5}>
               <Text variant="title" textAlign="center">
@@ -51,7 +53,9 @@ const WidthDrawAccount = ({ refetchBalance }: IProps) => {
                 Please WidthDraw from your private Account fund to this account
               </Text>
               <Text>Your wallet (creator wallet)</Text>
-              <HStack
+              <Card
+                variant="content"
+                display="flex"
                 padding={2}
                 border="1px solid"
                 borderColor="divider.100"
@@ -64,7 +68,7 @@ const WidthDrawAccount = ({ refetchBalance }: IProps) => {
                   textOverflow="ellipsis"
                   maxWidth={{ lg: 'full', base: '300px' }}
                 >
-                  {userAddress}
+                  {userAddress && ellipseMiddle(userAddress, 16, 16)}
                   <CopyClipBoard
                     ml={3}
                     context={userAddress ? userAddress : ''}
@@ -73,14 +77,9 @@ const WidthDrawAccount = ({ refetchBalance }: IProps) => {
                     aria-label="Copy Stark Address"
                   />
                 </Text>
-              </HStack>
+              </Card>
               <Text>Estimated ETH to WidthDraw</Text>
-              {/* <HStack justifyContent="space-between">
-                <Text>Fees to deploy account:</Text>
-                <Text fontWeight="bold" color="white">
-                  {userWallet.feeDeploy}
-                </Text>
-              </HStack> */}
+
               <Input
                 isDisabled={isLoading}
                 type="number"
@@ -99,8 +98,6 @@ const WidthDrawAccount = ({ refetchBalance }: IProps) => {
                   flexGrow={1}
                   width="fit-content"
                   variant="primary"
-                  color="black"
-                  background="secondary.100"
                   isLoading={isLoading}
                   isDisabled={amountWidthDraw === 0}
                   onClick={() => {
