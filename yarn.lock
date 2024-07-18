@@ -1784,17 +1784,17 @@
     "@stablelib/random" "^1.0.2"
     "@stablelib/wipe" "^1.0.1"
 
-"@starknet-react/chains@^0.1.0-next.1", "@starknet-react/chains@^0.1.7":
+"@starknet-react/chains@^0.1.7":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@starknet-react/chains/-/chains-0.1.7.tgz#58503379e2ffabe33b4f6e0f2aef775e84745a4d"
   integrity sha512-UNh97I1SvuJKaAhKOmpEk8JcWuZWMlPG/ba2HcvFYL9x/47BKndJ+Da9V+iJFtkHUjreVnajT1snsaz1XMG+UQ==
 
-"@starknet-react/core@^2.0.0-next.7":
-  version "2.0.0-next.7"
-  resolved "https://registry.yarnpkg.com/@starknet-react/core/-/core-2.0.0-next.7.tgz#322ce8eb21c0eeb08800410b1ec75e2fcea221c6"
-  integrity sha512-wVPTaRJgAWuGGA39zUO3cHU5B5gYoXB7ALZ07OvGU+FC9RGMx6rhcLpOKfOxmKlZwZMINEdLikbe+cD9Vu1yag==
+"@starknet-react/core@^2.8.3":
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@starknet-react/core/-/core-2.8.3.tgz#0bbe3ac8575237dcf9ed149e0ef7822ee17d1d53"
+  integrity sha512-WfiC5hVqA5FdinM2PPT3qEZGmGdh9ay7iRR8L1Ooc8bYKH6bpaXHLG+n42OHeenOWVXAH8U7ZYmhcF6OFWopCA==
   dependencies:
-    "@starknet-react/chains" "^0.1.0-next.1"
+    "@starknet-react/chains" "^0.1.7"
     "@tanstack/react-query" "^5.0.1"
     eventemitter3 "^5.0.1"
     immutable "^4.3.4"
@@ -3703,6 +3703,13 @@ get-starknet-core@^3.1.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/get-starknet-core/-/get-starknet-core-3.3.0.tgz#d21e6c13c6f63b23245128c738583a1023bb1ba6"
   integrity sha512-TG17zIBdjHIyO0CTjkB7lkuvo24OHLrkB/rZSEdspEAcwcysMpZOVgwrNPIzD89kU8gZ3m1UANarFNPVLULS5Q==
+  dependencies:
+    "@module-federation/runtime" "^0.1.2"
+
+get-starknet-core@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/get-starknet-core/-/get-starknet-core-3.3.2.tgz#b5b6e26fadb90afe48b2b32364f7ec8eb91855f8"
+  integrity sha512-Q5JGyyuWM3Klbw56l8MX+/hvT7UyzuYk7qj1IEwABCNhx7p3Qzd5Y1PF22OyW8pd+3tKwhEMCoyN5vgsd1abTg==
   dependencies:
     "@module-federation/runtime" "^0.1.2"
 

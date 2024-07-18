@@ -18,8 +18,6 @@ import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { useBlock } from '@starknet-react/core';
 import { BlockNumber, num } from 'starknet';
 
-import { BliztEvent } from '@/utils/constants';
-import { socketAPI } from '@/config/socketConfig';
 import { useQuery } from 'react-query';
 import { axiosHandler } from '@/config/axiosConfig';
 import Card from '@/components/Card';
@@ -43,6 +41,7 @@ export interface UserWalletProps {
 const BliztPage = () => {
   const { userAddress } = useAuth();
   const { point, balance, handleSetBalance } = useCreatorAccount();
+
   const {
     data: userWallet,
     isLoading: isLoadingWallet,
