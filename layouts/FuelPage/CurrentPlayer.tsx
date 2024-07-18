@@ -9,7 +9,7 @@ interface IProps {
 }
 const CurrentPlayer = ({ listPlayer }: IProps) => {
   return (
-    <Box padding={4} border="1px solid" borderColor="divider.100">
+    <Box padding={4}>
       <Text variant="sub_title">{listPlayer.length} players</Text>
       {listPlayer.map((player, index: number) => (
         <HStack

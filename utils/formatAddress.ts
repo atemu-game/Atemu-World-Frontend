@@ -18,3 +18,12 @@ export function formatBalance(qty: bigint, decimals: number) {
   ).toString();
   return leftCleaned + '.' + rightCleaned;
 }
+
+export function isValidURL(url: string): boolean {
+  try {
+    new URL(url);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}

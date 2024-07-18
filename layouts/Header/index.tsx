@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Text, useToast } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, useDisclosure } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import LogoIcon from '@/public/assets/logo/atemu_logo_long.svg';
 
@@ -10,64 +10,27 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { useAccount, useConnect } from '@starknet-react/core';
 import { useDispatch } from 'react-redux';
-import { AccountInterface } from 'starknet';
-import { axiosHandlerNoBearer } from '@/config/axiosConfig';
-import { ACCESS_TOKEN, RPC_PROVIDER } from '@/utils/constants';
-import { setUserAdress } from '@/redux/user/user-slice';
-import { setCookie } from '@/utils/cookie';
+
+import { setUserLoading } from '@/redux/user/user-slice';
+
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+
+import LoadingConnectWallet from '@/components/Animation/LoadingConnectWallet';
+import ModalInviteCode from '@/components/InviteCode/ModalInviteCode';
+
 const Header = () => {
-  const { userAddress, prevConnector } = useAuth();
+  const { userAddress, prevConnector, isLoading, verifySignature } = useAuth();
   const { connectors, connect } = useConnect();
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { handleClearEventLog } = useCreatorAccount();
   const {
     address: addressWallet,
     status: statusWallet,
     account,
   } = useAccount();
+
   const dispatch = useDispatch();
-  const toast = useToast({
-    position: 'top-right',
-  });
-  const verifySignature = async (account: AccountInterface) => {
-    try {
-      if (account) {
-        const { data: dataSignMessage } = await axiosHandlerNoBearer.get(
-          '/authentication/getNonce',
-          {
-            params: {
-              address: addressWallet,
-            },
-          }
-        );
 
-        const signature = await account.signMessage(
-          dataSignMessage.data.signMessage
-        );
-
-        const { data: dataToken } = await axiosHandlerNoBearer.post(
-          '/authentication/token',
-          {
-            address: addressWallet,
-            signature: signature,
-            rpc: RPC_PROVIDER.TESTNET,
-          }
-        );
-        dispatch(setUserAdress(addressWallet));
-        setCookie({
-          expires: '1d',
-          key: ACCESS_TOKEN,
-          value: dataToken.data.token,
-        });
-      }
-    } catch (error) {
-      toast({
-        title: ' Rejected ',
-        description: 'You Rejected the Signature Request',
-        status: 'info',
-        duration: 3000,
-        isClosable: true,
-      });
-    }
-  };
   useEffect(() => {
     const handleChangeWallet = async () => {
       if (
@@ -76,14 +39,20 @@ const Header = () => {
         prevConnector != null &&
         account
       ) {
+        dispatch(setUserLoading(true));
+        handleClearEventLog();
         await verifySignature(account);
+        dispatch(setUserLoading(false));
       } else if (
         addressWallet &&
         account &&
         account.address !== addressWallet &&
         userAddress != null
       ) {
+        dispatch(setUserLoading(true));
+        handleClearEventLog();
         await verifySignature(account);
+        dispatch(setUserLoading(false));
       }
     };
     handleChangeWallet();
@@ -101,6 +70,7 @@ const Header = () => {
     };
     handleReConenct();
   }, [userAddress, prevConnector]);
+
   return (
     <HStack
       justifyContent="space-between"
@@ -110,8 +80,9 @@ const Header = () => {
       top={0}
       zIndex={99}
       background="body"
+      backgroundImage={`url('./assets/arts/banner.svg')`}
       borderBottom="1px solid"
-      borderBottomColor="divider.100"
+      borderBottomColor="primary.100"
     >
       <Box
         display={{
@@ -134,47 +105,39 @@ const Header = () => {
 
         <Text
           fontSize="24px"
-          fontWeight={700}
+          fontWeight={600}
           textTransform="uppercase"
-          color="
-        white"
+          variant="gradient_text"
+          dropShadow={`0px 4px 16px 0px #1E1E1EBF`}
         >
           - the supreme card trading game
         </Text>
       </HStack>
-      <HStack gap={3}>
-        <Link href="https://demo.atemu.xyz/" target="_blank">
-          <Button
-            variant="primary"
-            display={{
-              base: 'none',
-              md: 'inline-flex',
-            }}
-          >
-            Demo
-          </Button>
-        </Link>
 
+      <HStack gap={3}>
+        <Button
+          variant="primary"
+          onClick={onOpen}
+          sx={{
+            borderColor: 'secondary.100',
+          }}
+          display={{
+            base: 'none',
+            md: 'inline-flex',
+          }}
+        >
+          Invite
+        </Button>
+        <ModalInviteCode isOpen={isOpen} onClose={onClose} />
         {userAddress ? (
           <>
-            {/* <Button
-              variant="primary"
-              sx={{
-                borderColor: 'secondary.100',
-              }}
-              display={{
-                base: 'none',
-                md: 'inline-flex',
-              }}
-            >
-              Invite
-            </Button> */}
             <ProfileAccount />
           </>
         ) : (
           <ConnectWallet />
         )}
       </HStack>
+      <LoadingConnectWallet isOpen={isLoading} />
     </HStack>
   );
 };

@@ -14,6 +14,11 @@ import CurrentPlayer from './CurrentPlayer';
 import YourEntries from './YourEntries';
 
 import LotteryWheel from '@/components/LotteryWheel';
+import Card from '@/components/Card';
+
+import { useCountdown } from '@/hooks/useCountDown';
+import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
+
 export interface PlayerProps {
   address: string;
   pointTotal: number;
@@ -58,6 +63,17 @@ const FuelPage = () => {
       percentage: 45,
     },
   ];
+  const [time, setTime] = React.useState(45);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(45);
+      // Code to run every 2 seconds
+    }, 1000 * 60 * 45);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const ListTestAtrr = [
     'attribute',
@@ -67,6 +83,9 @@ const FuelPage = () => {
     'spell',
     'trap',
   ];
+  const [minutes, seconds] = useCountdown(
+    new Date().getTime() + 45 * 60 * 1000
+  );
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
@@ -81,7 +100,9 @@ const FuelPage = () => {
       >
         <Flex flexDirection="column" gap={4} width="full">
           <Flex
+            as={Card}
             gap={4}
+            border="none"
             justifyContent="space-between"
             flexWrap={{ lg: 'nowrap', base: 'wrap-reverse' }}
           >
@@ -91,13 +112,50 @@ const FuelPage = () => {
 
             <Box
               padding={4}
-              border="1px solid"
-              borderColor="divider.100"
               width="full"
+              borderLeft="2px solid transparent"
+              style={{
+                borderImageSlice: 2,
+                borderImageSource: ` linear-gradient(90.73deg, rgba(232, 183, 124, 0.15) -5.34%, rgba(253, 217, 105, 0.15) 51.67%, rgba(178, 113, 34, 0.15) 116.05%)`,
+              }}
+              backgroundImage={`url('/assets/arts/bg/bg_whale.svg')`}
+              bgRepeat="no-repeat"
+              backgroundPosition="center"
+              backgroundSize="cover"
             >
-              <Text variant="title">Current Round</Text>
+              <HStack justifyContent="space-between">
+                <Text variant="title">Current Round</Text>
+
+                <Card variant="content_secondary" px={2}>
+                  <HStack>
+                    <DateTimeDisplay
+                      value={minutes}
+                      type={'M'}
+                      style={{
+                        fontWeight: 'bold',
+                        bg: 'secondary.400',
+                      }}
+                    />
+                    <p>:</p>
+                    <DateTimeDisplay
+                      value={seconds}
+                      type={'S'}
+                      style={{
+                        fontWeight: 'bold',
+                        bg: 'secondary.400',
+                      }}
+                    />
+                  </HStack>
+                </Card>
+              </HStack>
+
               <VStack>
-                <LotteryWheel dataSeries={CurentPlayerMock} />
+                <LotteryWheel
+                  dataSeries={CurentPlayerMock}
+                  totalPoint={25}
+                  timer={time}
+                  winner={CurentPlayerMock[0].address}
+                />
               </VStack>
             </Box>
           </Flex>
@@ -105,12 +163,11 @@ const FuelPage = () => {
           <YourEntries />
         </Flex>
         <Flex flexDirection="column" gap={4} width="380px">
-          <Box border="1px solid" borderColor="divider.100">
+          <Card>
             <Box padding={4}>
-              <HStack justifyContent="space-between" mb={5}>
-                <Text variant="sub_title">Round: 23,234</Text>
-                <Box>1:30:00</Box>
-              </HStack>
+              <Text mb={5} variant="sub_title">
+                Round: 23,234
+              </Text>
               <Grid gridTemplateColumns={'repeat(2,1fr)'} gap={4}>
                 <Box>
                   <Text>25k</Text>
@@ -130,25 +187,34 @@ const FuelPage = () => {
                 </Box>
               </Grid>
             </Box>
-            <Divider />
+            <Divider
+              border="1px solid transparent"
+              style={{
+                borderImageSlice: 1,
+                borderImageSource: `linear-gradient(90.73deg, rgba(232, 183, 124, 0.5) -5.34%, rgba(253, 217, 105, 0.5) 51.67%, rgba(178, 113, 34, 0.5) 116.05%)
+              `,
+              }}
+            />
             <Grid gridTemplateColumns={'repeat(2,1fr)'} gap={4} padding={4}>
               <Box flexGrow={1}>
-                <Text>25k</Text>
+                <Text fontWeight="bold" color="primary.100">
+                  25k
+                </Text>
                 <Text>Prize Pool </Text>
               </Box>
               <Box flexGrow={1}>
-                <Text>5/500</Text>
+                <Text fontWeight="bold" color="primary.100">
+                  5/500
+                </Text>
                 <Text>Participants </Text>
               </Box>
             </Grid>
-          </Box>
+          </Card>
 
-          <Box border="1px solid" borderColor="divider.100" padding={4}>
+          <Card padding={4}>
             <Text variant="title">Card Prize</Text>
             <Image
-              border="1px solid"
-              borderColor="divider.100"
-              src="/assets/arts/back_card.png"
+              src="/assets/arts/card/card_test.svg"
               aria-label="Back Side Card"
             />
             <Flex gap={3} flexWrap="wrap" mt={4}>
@@ -167,7 +233,7 @@ const FuelPage = () => {
                 );
               })}
             </Flex>
-          </Box>
+          </Card>
         </Flex>
       </HStack>
     </Flex>

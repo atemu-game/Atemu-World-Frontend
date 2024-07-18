@@ -7,19 +7,22 @@ const Sidebar = () => {
     <Box
       flexDir="column"
       gap={6}
-      padding={6}
+      py={6}
       borderRight="1px solid"
       minH="100vh"
-      borderRightColor="divider.100"
+      w="180px"
+      borderRightColor="primary.100"
       display={{ base: 'none', md: 'flex' }}
     >
       <Box
         position="sticky"
-        top={100}
+        top={120}
         left={0}
         flexDir="column"
         gap={6}
         display="flex"
+        alignItems="center"
+        justifyContent="center"
       >
         <ListPage />
       </Box>

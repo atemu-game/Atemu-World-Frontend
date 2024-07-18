@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import AccountJazzicon from '../Avatar/AvatarJazzicon';
 import {
-  Box,
   Button,
   HStack,
   Icon,
@@ -16,7 +15,7 @@ import CopyClipBoard from '../CopyClipboard/CopyClipBoard';
 
 import LinkIcon from '@/public/assets/icons/link.svg';
 import SettingIcon from '@/public/assets/icons/setting.svg';
-import StarkNetIcon from '@/public/assets/token/starknet.svg';
+
 import QuestIcon from '@/public/assets/icons/quest.svg';
 import LogoutIcon from '@/public/assets/icons/logout.svg';
 import { ellipseMiddle } from '@/utils/formatAddress';
@@ -25,13 +24,16 @@ import { useAuth } from '@/hooks/useAuth';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 import { Contract, Provider, cairo } from 'starknet';
 import { ABIS } from '@/abis';
-import { CONTRACT_ADDRESS, RPC_PROVIDER } from '@/utils/constants';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+import systemConfig from '@/config/systemConfig';
 
-// Profile Account After Connected
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
-  const { balance, isLoading } = useBalanceCustom({ address: userAddress });
+  const { balance, isLoading } = useBalanceCustom({
+    address: userAddress,
+    token: CONTRACT_ADDRESS.ETH,
+  });
   const { handleSetPoint, point } = useCreatorAccount();
 
   useEffect(() => {
@@ -39,7 +41,7 @@ const ProfileAccount = () => {
       const contractBlizt = new Contract(
         ABIS.bliztAbi,
         CONTRACT_ADDRESS.BLIZT,
-        new Provider({ nodeUrl: RPC_PROVIDER.TESTNET })
+        new Provider({ nodeUrl: systemConfig().RPC })
       );
 
       const data = await contractBlizt.getUserPoint(userAddress);
@@ -55,7 +57,6 @@ const ProfileAccount = () => {
     <>
       <Button
         variant="primary"
-        rightIcon={<Icon as={StarkNetIcon} />}
         display={{
           base: 'none',
           md: 'inline-flex',
@@ -64,25 +65,14 @@ const ProfileAccount = () => {
         {isLoading ? (
           <Skeleton>00.000</Skeleton>
         ) : (
-          <>{balance ? parseFloat(balance).toFixed(3) : '0'}</>
+          <>{balance ? balance.toFixed(3) : '0'} ETH</>
         )}
       </Button>
+      <Button variant="primary">{point} points</Button>
       {userAddress && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>
-          <MenuButton
-            as={Button}
-            variant="primary"
-            rightIcon={
-              <AccountJazzicon
-                address={userAddress}
-                sx={{
-                  height: '2rem',
-                  width: '2rem',
-                }}
-              />
-            }
-          >
-            <Box>{point} PTS</Box>
+          <MenuButton as={Button} variant="primary">
+            {userAddress && ellipseMiddle(userAddress, 5, 5)}
           </MenuButton>
           <MenuList minW="300px">
             <HStack my={6}>
@@ -105,24 +95,25 @@ const ProfileAccount = () => {
                 md: 'none',
               }}
             >
-              <Button
+              {/* <Button
                 variant="primary"
                 sx={{
                   borderColor: 'secondary.100',
                 }}
               >
                 Invite
-              </Button>
+              </Button> */}
             </MenuItem>
             <MenuItem
               display={{
                 base: 'block',
                 md: 'none',
               }}
+              as={Button}
             >
-              <Button variant="primary" rightIcon={<Icon as={StarkNetIcon} />}>
+              {/* <Button variant="primary" rightIcon={<Icon as={StarkNetIcon} />}>
                 100
-              </Button>
+              </Button> */}
             </MenuItem>
             <MenuItem isDisabled>
               <Icon as={SettingIcon} />

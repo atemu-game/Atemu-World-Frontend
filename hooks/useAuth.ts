@@ -2,7 +2,7 @@
 import { useAccount, useConnect, useDisconnect } from '@starknet-react/core';
 import { useTypedSelector } from './useTypedSelector';
 import { deleteCookie, setCookie } from '@/utils/cookie';
-import { ACCESS_TOKEN, RPC_PROVIDER } from '@/utils/constants';
+import { ACCESS_TOKEN } from '@/utils/constants';
 import { axiosHandlerNoBearer } from '@/config/axiosConfig';
 import { useDispatch } from 'react-redux';
 import {
@@ -15,6 +15,7 @@ import {
 import { AccountInterface } from 'starknet';
 import { useToast } from '@chakra-ui/react';
 import { resetCreator } from '@/redux/creatorAccount/creator-slice';
+import systemConfig from '@/config/systemConfig';
 
 export const useAuth = () => {
   const user = useTypedSelector(state => state.user);
@@ -28,6 +29,7 @@ export const useAuth = () => {
   const verifySignature = async (account: AccountInterface) => {
     try {
       if (account) {
+        dispatch(setUserLoading(true));
         const { data: dataSignMessage } = await axiosHandlerNoBearer.get(
           '/authentication/getNonce',
           {
@@ -46,7 +48,7 @@ export const useAuth = () => {
           {
             address: addressWallet,
             signature: signature,
-            rpc: RPC_PROVIDER.TESTNET,
+            rpc: systemConfig().RPC,
           }
         );
         dispatch(setUserAdress(addressWallet));
@@ -55,6 +57,7 @@ export const useAuth = () => {
           key: ACCESS_TOKEN,
           value: dataToken.data.token,
         });
+        dispatch(setUserLoading(false));
       }
     } catch (error) {
       toast({
@@ -64,6 +67,9 @@ export const useAuth = () => {
         duration: 3000,
         isClosable: true,
       });
+      // eslint-disable-next-line no-use-before-define
+      disconnectWallet();
+      dispatch(setUserLoading(false));
     }
   };
   const connectWallet = async (index: number) => {
@@ -88,5 +94,5 @@ export const useAuth = () => {
     dispatch(setUserLoading(false));
   };
 
-  return { ...user, disconnectWallet, connectWallet };
+  return { ...user, disconnectWallet, connectWallet, verifySignature };
 };

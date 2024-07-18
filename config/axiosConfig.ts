@@ -1,13 +1,14 @@
 import { ACCESS_TOKEN } from '@/utils/constants';
 import { getCookie } from '@/utils/cookie';
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import systemConfig from './systemConfig';
 
 export const axiosHandlerNoBearer = axios.create({
-  baseURL: process.env.PUBLIC_NEXT_API || 'http://localhost:8088',
+  baseURL: systemConfig().PUBLIC_API,
 });
 
 export const axiosHandler = axios.create({
-  baseURL: process.env.PUBLIC_NEXT_API || 'http://localhost:8088',
+  baseURL: systemConfig().PUBLIC_API,
 });
 
 axiosHandler.interceptors.request.use(

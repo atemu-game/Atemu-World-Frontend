@@ -1,4 +1,4 @@
-import { TXRType } from '@/utils/constants';
+import { BliztSatus, ListPublicRPC, TXRType } from '@/utils/constants';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface TransactionLogProps {
@@ -8,18 +8,20 @@ interface TransactionLogProps {
 }
 interface ICreatorState {
   point: number | null;
-  status: 'start' | 'stop';
+  status: BliztSatus;
   balance: number | null;
   isLoading: boolean; // Loading mint or pint data
-  eventLog: TransactionLogProps[]; //
+  eventLog: TransactionLogProps[];
+  currentRPC: string;
 }
 
 const initialState: ICreatorState = {
   point: null,
   isLoading: false,
   balance: null,
-  status: 'stop',
+  status: 'stopped',
   eventLog: [],
+  currentRPC: ListPublicRPC[0],
 };
 export const creatorSlice = createSlice({
   name: 'creatorAccount',
@@ -47,8 +49,11 @@ export const creatorSlice = createSlice({
       state.isLoading = false;
       state.point = null;
       state.balance = null;
-      state.status = 'stop';
+      state.status = 'stopped';
       state.eventLog = [];
+    },
+    setCurrentRPC: (state, action) => {
+      state.currentRPC = action.payload;
     },
   },
 });
@@ -60,4 +65,5 @@ export const {
   setStatusMint,
   setTransactionLog,
   clearEventLog,
+  setCurrentRPC,
 } = creatorSlice.actions;

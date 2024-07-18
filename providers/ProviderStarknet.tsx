@@ -1,10 +1,10 @@
-import { RPC_PROVIDER } from '@/utils/constants';
+import systemConfig from '@/config/systemConfig';
+
 import { sepolia } from '@starknet-react/chains';
 import {
   InjectedConnector,
   StarknetConfig,
   jsonRpcProvider,
-  publicProvider,
 } from '@starknet-react/core';
 import React, { PropsWithChildren } from 'react';
 import { ArgentMobileConnector } from 'starknetkit/argentMobile';
@@ -12,7 +12,7 @@ import { ArgentMobileConnector } from 'starknetkit/argentMobile';
 const ProviderStarknet = ({ children }: PropsWithChildren) => {
   function rpc() {
     return {
-      nodeUrl: RPC_PROVIDER.TESTNET,
+      nodeUrl: systemConfig().RPC,
     };
   }
 
@@ -26,7 +26,7 @@ const ProviderStarknet = ({ children }: PropsWithChildren) => {
     <>
       <StarknetConfig
         chains={[sepolia]}
-        provider={publicProvider()}
+        provider={provider}
         connectors={connectors}
       >
         {children}

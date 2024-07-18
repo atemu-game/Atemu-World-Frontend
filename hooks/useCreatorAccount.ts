@@ -8,6 +8,9 @@ import {
 } from '@/config/socketConfig';
 import {
   clearEventLog,
+  resetCreator,
+  setBalance,
+  setCurrentRPC,
   setLoadingMint,
   setPoint,
   setStatusMint,
@@ -23,14 +26,15 @@ export const useCreatorAccount = () => {
     if (!socketAPI) {
       connectSocket();
     }
+    if (socketAPI && socketAPI.connected == false) {
+      socketAPI.connect();
+    }
     dispatch(setLoadingMint(true));
-    await startMint();
+    await startMint(creatorAccount.currentRPC);
     dispatch(setLoadingMint(false));
   };
   const handleStopMint = async () => {
-    dispatch(setLoadingMint(true));
     await stopMint();
-    dispatch(setLoadingMint(false));
   };
   const handleSetPoint = (data: number) => {
     dispatch(setPoint(data));
@@ -55,7 +59,17 @@ export const useCreatorAccount = () => {
   const handleClearEventLog = () => {
     dispatch(clearEventLog());
   };
+  const handleResetCreator = () => {
+    dispatch(resetCreator());
+  };
 
+  const handleSetBalance = (balance: number) => {
+    dispatch(setBalance(balance));
+  };
+
+  const handleChangeRPC = (rpc: string) => {
+    dispatch(setCurrentRPC(rpc));
+  };
   return {
     ...creatorAccount,
     handleStartMint,
@@ -64,5 +78,8 @@ export const useCreatorAccount = () => {
     handleSetStatus,
     handleSetTransaction,
     handleClearEventLog,
+    handleResetCreator,
+    handleSetBalance,
+    handleChangeRPC,
   };
 };
