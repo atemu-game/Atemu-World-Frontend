@@ -3,6 +3,7 @@ import {
   Button,
   HStack,
   Input,
+  InputGroup,
   Modal,
   ModalBody,
   ModalContent,
@@ -33,12 +34,13 @@ const ModalInviteCode = ({ isOpen, onClose }: IProps) => {
           </Text>
           <Text mb={6}>Valid invite code will boost your Blitz x2</Text>
           <HStack>
-            <Input
-              variant="primary"
-              value={userAddress ? '' : 'Please Connect To View'}
-              mb={6}
-            />
-            <CopyClipBoard context="" aria-label="" />
+            <InputGroup>
+              <Input
+                variant="primary"
+                value={userAddress ? '' : 'Please Connect To View'}
+                mb={6}
+              />
+            </InputGroup>
           </HStack>
 
           {userAddress ? (

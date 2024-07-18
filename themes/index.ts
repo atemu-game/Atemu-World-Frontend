@@ -136,17 +136,18 @@ const Menu: ComponentStyleConfig = {
         border: 'none',
         borderRadius: '0',
         bg: 'primary.300',
-        // transform: 'translate3d(13px, 26px, 0px)!important',
+        boxShadow: ` 0px 4px 16px 0px #E8B77C40 inset, 0px -4px 16px 0px #E8B77C40 inset,4px 0px 16px 0px #E8B77C26 inset,-4px 0px 16px 0px #E8B77C26 inset`,
       },
       item: {
         bg: 'inherit',
-
+        color: 'rgba(255, 255, 255, 0.5)',
         px: 2,
         py: 3,
         display: 'flex',
+        fontWeight: 'bold',
         gap: 4,
         _hover: {
-          background: '[gray].700',
+          color: 'white',
         },
       },
       command: {

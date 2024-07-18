@@ -18,7 +18,7 @@ export const connectSocket = () => {
   });
 
   socketAPI.on('connect', () => {
-    console.log('Connected to the server');
+    console.log('Connected to the server-');
   });
 };
 export const disconnectSocket = () => {

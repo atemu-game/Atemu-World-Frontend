@@ -1,12 +1,5 @@
 'use client';
-import {
-  Box,
-  Text,
-  HStack,
-  VStack,
-  Skeleton,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Text, HStack, VStack, Skeleton } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
@@ -24,6 +17,7 @@ import Card from '@/components/Card';
 import { colors } from '@/themes';
 import { convertHex } from '@/utils/convertHex';
 import { formatBalance } from '@/utils/formatAddress';
+import { connectSocket, socketAPI } from '@/config/socketConfig';
 
 export interface UserWalletProps {
   payerAddress: string;
@@ -78,6 +72,10 @@ const BliztPage = () => {
   useEffect(() => {
     const handleChangeWallet = async () => {
       if (userAddress) {
+        if (!socketAPI || !socketAPI.active) {
+          await connectSocket();
+        }
+
         await refetchWallet();
         await refetchBalancePayer();
       }

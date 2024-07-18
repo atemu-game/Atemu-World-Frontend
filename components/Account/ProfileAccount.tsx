@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import AccountJazzicon from '../Avatar/AvatarJazzicon';
 import {
+  Box,
   Button,
   HStack,
   Icon,
@@ -27,6 +28,7 @@ import { ABIS } from '@/abis';
 import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import systemConfig from '@/config/systemConfig';
+import Card from '../Card';
 
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
@@ -75,27 +77,36 @@ const ProfileAccount = () => {
             {userAddress && ellipseMiddle(userAddress, 5, 5)}
           </MenuButton>
           <MenuList minW="300px">
-            <HStack my={6} color="primary.100">
-              <AccountJazzicon
-                address={userAddress}
-                sx={{
-                  height: '3rem',
-                  width: '3rem',
-                }}
-              />
-              <Text>{ellipseMiddle(userAddress, 10, 10)}</Text>
-              <CopyClipBoard
-                context={userAddress}
-                aria-label="Copy Current userAddress"
-              />
-            </HStack>
-            <MenuItem
-              display={{
-                base: 'block',
-                md: 'none',
+            <Box
+              px={4}
+              py={5}
+              style={{
+                border: '2px solid transparent',
+                borderImageSlice: 2,
+                borderImageSource: ` linear-gradient(90.73deg, rgba(232, 183, 124, 0.5) -5.34%, rgba(253, 217, 105, 0.5) 51.67%, rgba(178, 113, 34, 0.5) 116.05%)`,
               }}
             >
-              {/* <Button
+              <HStack my={6} color="primary.100">
+                <AccountJazzicon
+                  address={userAddress}
+                  sx={{
+                    height: '3rem',
+                    width: '3rem',
+                  }}
+                />
+                <Text>{ellipseMiddle(userAddress, 10, 10)}</Text>
+                <CopyClipBoard
+                  context={userAddress}
+                  aria-label="Copy Current userAddress"
+                />
+              </HStack>
+              <MenuItem
+                display={{
+                  base: 'block',
+                  md: 'none',
+                }}
+              >
+                {/* <Button
                 variant="primary"
                 sx={{
                   borderColor: 'secondary.100',
@@ -103,38 +114,39 @@ const ProfileAccount = () => {
               >
                 Invite
               </Button> */}
-            </MenuItem>
-            <MenuItem
-              display={{
-                base: 'block',
-                md: 'none',
-              }}
-              as={Button}
-            >
-              {/* <Button variant="primary" rightIcon={<Icon as={StarkNetIcon} />}>
+              </MenuItem>
+              <MenuItem
+                display={{
+                  base: 'block',
+                  md: 'none',
+                }}
+                as={Button}
+              >
+                {/* <Button variant="primary" rightIcon={<Icon as={StarkNetIcon} />}>
                 100
               </Button> */}
-            </MenuItem>
-            <MenuItem isDisabled>
-              <Icon as={SettingIcon} />
-              <Text>Profile Setting</Text>
-            </MenuItem>
-            <MenuItem isDisabled>
-              <Icon as={QuestIcon} />
-              <Text>Quest Programs</Text>
-            </MenuItem>
-            <MenuItem isDisabled>
-              <Icon as={LinkIcon} />
-              <Text>Referral Link</Text>
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                disconnectWallet();
-              }}
-            >
-              <Icon as={LogoutIcon} />
-              <Text>Disconnect</Text>
-            </MenuItem>
+              </MenuItem>
+              <MenuItem isDisabled>
+                <Icon as={SettingIcon} />
+                <Text>Profile Setting</Text>
+              </MenuItem>
+              <MenuItem isDisabled>
+                <Icon as={QuestIcon} />
+                <Text>Quest Programs</Text>
+              </MenuItem>
+              <MenuItem isDisabled>
+                <Icon as={LinkIcon} />
+                <Text>Referral Link</Text>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  disconnectWallet();
+                }}
+              >
+                <Icon as={LogoutIcon} />
+                <Text>Disconnect</Text>
+              </MenuItem>
+            </Box>
           </MenuList>
         </Menu>
       )}
