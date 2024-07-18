@@ -22,7 +22,12 @@ const ModalInviteCode = ({ isOpen, onClose }: IProps) => {
       <ModalOverlay />
       <ModalContent>
         <ModalBody textAlign="center">
-          <Text fontSize="24px" fontWeight="bold" color="primary.100">
+          <Text
+            fontSize="24px"
+            fontWeight="bold"
+            color="primary.100"
+            textTransform="uppercase"
+          >
             Invite code
           </Text>
           <Text mb={6}>Valid invite code will boost your Blitz x2</Text>

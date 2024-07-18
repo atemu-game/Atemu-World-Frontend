@@ -63,15 +63,14 @@ const FuelPage = () => {
       percentage: 45,
     },
   ];
-  const [isSpinning, setIsSpinning] = React.useState(false);
+  const [time, setTime] = React.useState(45);
   React.useEffect(() => {
     const interval = setInterval(() => {
-      setIsSpinning(true);
+      setTime(45);
       // Code to run every 2 seconds
-    }, 2000);
+    }, 1000 * 60 * 45);
 
     return () => {
-      setIsSpinning(false);
       clearInterval(interval);
     };
   }, []);
@@ -84,7 +83,7 @@ const FuelPage = () => {
     'spell',
     'trap',
   ];
-  const [days, hours, minutes, seconds] = useCountdown(
+  const [minutes, seconds] = useCountdown(
     new Date().getTime() + 45 * 60 * 1000
   );
   return (
@@ -154,7 +153,7 @@ const FuelPage = () => {
                 <LotteryWheel
                   dataSeries={CurentPlayerMock}
                   totalPoint={25}
-                  timer={45}
+                  timer={time}
                   winner={CurentPlayerMock[0].address}
                 />
               </VStack>

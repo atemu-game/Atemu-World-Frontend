@@ -126,7 +126,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
       }
       const centerX = chart.plotLeft + chart.plotSizeX / 2;
       const centerY = chart.plotTop + chart.plotSizeY / 2;
-      const radius = chart.series[0].data[0].shapeArgs.r;
+      const radius = chart.series[0].data[0].shapeArgs.r + 6;
       const angle = newTimer * dataSeries.length * (Math.pow(Math.PI, 2) / 360);
 
       const overlayArc = chart.renderer
@@ -134,37 +134,12 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
         .attr({
           fill: 'none',
           stroke: '#DFAA6C',
-          'stroke-width': 10,
+          'stroke-width': 6,
           zIndex: 13,
         });
 
       chart.customOverlay = chart.renderer.g('timer-atemu').add();
       overlayArc.add(chart.customOverlay);
-
-      // if (chart.customOverlay) {
-      //   chart.customOverlay.destroy();
-      //   chart.customOverlay = undefined;
-      // }
-
-      // let ren = chart.renderer,
-      //   centerX = chart.plotLeft + chart.plotSizeX / 2,
-      //   centerY = chart.plotTop + chart.plotSizeY / 2,
-      //   radius = [chart.series[0].data[0].shapeArgs.r];
-      // chart.customCircles = chart.renderer.g('timer-atemu').add();
-
-      // //Render custom circles
-
-      // radius.forEach(rad => {
-      //   ren
-      //     .circle(centerX, centerY, rad)
-      //     .attr({
-      //       fill: 'none',
-      //       stroke: 'red',
-      //       'stroke-width': 10,
-      //       padding: 3,
-      //     })
-      //     .add(chart.customCircles);
-      // });
     }
   };
   useEffect(() => {
@@ -209,7 +184,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
               let ren = this.renderer,
                 centerX = this.plotLeft + this.plotSizeX / 2,
                 centerY = this.plotTop + this.plotSizeY / 2,
-                radius = [this.series[0].data[0].shapeArgs.r];
+                radius = [this.series[0].data[0].shapeArgs.r + 6];
               this.customCircles = this.renderer.g('customCircles').add();
 
               //Render custom circles
@@ -219,7 +194,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
                   .attr({
                     fill: 'none',
                     stroke: '#E8B77C1A',
-                    'stroke-width': 10,
+                    'stroke-width': 6,
                   })
                   .add(this.customCircles);
               });
@@ -273,7 +248,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
             type: 'pie',
             size: '100%',
             dataLabels: {
-              distance: -20,
+              distance: -50,
             },
             innerSize: '70%',
             data: dataSeries.map((item: any, index: number) => {
