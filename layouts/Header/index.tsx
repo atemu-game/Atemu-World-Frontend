@@ -22,6 +22,7 @@ const Header = () => {
   const { userAddress, prevConnector, isLoading, verifySignature } = useAuth();
   const { connectors, connect } = useConnect();
   const { isOpen, onClose, onOpen } = useDisclosure();
+
   const { handleClearEventLog } = useCreatorAccount();
   const {
     address: addressWallet,

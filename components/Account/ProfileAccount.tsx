@@ -75,7 +75,7 @@ const ProfileAccount = () => {
             {userAddress && ellipseMiddle(userAddress, 5, 5)}
           </MenuButton>
           <MenuList minW="300px">
-            <HStack my={6}>
+            <HStack my={6} color="primary.100">
               <AccountJazzicon
                 address={userAddress}
                 sx={{

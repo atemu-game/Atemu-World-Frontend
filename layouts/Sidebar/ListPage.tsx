@@ -41,12 +41,12 @@ const ListPage = ({ sx }: IProps) => {
       link: '/spin-of-fate',
       icon: SpinIcon,
       label: 'Spin Of Fate',
+      isDisabled: true,
     },
     {
       link: '/leaderboard',
       icon: LeaderboardIcon,
       label: 'Leaderboard',
-      isDisabled: true,
     },
 
     // {
