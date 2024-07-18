@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Text } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, useDisclosure } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import LogoIcon from '@/public/assets/logo/atemu_logo_long.svg';
 
@@ -16,10 +16,12 @@ import { setUserLoading } from '@/redux/user/user-slice';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 import LoadingConnectWallet from '@/components/Animation/LoadingConnectWallet';
+import ModalInviteCode from '@/components/InviteCode/ModalInviteCode';
 
 const Header = () => {
   const { userAddress, prevConnector, isLoading, verifySignature } = useAuth();
   const { connectors, connect } = useConnect();
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const { handleClearEventLog } = useCreatorAccount();
   const {
     address: addressWallet,
@@ -113,20 +115,22 @@ const Header = () => {
       </HStack>
 
       <HStack gap={3}>
+        <Button
+          variant="primary"
+          onClick={onOpen}
+          sx={{
+            borderColor: 'secondary.100',
+          }}
+          display={{
+            base: 'none',
+            md: 'inline-flex',
+          }}
+        >
+          Invite
+        </Button>
+        <ModalInviteCode isOpen={isOpen} onClose={onClose} />
         {userAddress ? (
           <>
-            {/* <Button
-              variant="primary"
-              sx={{
-                borderColor: 'secondary.100',
-              }}
-              display={{
-                base: 'none',
-                md: 'inline-flex',
-              }}
-            >
-              Invite
-            </Button> */}
             <ProfileAccount />
           </>
         ) : (

@@ -3,12 +3,21 @@ import Card from '@/components/Card';
 import NumberSpinder from '@/components/Input/NumberSpinder';
 import { Button, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
+import SpinFatePoint from './SpinFatePoint';
 
 const SpinOfFatePage = () => {
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Spin Of fate</Text>
-      <Card>Build Dev</Card>
+      <Card
+        backgroundImage={`url('./assets/arts/bg/bg_spin.svg')`}
+        style={{
+          border: '4px solid transparent',
+          borderImageSlice: 4,
+        }}
+      >
+        <SpinFatePoint />
+      </Card>
       <Card pt={6} as={VStack}>
         <Flex
           flexDirection="column"

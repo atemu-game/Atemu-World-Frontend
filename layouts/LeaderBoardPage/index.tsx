@@ -7,7 +7,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { formatDateData } from '@/utils/date';
 import {
   Flex,
-  Grid,
   HStack,
   Skeleton,
   Table,
@@ -25,11 +24,7 @@ import { useQuery } from 'react-query';
 
 const LeaderPage = () => {
   const { userAddress } = useAuth();
-  const {
-    data: dataLeaderboard,
-    refetch: refetchDataLeaderboard,
-    isLoading: isLoadingLeaderBoard,
-  } = useQuery({
+  const { data: dataLeaderboard, isLoading: isLoadingLeaderBoard } = useQuery({
     queryKey: 'leaderboard',
     queryFn: async () => {
       const { data }: any = await axiosHandlerNoBearer.get(
@@ -37,6 +32,7 @@ const LeaderPage = () => {
       );
       return data.data;
     },
+    refetchInterval: 10000,
   });
   const { data: dataUser, refetch: refetchTopByOwner } = useQuery({
     queryKey: 'userTopLeaderboard',
@@ -49,6 +45,7 @@ const LeaderPage = () => {
       }
       return;
     },
+    refetchInterval: 10000,
   });
   useEffect(() => {
     if (userAddress) {
@@ -104,7 +101,7 @@ const LeaderPage = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {!isLoadingLeaderBoard ? (
+              {!isLoadingLeaderBoard && dataLeaderboard ? (
                 <>
                   {dataLeaderboard.items.map((item: any, index: number) => (
                     <Tr key={`leaderboard-${index}`}>

@@ -46,6 +46,7 @@ const ListPage = ({ sx }: IProps) => {
       link: '/leaderboard',
       icon: LeaderboardIcon,
       label: 'Leaderboard',
+      isDisabled: true,
     },
 
     // {
@@ -86,10 +87,11 @@ const ListPage = ({ sx }: IProps) => {
                 transition="all 0.3s"
                 cursor="not-allowed"
                 textAlign="center"
+                opacity={0.5}
                 {...sx}
               >
-                <Icon as={item.icon} height={6} width={6} />
-                <Text fontWeight={600}>{item.label}</Text>
+                <Icon as={item.icon} height={12} width={12} />
+                <Text fontWeight={500}>{item.label}</Text>
               </Box>
             ) : (
               <Link

@@ -238,6 +238,8 @@ const CardBox: ComponentStyleConfig = {
        -4px 0px 16px 0px #E8B77C13 inset`,
       borderImageSource:
         'linear-gradient(90.73deg, rgba(232, 183, 124, 0.075) -5.34%, rgba(253, 217, 105, 0.075) 51.67%, rgba(178, 113, 34, 0.075) 116.05%)',
+
+      // borderImageSource: linear-gradient(90.73deg, rgba(232, 183, 124, 0.15) -5.34%, rgba(253, 217, 105, 0.15) 51.67%, rgba(178, 113, 34, 0.15) 116.05%);
     }),
     content: () => ({
       background: 'primary.100',

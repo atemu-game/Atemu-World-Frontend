@@ -15,7 +15,7 @@ import YourEntries from './YourEntries';
 
 import LotteryWheel from '@/components/LotteryWheel';
 import Card from '@/components/Card';
-import TimeReminder from '@/components/TimeReminder';
+
 import { useCountdown } from '@/hooks/useCountDown';
 import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
 
@@ -215,7 +215,7 @@ const FuelPage = () => {
           <Card padding={4}>
             <Text variant="title">Card Prize</Text>
             <Image
-              src="/assets/arts/card_test.svg"
+              src="/assets/arts/card/card_test.svg"
               aria-label="Back Side Card"
             />
             <Flex gap={3} flexWrap="wrap" mt={4}>
