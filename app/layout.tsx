@@ -25,7 +25,7 @@ const CrimsonPro = localFont({
     },
     {
       path: './fonts/CrimsonPro-ExtraBold.ttf',
-      weight: '700',
+      weight: '800',
     },
   ],
   variable: '--font-family-crimson-pro',

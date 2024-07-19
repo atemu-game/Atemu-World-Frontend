@@ -28,7 +28,6 @@ import { ABIS } from '@/abis';
 import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import systemConfig from '@/config/systemConfig';
-import Card from '../Card';
 
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
@@ -41,7 +40,7 @@ const ProfileAccount = () => {
   useEffect(() => {
     const getUserPoint = async (userAddress: string) => {
       const contractBlizt = new Contract(
-        ABIS.bliztAbi,
+        ABIS.bliztABI,
         CONTRACT_ADDRESS.BLIZT,
         new Provider({ nodeUrl: systemConfig().RPC })
       );

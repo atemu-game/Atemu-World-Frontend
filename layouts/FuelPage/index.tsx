@@ -63,6 +63,7 @@ const FuelPage = () => {
       percentage: 45,
     },
   ];
+
   const [time, setTime] = React.useState(45);
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -74,6 +75,14 @@ const FuelPage = () => {
       clearInterval(interval);
     };
   }, []);
+  // const { data: minPriceTicketData, isLoading: isLoadingMinPrice } =
+  //   useContractRead({
+  //     functionName: 'getMinimumPrice',
+  //     abi: ABIGovernance,
+  //     args: [CONTRACT_ADDRESS.lottery],
+  //     address: CONTRACT_ADDRESS.governance,
+  //     watch: true,
+  //   });
 
   const ListTestAtrr = [
     'attribute',
@@ -83,7 +92,8 @@ const FuelPage = () => {
     'spell',
     'trap',
   ];
-  const [minutes, seconds] = useCountdown(
+
+  const [, minutes, seconds] = useCountdown(
     new Date().getTime() + 45 * 60 * 1000
   );
   return (

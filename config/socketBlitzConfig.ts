@@ -6,7 +6,7 @@ import systemConfig from './systemConfig';
 
 export let socketAPI: Socket;
 
-export const connectSocket = () => {
+export const connectSocketBlitz = () => {
   socketAPI = io(systemConfig().PUBLIC_SOCKET, {
     transportOptions: {
       polling: {

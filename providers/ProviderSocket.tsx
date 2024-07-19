@@ -1,5 +1,5 @@
 'use client';
-import { socketAPI } from '@/config/socketConfig';
+import { socketAPI } from '@/config/socketBlitzConfig';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { BliztEvent } from '@/utils/constants';
 import { useToast } from '@chakra-ui/react';

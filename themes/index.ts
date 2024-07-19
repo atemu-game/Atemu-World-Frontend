@@ -101,7 +101,7 @@ const Text: ComponentStyleConfig = {
   variants: {
     title: {
       fontSize: '1.5rem',
-      fontWeight: 600,
+      fontWeight: 800,
       textTransform: 'uppercase',
       color: 'primary.100',
     },

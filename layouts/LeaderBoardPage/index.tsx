@@ -55,7 +55,17 @@ const LeaderPage = () => {
   const ListHeader = ['Rank', 'Address', 'Points', 'Last Update'];
   return (
     <Flex flexDirection="column">
-      <Text variant="title">Leaderboard</Text>
+      <HStack justifyContent="space-between" mb={4}>
+        <Text variant="title">Leaderboard</Text>
+        <HStack fontWeight={800}>
+          <Text variant="title" color="rgba(255, 255, 255, 0.5)">
+            Individuals
+          </Text>
+          <Text>/</Text>
+          <Text variant="title">leagues</Text>
+        </HStack>
+      </HStack>
+
       <Card
         as={VStack}
         py={6}
