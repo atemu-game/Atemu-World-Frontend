@@ -41,6 +41,7 @@ export enum FuelEvents {
   CURRENT_POOL = 'CURRENT_POOL',
   CURRENT_JOINED_POOL = 'CURRENT_JOINED_POOL',
   WINNER = 'WINNER',
+  TOTAL_POINT = 'TOTAL_POINT',
 }
 
 export type TXRType = 'success' | 'rejected' | 'error' | 'reverted';

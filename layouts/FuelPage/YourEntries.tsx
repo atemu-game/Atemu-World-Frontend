@@ -1,9 +1,9 @@
-import { ABIS } from '@/abis';
 import Card from '@/components/Card';
 import ConnectWallet from '@/components/ConnectWallet';
 import NumberSpinder from '@/components/Input/NumberSpinder';
-import systemConfig from '@/config/systemConfig';
+
 import { useAuth } from '@/hooks/useAuth';
+import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { CONTRACT_ADDRESS } from '@/utils/constants';
 import {
   Box,
@@ -40,6 +40,7 @@ const YourEntries = () => {
   ];
   const [entry, setEntry] = React.useState(ListOption[0].value);
   const { userAddress } = useAuth();
+
   const { account } = useAccount();
   const handleJoinPool = async () => {
     if (account) {

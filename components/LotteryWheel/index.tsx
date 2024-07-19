@@ -7,11 +7,10 @@ import { ellipseMiddle } from '@/utils/formatAddress';
 interface IProps {
   dataSeries: any;
   totalPoint: number;
-
   timer: number;
   winner?: string;
 }
-const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
+const LotteryWheel = ({ dataSeries, timer, totalPoint }: IProps) => {
   const trigger = useRef(null);
   const radToDeg = (r: number) => (r * 180) / Math.PI;
   const findWinner = (data: any) => {
@@ -253,7 +252,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
             innerSize: '70%',
             data: dataSeries.map((item: any, index: number) => {
               return {
-                name: ellipseMiddle(item.address, 3, 3),
+                name: ellipseMiddle(item.user.address, 3, 3),
                 y: item.percentage,
                 color:
                   colors.secondary[
