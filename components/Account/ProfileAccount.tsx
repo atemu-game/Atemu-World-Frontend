@@ -41,7 +41,7 @@ const ProfileAccount = () => {
     const getUserPoint = async (userAddress: string) => {
       const contractBlizt = new Contract(
         ABIS.bliztABI,
-        CONTRACT_ADDRESS.BLIZT,
+        CONTRACT_ADDRESS.BLIZT_POINT,
         new Provider({ nodeUrl: systemConfig().RPC })
       );
 

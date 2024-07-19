@@ -85,7 +85,9 @@ const BliztPage = () => {
 
   return (
     <>
-      <Text variant="title">Blitz</Text>
+      <Text variant="title" mb={6}>
+        Blitz
+      </Text>
       {userAddress ? (
         <Box>
           <Card

@@ -1,7 +1,10 @@
+import { ABIS } from '@/abis';
 import Card from '@/components/Card';
 import ConnectWallet from '@/components/ConnectWallet';
 import NumberSpinder from '@/components/Input/NumberSpinder';
+import systemConfig from '@/config/systemConfig';
 import { useAuth } from '@/hooks/useAuth';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
 import {
   Box,
   Button,
@@ -11,7 +14,9 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { useAccount } from '@starknet-react/core';
 import React from 'react';
+import { CallData, Contract, Provider, uint256 } from 'starknet';
 
 const YourEntries = () => {
   const ListOption = [
@@ -35,6 +40,29 @@ const YourEntries = () => {
   ];
   const [entry, setEntry] = React.useState(ListOption[0].value);
   const { userAddress } = useAuth();
+  const { account } = useAccount();
+  const handleJoinPool = async () => {
+    if (account) {
+      await account.execute([
+        {
+          contractAddress: CONTRACT_ADDRESS.BLIZT_POINT,
+          entrypoint: 'approve',
+          calldata: CallData.compile({
+            spender: CONTRACT_ADDRESS.FUEL,
+            amount: uint256.bnToUint256(Number(entry)),
+          }),
+        },
+        {
+          contractAddress: CONTRACT_ADDRESS.FUEL,
+          entrypoint: 'joiningPool',
+          calldata: CallData.compile({
+            poolId: uint256.bnToUint256(1),
+            amountPoint: uint256.bnToUint256(Number(entry)),
+          }),
+        },
+      ]);
+    }
+  };
   return (
     <Card padding={4} display="flex" flexDirection="column" gap={4}>
       {userAddress ? (
@@ -102,7 +130,14 @@ const YourEntries = () => {
               10.0025 ETH
             </Text>
           </HStack>
-          <Button variant="primary" width="full" borderColor="secondary.100">
+          <Button
+            variant="primary"
+            width="full"
+            borderColor="secondary.100"
+            onClick={() => {
+              handleJoinPool();
+            }}
+          >
             Add Selection
           </Button>
         </>

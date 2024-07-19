@@ -9,7 +9,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CurrentPlayer from './CurrentPlayer';
 import YourEntries from './YourEntries';
 
@@ -18,6 +18,8 @@ import Card from '@/components/Card';
 
 import { useCountdown } from '@/hooks/useCountDown';
 import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
+import { connectSocketFuel, socketFuelApi } from '@/config/socketFuelConfig';
+import { FuelEvents } from '@/utils/constants';
 
 export interface PlayerProps {
   address: string;
@@ -75,14 +77,6 @@ const FuelPage = () => {
       clearInterval(interval);
     };
   }, []);
-  // const { data: minPriceTicketData, isLoading: isLoadingMinPrice } =
-  //   useContractRead({
-  //     functionName: 'getMinimumPrice',
-  //     abi: ABIGovernance,
-  //     args: [CONTRACT_ADDRESS.lottery],
-  //     address: CONTRACT_ADDRESS.governance,
-  //     watch: true,
-  //   });
 
   const ListTestAtrr = [
     'attribute',
@@ -96,6 +90,30 @@ const FuelPage = () => {
   const [, minutes, seconds] = useCountdown(
     new Date().getTime() + 45 * 60 * 1000
   );
+
+  useEffect(() => {
+    if (!socketFuelApi || !socketFuelApi.active) {
+      connectSocketFuel();
+    }
+  }, []);
+  useEffect(() => {
+    if (socketFuelApi && socketFuelApi.active) {
+      try {
+        socketFuelApi.on(FuelEvents.TOTAL_ONLINE, data => {
+          console.log('total Online', data);
+        });
+        socketFuelApi.on(FuelEvents.CURRENT_JOINED_POOL, data => {
+          console.log('Current Join', data);
+        });
+        socketFuelApi.on(FuelEvents.CURRENT_POOL, data => {
+          console.log('CUrent Pool', data);
+        });
+        socketFuelApi.on(FuelEvents.CURRENT_JOINED_POOL, data => {
+          console.log('List Join', data);
+        });
+      } catch (error) {}
+    }
+  }, [socketFuelApi]);
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
