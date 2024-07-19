@@ -29,11 +29,18 @@ export type BliztSatus =
   | 'stopping'
   | 'balance_low';
 
+// Event Socket
 export enum BliztEvent {
   BLIZT_POINT = 'blizt-point',
   BLIZT_STATUS = 'blizt-status',
   BLIZT_TRANSACTION = 'blizt-transaction',
   BLIZT_BALANCE = 'blizt-balance',
+}
+export enum FuelEvents {
+  TOTAL_ONLINE = 'TOTAL_ONLINE',
+  CURRENT_POOL = 'CURRENT_POOL',
+  CURRENT_JOINED_POOL = 'CURRENT_JOINED_POOL',
+  WINNER = 'WINNER',
 }
 
 export type TXRType = 'success' | 'rejected' | 'error' | 'reverted';

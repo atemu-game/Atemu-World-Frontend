@@ -4,10 +4,10 @@ import { getCookie } from '@/utils/cookie';
 import { Socket, io } from 'socket.io-client';
 import systemConfig from './systemConfig';
 
-export let socketAPI: Socket;
+export let socketBlitzApi: Socket;
 
 export const connectSocketBlitz = () => {
-  socketAPI = io(systemConfig().PUBLIC_SOCKET, {
+  socketBlitzApi = io(systemConfig().PUBLIC_SOCKET_BLITZ, {
     transportOptions: {
       polling: {
         extraHeaders: {
@@ -17,19 +17,19 @@ export const connectSocketBlitz = () => {
     },
   });
 
-  socketAPI.on('connect', () => {
-    console.log('Connected to the server-');
+  socketBlitzApi.on('connect', () => {
+    console.log('Connected to the server - Blitz ');
   });
 };
 export const disconnectSocket = () => {
-  socketAPI.disconnect();
+  socketBlitzApi.disconnect();
 };
 
 export const startMint = (rpc: string) => {
-  socketAPI.emit('startMint', {
+  socketBlitzApi.emit('startMint', {
     rpc: rpc,
   });
 };
 export const stopMint = () => {
-  socketAPI.emit('stopMint');
+  socketBlitzApi.emit('stopMint');
 };

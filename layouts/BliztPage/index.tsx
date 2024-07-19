@@ -17,7 +17,7 @@ import Card from '@/components/Card';
 import { colors } from '@/themes';
 import { convertHex } from '@/utils/convertHex';
 import { formatBalance } from '@/utils/formatAddress';
-import { connectSocketBlitz, socketAPI } from '@/config/socketBlitzConfig';
+import { connectSocketBlitz, socketBlitzApi } from '@/config/socketBlitzConfig';
 
 export interface UserWalletProps {
   payerAddress: string;
@@ -72,7 +72,7 @@ const BliztPage = () => {
   useEffect(() => {
     const handleChangeWallet = async () => {
       if (userAddress) {
-        if (!socketAPI || !socketAPI.active) {
+        if (!socketBlitzApi || !socketBlitzApi.active) {
           await connectSocketBlitz();
         }
 
