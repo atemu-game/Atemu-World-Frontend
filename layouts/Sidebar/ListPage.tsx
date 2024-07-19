@@ -38,29 +38,16 @@ const ListPage = ({ sx }: IProps) => {
       label: 'Fuel',
     },
     {
+      link: '/leaderboard',
+      icon: LeaderboardIcon,
+      label: 'Leaderboard',
+    },
+    {
       link: '/spin-of-fate',
       icon: SpinIcon,
       label: 'Spin Of Fate',
       isDisabled: true,
     },
-    {
-      link: '/leaderboard',
-      icon: LeaderboardIcon,
-      label: 'Leaderboard',
-    },
-
-    // {
-    //   link: '/incentives',
-    //   icon: IncentiveIcon,
-    //   label: 'Incentives',
-    //   isDisabled: true,
-    // },
-    // {
-    //   link: '/trade-zone',
-    //   icon: LanguageIcon,
-    //   label: 'Trade-zone',
-    //   isDisabled: true,
-    // },
   ];
   const path = usePathname();
   return (
