@@ -25,16 +25,6 @@ const FuelPage = () => {
   const [listPlayer, setListPlayer] = useState([]);
   const [currentPool, setCurrentPool] = useState<any>(undefined);
 
-  const CurentPlayerMock = [
-    {
-      address:
-        '0x014841C8012702aCB28A9a5777d27bc84e086f892E709E17Ce5273840F2a3456',
-      pointTotal: 12000,
-      pointEntry: 5000,
-      percentage: 25,
-    },
-  ];
-
   const [totalPoint, setTotalPoint] = useState(0);
   const [totalOnline, setTotalOnline] = useState(0);
   const [winer, setWiner] = useState(undefined);
@@ -47,8 +37,8 @@ const FuelPage = () => {
     'trap',
   ];
 
-  const [, minutes, seconds] = useCountdown(
-    new Date().getTime() + 45 * 60 * 1000
+  const [minutes, seconds] = useCountdown(
+    new Date(currentPool && currentPool.endAt).getTime()
   );
 
   useEffect(() => {
@@ -69,6 +59,8 @@ const FuelPage = () => {
           setCurrentPool(() => data);
         });
         socketFuelApi.on(FuelEvents.CURRENT_JOINED_POOL, data => {
+          console.log('What ', data);
+
           setListPlayer(() => data);
         });
         socketFuelApi.on(FuelEvents.TOTAL_POINT, data => {
@@ -102,7 +94,7 @@ const FuelPage = () => {
               <CurrentPlayer
                 listPlayer={listPlayer}
                 watching={totalOnline}
-                currentPool={currentPool}
+                totalPoint={totalPoint}
               />
             </Box>
 
@@ -146,18 +138,18 @@ const FuelPage = () => {
               </HStack>
 
               <VStack>
-                {/* {listPlayer && (
+                {listPlayer && totalPoint && (
                   <LotteryWheel
                     totalPoint={totalPoint}
                     dataSeries={listPlayer}
-                    timer={45}
+                    timer={5}
                   />
-                )} */}
+                )}
               </VStack>
             </Box>
           </Flex>
 
-          <YourEntries />
+          {currentPool && <YourEntries currentId={currentPool.id} />}
         </Flex>
         <Flex flexDirection="column" gap={4} width="380px">
           <Card>

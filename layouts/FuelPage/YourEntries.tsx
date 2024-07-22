@@ -3,12 +3,13 @@ import ConnectWallet from '@/components/ConnectWallet';
 import NumberSpinder from '@/components/Input/NumberSpinder';
 
 import { useAuth } from '@/hooks/useAuth';
-import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+
 import { CONTRACT_ADDRESS } from '@/utils/constants';
 import {
   Box,
   Button,
   Flex,
+  Grid,
   HStack,
   Input,
   Text,
@@ -16,9 +17,11 @@ import {
 } from '@chakra-ui/react';
 import { useAccount } from '@starknet-react/core';
 import React from 'react';
-import { CallData, Contract, Provider, uint256 } from 'starknet';
-
-const YourEntries = () => {
+import { CallData, uint256 } from 'starknet';
+interface IProps {
+  currentId?: number;
+}
+const YourEntries = ({ currentId }: IProps) => {
   const ListOption = [
     {
       value: 25,
@@ -43,7 +46,7 @@ const YourEntries = () => {
 
   const { account } = useAccount();
   const handleJoinPool = async () => {
-    if (account) {
+    if (account && currentId) {
       await account.execute([
         {
           contractAddress: CONTRACT_ADDRESS.BLIZT_POINT,
@@ -57,7 +60,7 @@ const YourEntries = () => {
           contractAddress: CONTRACT_ADDRESS.FUEL,
           entrypoint: 'joiningPool',
           calldata: CallData.compile({
-            poolId: uint256.bnToUint256(1),
+            poolId: uint256.bnToUint256(currentId),
             amountPoint: uint256.bnToUint256(Number(entry)),
           }),
         },
@@ -71,13 +74,7 @@ const YourEntries = () => {
           <Text textTransform="uppercase" variant="sub_title" fontWeight="bold">
             Your entries
           </Text>
-          <Flex
-            gap={8}
-            flexWrap={{
-              md: 'nowrap',
-              base: 'wrap',
-            }}
-          >
+          <Grid gridTemplateColumns={`repeat(2,1fr)`} gap={8}>
             <Box flexGrow={1}>
               <HStack
                 justifyContent="space-between"
@@ -112,12 +109,14 @@ const YourEntries = () => {
 
             <Box width={{ md: 'auto', base: 'full' }}>
               <HStack justifyContent="space-between" mb={4}>
-                <Text variant="sub_title">Number of rounds</Text>
+                <Text color="primary.100" fontWeight="bold">
+                  Number of rounds
+                </Text>
                 <Button variant="secondary">Max</Button>
               </HStack>
               <NumberSpinder />
             </Box>
-          </Flex>
+          </Grid>
 
           <HStack justifyContent="space-between">
             <Text color="primary.100">Total entry</Text>

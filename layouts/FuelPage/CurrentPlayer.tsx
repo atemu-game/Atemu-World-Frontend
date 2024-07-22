@@ -7,11 +7,11 @@ import EyeIcon from '@/public/assets/icons/eye.svg';
 interface IProps {
   listPlayer: any;
   watching: number;
-  currentPool?: any;
+  totalPoint?: number;
 }
-const CurrentPlayer = ({ listPlayer, watching, currentPool }: IProps) => {
+const CurrentPlayer = ({ listPlayer, watching, totalPoint }: IProps) => {
   return (
-    <Box padding={4}>
+    <Box padding={4} minH="500px">
       <HStack justifyContent="space-between">
         <Text variant="sub_title">{listPlayer.length} players</Text>
 
@@ -35,22 +35,30 @@ const CurrentPlayer = ({ listPlayer, watching, currentPool }: IProps) => {
               colors.secondary[(index * 100) as keyof typeof colors.secondary]
             }`}
           >
-            <HStack>
+            <HStack width="full">
               <Skeleton>
                 <Box w="52px" h="52px"></Box>
               </Skeleton>
-              <Box>
-                <Text fontWeight={700}>
-                  {ellipseMiddle(player.user.address, 10, 4)}
-                </Text>
-                <Text>{player.stakedAmount}</Text>
+              <Box flexGrow={1}>
+                <HStack justifyContent="space-between">
+                  <Text fontWeight={700} fontSize="sm">
+                    {ellipseMiddle(player.user.address, 10, 4)}
+                  </Text>
+                  {totalPoint && (
+                    <Text fontWeight={700}>
+                      {Number((player.stakedAmount / totalPoint) * 100).toFixed(
+                        2
+                      )}
+                      %
+                    </Text>
+                  )}
+                </HStack>
+                <HStack justifyContent="space-between">
+                  <Text fontSize="sm">{player.stakedAmount}</Text>
+                  <Text fontSize="sm">{totalPoint} Points</Text>
+                </HStack>
               </Box>
             </HStack>
-
-            <Box textAlign="right">
-              <Text fontWeight={700}> %</Text>
-              <Text>k Points</Text>
-            </Box>
           </HStack>
         ))}
     </Box>
