@@ -54,8 +54,10 @@ const CurrentPlayer = ({ listPlayer, watching, totalPoint }: IProps) => {
                   )}
                 </HStack>
                 <HStack justifyContent="space-between">
-                  <Text fontSize="sm">{player.stakedAmount}</Text>
-                  <Text fontSize="sm">{totalPoint} Points</Text>
+                  {/* <Text fontSize="sm">{player.stakedAmount}</Text> */}
+                  <Text fontSize="sm" color="white">
+                    {player.stakedAmount} Points
+                  </Text>
                 </HStack>
               </Box>
             </HStack>

@@ -28,6 +28,7 @@ import { ABIS } from '@/abis';
 import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import systemConfig from '@/config/systemConfig';
+import { useQuery } from 'react-query';
 
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
@@ -36,9 +37,25 @@ const ProfileAccount = () => {
     token: CONTRACT_ADDRESS.ETH,
   });
   const { handleSetPoint, point } = useCreatorAccount();
+  const getUserPoint = async (userAddress: string) => {
+    const contractBlizt = new Contract(
+      ABIS.bliztABI,
+      CONTRACT_ADDRESS.BLIZT_POINT,
+      new Provider({ nodeUrl: systemConfig().RPC })
+    );
 
-  useEffect(() => {
-    const getUserPoint = async (userAddress: string) => {
+    const data = await contractBlizt.getUserPoint(userAddress);
+    const fomatPoint = Number(cairo.uint256(data).low.toString());
+    handleSetPoint(fomatPoint);
+  };
+
+  const {
+    data: dataPoint,
+    isLoading: isLoadingPoint,
+    refetch: refetchPoint,
+  } = useQuery({
+    queryKey: 'Data Point',
+    queryFn: async () => {
       const contractBlizt = new Contract(
         ABIS.bliztABI,
         CONTRACT_ADDRESS.BLIZT_POINT,
@@ -48,10 +65,12 @@ const ProfileAccount = () => {
       const data = await contractBlizt.getUserPoint(userAddress);
       const fomatPoint = Number(cairo.uint256(data).low.toString());
       handleSetPoint(fomatPoint);
-    };
-
+      return fomatPoint;
+    },
+  });
+  useEffect(() => {
     if (userAddress) {
-      getUserPoint(userAddress);
+      refetchPoint();
     }
   }, [userAddress]);
   return (
@@ -69,7 +88,12 @@ const ProfileAccount = () => {
           <>{balance ? balance.toFixed(3) : '0'} ETH</>
         )}
       </Button>
-      <Button variant="primary">{point} points</Button>
+      {isLoadingPoint ? (
+        <Skeleton>00.000</Skeleton>
+      ) : (
+        <Button variant="primary">{dataPoint} points</Button>
+      )}
+
       {userAddress && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>
           <MenuButton as={Button} variant="primary">

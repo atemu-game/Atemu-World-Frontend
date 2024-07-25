@@ -20,6 +20,7 @@ import { useCountdown } from '@/hooks/useCountDown';
 import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
 import { connectSocketFuel, socketFuelApi } from '@/config/socketFuelConfig';
 import { FuelEvents } from '@/utils/constants';
+import LotteryWheelTest from '@/components/LotteryWheel/test';
 
 const FuelPage = () => {
   const [listPlayer, setListPlayer] = useState([]);
@@ -138,11 +139,18 @@ const FuelPage = () => {
               </HStack>
 
               <VStack>
-                {listPlayer && totalPoint && (
+                {/* {listPlayer && totalPoint && (
                   <LotteryWheel
                     totalPoint={totalPoint}
                     dataSeries={listPlayer}
                     timer={5}
+                  />
+                )} */}
+                {listPlayer && totalPoint && (
+                  <LotteryWheelTest
+                    dataSeries={listPlayer}
+                    totalPoint={totalPoint}
+                    timer={45}
                   />
                 )}
               </VStack>
