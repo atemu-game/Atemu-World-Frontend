@@ -18,12 +18,6 @@ const ProviderSocket = ({ children }: PropsWithChildren) => {
     handleSetPoint,
   } = useCreatorAccount();
   useEffect(() => {
-    if (!socketBlitzApi) {
-      connectSocketBlitz();
-    }
-    if (socketBlitzApi && socketBlitzApi.connected == false) {
-      socketBlitzApi.connect();
-    }
     if (socketBlitzApi && socketBlitzApi.active) {
       try {
         socketBlitzApi.on(BliztEvent.BLIZT_POINT, data => {
@@ -69,7 +63,7 @@ const ProviderSocket = ({ children }: PropsWithChildren) => {
         });
       }
     }
-  }, []);
+  }, [socketBlitzApi]);
 
   return <React.Fragment>{children}</React.Fragment>;
 };

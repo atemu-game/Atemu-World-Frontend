@@ -116,13 +116,18 @@ const LeaderPage = () => {
                   {dataLeaderboard.items.map((item: any, index: number) => (
                     <Tr key={`leaderboard-${index}`}>
                       <Td>{index + 1}</Td>
-                      <Td as={HStack}>
+                      <Td as={HStack} fontWeight="bold">
                         <Text color="primary.100">{item.address}</Text>
 
                         <CopyClipBoard
                           context={item.address}
                           color="primary.100"
                           aria-label="Copy Clipboard"
+                          h={4}
+                          w={4}
+                          _hover={{
+                            color: 'white',
+                          }}
                         />
                       </Td>
                       <Td>{item.points}</Td>

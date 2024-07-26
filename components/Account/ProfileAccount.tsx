@@ -28,7 +28,6 @@ import { ABIS } from '@/abis';
 import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import systemConfig from '@/config/systemConfig';
-import { useQuery } from 'react-query';
 
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
@@ -36,43 +35,8 @@ const ProfileAccount = () => {
     address: userAddress,
     token: CONTRACT_ADDRESS.ETH,
   });
-  const { handleSetPoint, point } = useCreatorAccount();
-  const getUserPoint = async (userAddress: string) => {
-    const contractBlizt = new Contract(
-      ABIS.bliztABI,
-      CONTRACT_ADDRESS.BLIZT_POINT,
-      new Provider({ nodeUrl: systemConfig().RPC })
-    );
+  const { point } = useCreatorAccount();
 
-    const data = await contractBlizt.getUserPoint(userAddress);
-    const fomatPoint = Number(cairo.uint256(data).low.toString());
-    handleSetPoint(fomatPoint);
-  };
-
-  const {
-    data: dataPoint,
-    isLoading: isLoadingPoint,
-    refetch: refetchPoint,
-  } = useQuery({
-    queryKey: 'Data Point',
-    queryFn: async () => {
-      const contractBlizt = new Contract(
-        ABIS.bliztABI,
-        CONTRACT_ADDRESS.BLIZT_POINT,
-        new Provider({ nodeUrl: systemConfig().RPC })
-      );
-
-      const data = await contractBlizt.getUserPoint(userAddress);
-      const fomatPoint = Number(cairo.uint256(data).low.toString());
-      handleSetPoint(fomatPoint);
-      return fomatPoint;
-    },
-  });
-  useEffect(() => {
-    if (userAddress) {
-      refetchPoint();
-    }
-  }, [userAddress]);
   return (
     <>
       <Button
@@ -88,10 +52,10 @@ const ProfileAccount = () => {
           <>{balance ? balance.toFixed(3) : '0'} ETH</>
         )}
       </Button>
-      {isLoadingPoint ? (
+      {!userAddress ? (
         <Skeleton>00.000</Skeleton>
       ) : (
-        <Button variant="primary">{dataPoint} points</Button>
+        <Button variant="primary">{point} points</Button>
       )}
 
       {userAddress && (
@@ -128,27 +92,14 @@ const ProfileAccount = () => {
                   base: 'block',
                   md: 'none',
                 }}
-              >
-                {/* <Button
-                variant="primary"
-                sx={{
-                  borderColor: 'secondary.100',
-                }}
-              >
-                Invite
-              </Button> */}
-              </MenuItem>
+              ></MenuItem>
               <MenuItem
                 display={{
                   base: 'block',
                   md: 'none',
                 }}
                 as={Button}
-              >
-                {/* <Button variant="primary" rightIcon={<Icon as={StarkNetIcon} />}>
-                100
-              </Button> */}
-              </MenuItem>
+              ></MenuItem>
               <MenuItem isDisabled>
                 <Icon as={SettingIcon} />
                 <Text>Profile Setting</Text>

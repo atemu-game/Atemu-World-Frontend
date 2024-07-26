@@ -21,6 +21,7 @@ import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
 import { connectSocketFuel, socketFuelApi } from '@/config/socketFuelConfig';
 import { FuelEvents } from '@/utils/constants';
 import LotteryWheelTest from '@/components/LotteryWheel/test';
+import { useAuth } from '@/hooks/useAuth';
 
 const FuelPage = () => {
   const [listPlayer, setListPlayer] = useState([]);
@@ -28,15 +29,8 @@ const FuelPage = () => {
 
   const [totalPoint, setTotalPoint] = useState(0);
   const [totalOnline, setTotalOnline] = useState(0);
+  const { userAddress } = useAuth();
   const [winer, setWiner] = useState(undefined);
-  const ListTestAtrr = [
-    'attribute',
-    'icon',
-    'monster type',
-    'normal monster',
-    'spell',
-    'trap',
-  ];
 
   const [minutes, seconds] = useCountdown(
     new Date(currentPool && currentPool.endAt).getTime()
@@ -54,14 +48,13 @@ const FuelPage = () => {
           setTotalOnline(() => data);
         });
         socketFuelApi.on(FuelEvents.WINNER, data => {
+          console.log('Now Winer', data);
           setWiner(() => data);
         });
         socketFuelApi.on(FuelEvents.CURRENT_POOL, data => {
           setCurrentPool(() => data);
         });
         socketFuelApi.on(FuelEvents.CURRENT_JOINED_POOL, data => {
-          console.log('What ', data);
-
           setListPlayer(() => data);
         });
         socketFuelApi.on(FuelEvents.TOTAL_POINT, data => {
@@ -70,7 +63,7 @@ const FuelPage = () => {
       } catch (error) {}
     }
   }, [socketFuelApi]);
-
+  console.log('List', listPlayer);
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
@@ -167,11 +160,11 @@ const FuelPage = () => {
               </Text>
               <Grid gridTemplateColumns={'repeat(2,1fr)'} gap={4}>
                 <Box>
-                  <Text>{totalPoint}</Text>
+                  <Text fontWeight="bold">{totalPoint}</Text>
                   <Text>Prize Pool </Text>
                 </Box>
                 <Box>
-                  <Text>{listPlayer.length}/15</Text>
+                  <Text fontWeight="bold">{listPlayer.length}/15</Text>
                   <Text>Participants </Text>
                 </Box>
                 <Box>
@@ -179,7 +172,7 @@ const FuelPage = () => {
                   <Text>Your Entries</Text>
                 </Box>
                 <Box>
-                  <Text>20%</Text>
+                  <Text fontWeight="bold">20</Text>
                   <Text>Your win chances </Text>
                 </Box>
               </Grid>
@@ -214,22 +207,6 @@ const FuelPage = () => {
               src="/assets/arts/card/card_test.svg"
               aria-label="Back Side Card"
             />
-            <Flex gap={3} flexWrap="wrap" mt={4}>
-              {ListTestAtrr.map((attr, index) => {
-                return (
-                  <Box
-                    py={1}
-                    px={4}
-                    key={`Attr-${index}`}
-                    textTransform="uppercase"
-                    border="1px solid"
-                    fontWeight="bold"
-                  >
-                    {attr}
-                  </Box>
-                );
-              })}
-            </Flex>
           </Card>
         </Flex>
       </HStack>

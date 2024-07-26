@@ -1,7 +1,6 @@
 import CopyClipBoard from '@/components/CopyClipboard/CopyClipBoard';
 import RefreshIcon from '@/public/assets/icons/refresh.svg';
-import { colors } from '@/themes';
-import { convertHex } from '@/utils/convertHex';
+
 import { ellipseMiddle } from '@/utils/formatAddress';
 import {
   Box,
@@ -162,6 +161,7 @@ const MonitorTrade = ({
           p={4}
           color="secondary.400"
           position="sticky"
+          zIndex="popover"
           top={0}
           justifyContent="space-between"
         >
