@@ -21,7 +21,6 @@ import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
 import { connectSocketFuel, socketFuelApi } from '@/config/socketFuelConfig';
 import { FuelEvents } from '@/utils/constants';
 import LotteryWheelTest from '@/components/LotteryWheel/test';
-import { useAuth } from '@/hooks/useAuth';
 
 const FuelPage = () => {
   const [listPlayer, setListPlayer] = useState([]);
@@ -29,16 +28,18 @@ const FuelPage = () => {
 
   const [totalPoint, setTotalPoint] = useState(0);
   const [totalOnline, setTotalOnline] = useState(0);
-  const { userAddress } = useAuth();
+
   const [winer, setWiner] = useState(undefined);
 
   const [minutes, seconds] = useCountdown(
-    new Date(currentPool && currentPool.endAt).getTime()
+    new Date(currentPool && currentPool.endAt).getDate()
   );
 
   useEffect(() => {
     if (!socketFuelApi || !socketFuelApi.active) {
       connectSocketFuel();
+    } else if (socketFuelApi && socketFuelApi.active) {
+      // socketFuelApi.red
     }
   }, []);
   useEffect(() => {
@@ -60,10 +61,12 @@ const FuelPage = () => {
         socketFuelApi.on(FuelEvents.TOTAL_POINT, data => {
           setTotalPoint(() => data);
         });
-      } catch (error) {}
+      } catch (error) {
+        console.log('Error Data', error);
+      }
     }
   }, [socketFuelApi]);
-  console.log('List', listPlayer);
+  console.log('Current Pool', currentPool);
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
