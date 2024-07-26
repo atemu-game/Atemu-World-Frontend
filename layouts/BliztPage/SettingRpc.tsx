@@ -11,6 +11,8 @@ import {
   Button,
   Divider,
   Flex,
+  HStack,
+  Icon,
   Input,
   Radio,
   RadioGroup,
@@ -21,7 +23,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-
+import DeleteIcon from '@/public/assets/icons/delete.svg';
 const SettingRpc = () => {
   const [currentRPC, setCurrentRPC] = useState(ListPublicRPC[0]); // Choice of RPC Minting
   const { handleChangeRPC, currentRPC: currentRPCAccount } =
@@ -48,7 +50,7 @@ const SettingRpc = () => {
       const { data } = await axiosHandler.get('/user/setting/customRPC');
       if (data.data && data.data.rpcPublicStore.length > 0)
         return data.data.rpcPublicStore;
-      return data.data;
+      return [];
     },
   });
   const hanldeAddRPC = useMutation({
@@ -83,7 +85,7 @@ const SettingRpc = () => {
 
   const handleRestoreRPC = useMutation({
     mutationFn: async () => {
-      const { data } = await axiosHandler.delete('/user/setting/customRPC');
+      const { data } = await axiosHandler.delete('/user/setting/customRPC/all');
       return data;
     },
     onSuccess: () => {
@@ -100,6 +102,37 @@ const SettingRpc = () => {
       toast({
         title: 'Error',
         description: 'RPC has not been restored',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    },
+  });
+  const handleDeleteRPCSpecific = useMutation({
+    mutationKey: 'delete-rpc',
+    mutationFn: async (rpc: string) => {
+      const { data } = await axiosHandler.delete(
+        '/user/setting/customRPC/specific',
+        {
+          data: { rpc },
+        }
+      );
+      return data;
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'RPC has been deleted',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      refetchOwnerRPC();
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'RPC has not been deleted. Something went wrong',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -171,15 +204,23 @@ const SettingRpc = () => {
             {!isLoadingOwnerRPC &&
               dataOwnerRPC &&
               dataOwnerRPC.map((rpc: string, index: number) => (
-                <Radio
-                  width="full"
-                  variant="primary"
-                  key={`RPC-Select-${index}-${rpc}`}
-                  value={rpc}
-                  gap={2}
-                >
-                  {ellipseMiddle(rpc, 15, 15)}
-                </Radio>
+                <HStack key={`RPC-Select-${index}-${rpc}`}>
+                  <Radio width="full" variant="primary" value={rpc} gap={2}>
+                    {ellipseMiddle(rpc, 15, 15)}
+                  </Radio>
+                  <Icon
+                    as={DeleteIcon}
+                    cursor="pointer"
+                    transition="all ease-in-out 0.4s"
+                    color="secondary.300"
+                    _hover={{
+                      color: 'white',
+                    }}
+                    onClick={() => {
+                      handleDeleteRPCSpecific.mutate(rpc);
+                    }}
+                  />
+                </HStack>
               ))}
           </Flex>
         </RadioGroup>

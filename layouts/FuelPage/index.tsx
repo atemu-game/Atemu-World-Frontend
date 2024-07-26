@@ -67,15 +67,8 @@ const FuelPage = () => {
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
-      <HStack
-        alignItems="flex-start"
-        gap={4}
-        justifyContent="space-between"
-        flexWrap={{
-          xl: 'nowrap',
-          base: 'wrap',
-        }}
-      >
+
+      <Grid gridTemplateColumns={{ lg: '3fr 1fr', base: '1fr 1fr' }} gap={4}>
         <Flex flexDirection="column" gap={4} width="full">
           <Flex
             as={Card}
@@ -152,7 +145,7 @@ const FuelPage = () => {
 
           {currentPool && <YourEntries currentId={currentPool.id} />}
         </Flex>
-        <Flex flexDirection="column" gap={4} width="380px">
+        <Flex flexDirection="column" gap={4} width="380px" height="100%">
           <Card>
             <Box padding={4}>
               <Text mb={5} variant="sub_title">
@@ -201,7 +194,7 @@ const FuelPage = () => {
             </Grid>
           </Card>
 
-          <Card padding={4}>
+          <Card padding={4} flexGrow={1}>
             <Text variant="title">Card Prize</Text>
             <Image
               src="/assets/arts/card/card_test.svg"
@@ -209,7 +202,7 @@ const FuelPage = () => {
             />
           </Card>
         </Flex>
-      </HStack>
+      </Grid>
     </Flex>
   );
 };
