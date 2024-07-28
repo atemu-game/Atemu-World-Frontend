@@ -2,13 +2,13 @@
 import { Box, Flex, VStack } from '@chakra-ui/react';
 import React from 'react';
 
-import IncentiveSection from './IncentiveSection';
 import DescriptionSection from './DescriptionSection';
-import HowToPlaySection from './HowToPlaySection';
-import CardTypeSection from './CardTypeSection';
-import BettingSection from './BettingSection';
+
 import FadeInVisible from '@/components/Animation/FadeInVisible';
-import { ChakraNextImage } from '@/components/Image/ChakraNextImage';
+
+import HeroSection from './HeroSection';
+import FollowSection from './FollowSection';
+import HowToPlay from './HowToPlay';
 
 const HomePage = () => {
   return (
@@ -16,37 +16,18 @@ const HomePage = () => {
       flexDirection="column"
       gap={{ lg: '100px', md: '40px', base: '24px' }}
     >
-      <Box position="relative">
-        <ChakraNextImage
-          src="/assets/arts/bg/home_bg.svg"
-          width={1374.8}
-          height={773.3}
-          aria-label=""
-          alt="Picture Atemu"
-        />
-      </Box>
+      <FadeInVisible>
+        <HeroSection />
+      </FadeInVisible>
 
-      <IncentiveSection />
       <FadeInVisible>
         <DescriptionSection />
       </FadeInVisible>
       <FadeInVisible>
-        <VStack width="full">
-          <video width="full" height="auto" controls>
-            <source src="/assets/videos/demo.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </VStack>
+        <HowToPlay />
       </FadeInVisible>
       <FadeInVisible>
-        <HowToPlaySection />
-      </FadeInVisible>
-      <FadeInVisible>
-        <BettingSection />
-      </FadeInVisible>
-
-      <FadeInVisible>
-        <CardTypeSection />
+        <FollowSection />
       </FadeInVisible>
     </Flex>
   );

@@ -97,7 +97,7 @@ const Header = () => {
       top={0}
       zIndex={99}
       background="body"
-      backgroundImage={`url('./assets/arts/banner.svg')`}
+      backgroundImage={`url('./assets/arts/bg/bg_body.svg')`}
       borderBottom="1px solid"
       borderBottomColor="primary.100"
     >
@@ -121,7 +121,7 @@ const Header = () => {
         </Link>
 
         <Text
-          fontSize="24px"
+          fontSize="20px"
           fontWeight={600}
           textTransform="uppercase"
           variant="gradient_text"

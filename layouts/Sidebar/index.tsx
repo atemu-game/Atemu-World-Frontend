@@ -10,7 +10,7 @@ const Sidebar = () => {
       py={6}
       borderRight="1px solid"
       minH="100vh"
-      w="180px"
+      w="135px"
       borderRightColor="primary.100"
       display={{ base: 'none', md: 'flex' }}
     >

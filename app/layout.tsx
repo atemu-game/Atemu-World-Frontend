@@ -33,28 +33,29 @@ const CrimsonPro = localFont({
 export const metadata: Metadata = {
   title: 'Atemu | Fully On-Chain Strategy Card Game ',
   description:
-    'Collect, Battle & Conquer in the Fully On-Chain Strategy Card Game on @Starknet🎮 .Powered by RYG Labs ',
-  metadataBase: new URL('https://www.atemu.xyz/'),
+    'Collect, Battle & Conquer in the Fully On-Chain Strategy Card Game on @Starknet🎮 .',
+  metadataBase: new URL('https://www.atemu.xyz'),
   icons: {
     icon: Favicon.src,
     shortcut: Favicon.src,
     apple: Favicon.src,
     other: { rel: 'apple-touch-icon-precomposed', url: Favicon.src },
   },
-  keywords: ['Atemu'],
+  keywords: ['Atemu', 'CardGame on Starknet'],
   openGraph: {
     title: 'Atemu',
-    description: 'Atemu Game of RYG Labs',
+    description:
+      'Collect, Battle & Conquer in the Fully On-Chain Strategy Card Game on @Starknet🎮 .',
     images: [
       {
-        url: './public/assets/arts/bg/home_bg.svg',
+        url: './public/assets/arts/banner/home_banner.svg',
         width: 1200,
         height: 600,
         type: 'image/png',
       },
     ],
     locale: 'en_US',
-
+    url: 'https://www.atemu.xyz',
     type: 'website',
     emails: 'karasbuilder@gmail.com',
     siteName: 'Atemu',
@@ -62,8 +63,24 @@ export const metadata: Metadata = {
   twitter: {
     title: 'Atemu | Fully On-Chain Strategy Card Game ',
     description:
-      'Collect, Battle & Conquer in the Fully On-Chain Strategy Card Game on @Starknet🎮 .Powered by RYG Labs.',
+      'Collect, Battle & Conquer in the Fully On-Chain Strategy Card Game on @Starknet🎮 .',
+    images: {
+      url: './public/assets/arts/banner/home_banner.svg',
+      width: 1200,
+      height: 600,
+      type: 'image/png',
+      alt: 'Atemu Banner',
+    },
+    card: 'player',
+    creator: '@ryglabs',
+    players: {
+      playerUrl: 'https://www.atemu.xyz',
+      streamUrl: 'https://www.atemu.xyz',
+      width: 600,
+      height: 600,
+    },
   },
+
   category: 'technology',
 };
 
