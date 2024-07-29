@@ -17,18 +17,40 @@ const HowToPlay = () => {
   ];
   return (
     <Box>
-      <Text>Blitz points</Text>
+      <Text variant="title_home">Blitz points</Text>
       <Text>
         Your gateway to the Atemu Realm. Stack your points and build your deck
       </Text>
-      <Card>
+      <Card variant="content_secondary">
         <Text></Text>
       </Card>
 
       <VStack>
-        <Text>Atemu is different</Text>
+        <Text variant="title_home">Atemu is different</Text>
         <Text>Buy, Trade, Sell and Fight</Text>
-        {}
+        {AtemuDifferentSection.map((item, index) => (
+          <Card
+            width="full"
+            variant="shadow"
+            key={`${index}-card diff`}
+            padding={4}
+          >
+            <Box
+              py={6}
+              style={{
+                border: '2px solid transparent',
+                borderImageSlice: 2,
+                borderImageSource:
+                  'linear-gradient(90.73deg, rgba(232, 183, 124, 0.5) -5.34%, rgba(253, 217, 105, 0.5) 51.67%, rgba(178, 113, 34, 0.5) 116.05%)',
+              }}
+              textAlign="center"
+            >
+              <Text fontSize="24px" fontWeight="medium">
+                {item}
+              </Text>
+            </Box>
+          </Card>
+        ))}
       </VStack>
     </Box>
   );

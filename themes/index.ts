@@ -129,6 +129,17 @@ const Text: ComponentStyleConfig = {
       textTransform: 'uppercase',
       color: 'primary.100',
     },
+    title_home: {
+      background: 'gradient.100',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      fontSize: { lg: '52px', base: '32px' },
+
+      fontWeight: 'semibold',
+      textAlign: 'center',
+      lineHeight: 'normal',
+      textTransform: 'uppercase',
+    },
     sub_title: {
       fontSize: 'lg',
       fontWeight: 600,

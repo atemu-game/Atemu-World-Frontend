@@ -11,15 +11,7 @@ const DescriptionSection = () => {
   ];
   return (
     <VStack mt="300px">
-      <Text
-        variant="gradient_text"
-        fontWeight="semibold"
-        fontSize="52px"
-        textTransform="uppercase"
-        textAlign="center"
-      >
-        The genesis of atemu
-      </Text>
+      <Text variant="title_home">The genesis of atemu</Text>
       <VStack gap={2} mb="72px">
         {ListContent.map((item, index) => (
           <Text
