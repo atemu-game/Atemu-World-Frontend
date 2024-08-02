@@ -236,7 +236,7 @@ const SettingRpc = () => {
             value={ownerRPC}
           />
           <Button
-            variant="primary"
+            variant="long_btn"
             width="full"
             height={12}
             borderColor="secondary.100"
@@ -291,7 +291,7 @@ const SettingRpc = () => {
         <Box>
           <Text variant="sub_title">Restore RPC list (Default)</Text>
           <Button
-            variant="primary"
+            variant="long_btn"
             my={4}
             width="full"
             borderColor="secondary.100"

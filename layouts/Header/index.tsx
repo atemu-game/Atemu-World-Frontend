@@ -143,7 +143,7 @@ const Header = () => {
             md: 'inline-flex',
           }}
         >
-          Invite
+          Invite Code
         </Button>
         <ModalInviteCode isOpen={isOpen} onClose={onClose} />
         {userAddress ? (

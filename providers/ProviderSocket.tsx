@@ -1,5 +1,5 @@
 'use client';
-import { connectSocketBlitz, socketBlitzApi } from '@/config/socketBlitzConfig';
+import { socketBlitzApi } from '@/config/socketBlitzConfig';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { BliztEvent } from '@/utils/constants';
 import { useToast } from '@chakra-ui/react';
@@ -37,6 +37,7 @@ const ProviderSocket = ({ children }: PropsWithChildren) => {
           handleSetBalance(data);
         });
         socketBlitzApi.on(BliztEvent.BLIZT_TRANSACTION, data => {
+          console.log('What Wrong Data', data);
           handleSetTransaction(
             data.transactionHash,
             data.status,
@@ -62,6 +63,14 @@ const ProviderSocket = ({ children }: PropsWithChildren) => {
           status: 'error',
         });
       }
+      return () => {
+        socketBlitzApi.off(BliztEvent.BLIZT_POINT);
+        socketBlitzApi.off(BliztEvent.BLIZT_STATUS);
+        socketBlitzApi.off(BliztEvent.BLIZT_BALANCE);
+        socketBlitzApi.off(BliztEvent.BLIZT_TRANSACTION);
+        socketBlitzApi.off('disconnect');
+        socketBlitzApi.off('error');
+      };
     }
   }, [socketBlitzApi]);
 

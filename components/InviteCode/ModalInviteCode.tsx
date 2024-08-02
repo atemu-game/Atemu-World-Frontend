@@ -37,6 +37,7 @@ const ModalInviteCode = ({ isOpen, onClose }: IProps) => {
             <InputGroup>
               <Input
                 variant="primary"
+                readOnly={userAddress ? false : true}
                 value={userAddress ? '' : 'Please Connect To View'}
                 mb={6}
               />

@@ -155,6 +155,7 @@ const BliztPage = () => {
                 display="flex"
                 alignItems="center"
                 flexWrap="wrap"
+                gap={4}
               >
                 <Box>
                   <Text
