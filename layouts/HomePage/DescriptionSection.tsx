@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Icon, VStack, Text } from '@chakra-ui/react';
+import { VStack, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 const DescriptionSection = () => {
   const ListContent = [
