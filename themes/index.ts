@@ -9,6 +9,8 @@ export const colors = {
     100: '#DFAA6C',
     200: '#12141A',
     300: '#131417',
+    400: '#FDD969',
+    500: '#B27122',
   },
   divider: {
     100: '#3A3A3C',
@@ -77,6 +79,28 @@ const Button: ComponentStyleConfig = {
         color: 'primary.300',
       },
     },
+    long_btn: {
+      background: `url('./assets/arts/bg/bg_button_long.svg')`,
+      overflow: 'hidden',
+      backgroundSize: 'contain',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      minWidth: '290px',
+      height: '48px',
+      // borderRadius: '4px',
+      // border: '1px solid',
+      fontsize: 'lg',
+      fontWeight: 700,
+      transition: 'all 0.2s',
+      color: 'primary.100',
+      _hover: {
+        background: `url('./assets/arts/bg/bg_button_long_hover.svg')`,
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        color: 'primary.300',
+      },
+    },
     icon_btn: {
       color: 'white',
       cursor: 'pointer',
@@ -101,9 +125,19 @@ const Text: ComponentStyleConfig = {
   variants: {
     title: {
       fontSize: '1.5rem',
-      fontWeight: 600,
+      fontWeight: 800,
       textTransform: 'uppercase',
       color: 'primary.100',
+    },
+    title_home: {
+      background: 'gradient.100',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      fontSize: { lg: '52px', base: '32px' },
+      fontWeight: 'semibold',
+      textAlign: 'center',
+      lineHeight: 'normal',
+      textTransform: 'uppercase',
     },
     sub_title: {
       fontSize: 'lg',
@@ -136,17 +170,18 @@ const Menu: ComponentStyleConfig = {
         border: 'none',
         borderRadius: '0',
         bg: 'primary.300',
-        // transform: 'translate3d(13px, 26px, 0px)!important',
+        boxShadow: ` 0px 4px 16px 0px #E8B77C40 inset, 0px -4px 16px 0px #E8B77C40 inset,4px 0px 16px 0px #E8B77C26 inset,-4px 0px 16px 0px #E8B77C26 inset`,
       },
       item: {
         bg: 'inherit',
-
+        color: 'rgba(255, 255, 255, 0.5)',
         px: 2,
         py: 3,
         display: 'flex',
+        fontWeight: 'bold',
         gap: 4,
         _hover: {
-          background: '[gray].700',
+          color: 'white',
         },
       },
       command: {

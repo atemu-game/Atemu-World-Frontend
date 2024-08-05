@@ -1,5 +1,5 @@
 'use client';
-import { socketAPI } from '@/config/socketConfig';
+import { socketBlitzApi } from '@/config/socketBlitzConfig';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { BliztEvent } from '@/utils/constants';
 import { useToast } from '@chakra-ui/react';
@@ -18,12 +18,12 @@ const ProviderSocket = ({ children }: PropsWithChildren) => {
     handleSetPoint,
   } = useCreatorAccount();
   useEffect(() => {
-    if (socketAPI && socketAPI.active) {
+    if (socketBlitzApi && socketBlitzApi.active) {
       try {
-        socketAPI.on(BliztEvent.BLIZT_POINT, data => {
+        socketBlitzApi.on(BliztEvent.BLIZT_POINT, data => {
           handleSetPoint(data);
         });
-        socketAPI.on(BliztEvent.BLIZT_STATUS, data => {
+        socketBlitzApi.on(BliztEvent.BLIZT_STATUS, data => {
           handleSetStatus(data);
           if (data === 'balance_low') {
             toast({
@@ -33,21 +33,22 @@ const ProviderSocket = ({ children }: PropsWithChildren) => {
             });
           }
         });
-        socketAPI.on(BliztEvent.BLIZT_BALANCE, data => {
+        socketBlitzApi.on(BliztEvent.BLIZT_BALANCE, data => {
           handleSetBalance(data);
         });
-        socketAPI.on(BliztEvent.BLIZT_TRANSACTION, data => {
+        socketBlitzApi.on(BliztEvent.BLIZT_TRANSACTION, data => {
+          console.log('What Wrong Data', data);
           handleSetTransaction(
             data.transactionHash,
             data.status,
             data.timestamp
           );
         });
-        socketAPI.on('disconnect', () => {
-          socketAPI.disconnect();
+        socketBlitzApi.on('disconnect', () => {
+          socketBlitzApi.disconnect();
           handleSetStatus('stopped');
         });
-        socketAPI.on('error', message => {
+        socketBlitzApi.on('error', message => {
           handleSetStatus('stopped');
           toast({
             title: 'Error',
@@ -62,8 +63,16 @@ const ProviderSocket = ({ children }: PropsWithChildren) => {
           status: 'error',
         });
       }
+      return () => {
+        socketBlitzApi.off(BliztEvent.BLIZT_POINT);
+        socketBlitzApi.off(BliztEvent.BLIZT_STATUS);
+        socketBlitzApi.off(BliztEvent.BLIZT_BALANCE);
+        socketBlitzApi.off(BliztEvent.BLIZT_TRANSACTION);
+        socketBlitzApi.off('disconnect');
+        socketBlitzApi.off('error');
+      };
     }
-  }, [socketAPI]);
+  }, [socketBlitzApi]);
 
   return <React.Fragment>{children}</React.Fragment>;
 };

@@ -55,7 +55,17 @@ const LeaderPage = () => {
   const ListHeader = ['Rank', 'Address', 'Points', 'Last Update'];
   return (
     <Flex flexDirection="column">
-      <Text variant="title">Leaderboard</Text>
+      <HStack justifyContent="space-between" mb={4}>
+        <Text variant="title">Leaderboard</Text>
+        <HStack fontWeight={800}>
+          <Text variant="title" color="rgba(255, 255, 255, 0.5)">
+            Individuals
+          </Text>
+          <Text>/</Text>
+          <Text variant="title">leagues</Text>
+        </HStack>
+      </HStack>
+
       <Card
         as={VStack}
         py={6}
@@ -106,15 +116,57 @@ const LeaderPage = () => {
                   {dataLeaderboard.items.map((item: any, index: number) => (
                     <Tr key={`leaderboard-${index}`}>
                       <Td>{index + 1}</Td>
-                      <Td as={HStack}>
+                      {item.mappingAddress ? (
+                        <>
+                          <Td as={HStack} fontWeight="bold">
+                            <Text color="primary.100">
+                              {item.mappingAddress.address}
+                            </Text>
+
+                            <CopyClipBoard
+                              context={item.mappingAddress.address}
+                              color="primary.100"
+                              aria-label="Copy Clipboard"
+                              h={4}
+                              w={4}
+                              _hover={{
+                                color: 'white',
+                              }}
+                            />
+                          </Td>
+                        </>
+                      ) : (
+                        <>
+                          <Td as={HStack} fontWeight="bold">
+                            <Text color="primary.100">{item.address}</Text>
+
+                            <CopyClipBoard
+                              context={item.address}
+                              color="primary.100"
+                              aria-label="Copy Clipboard"
+                              h={4}
+                              w={4}
+                              _hover={{
+                                color: 'white',
+                              }}
+                            />
+                          </Td>
+                        </>
+                      )}
+                      {/* <Td as={HStack} fontWeight="bold">
                         <Text color="primary.100">{item.address}</Text>
 
                         <CopyClipBoard
                           context={item.address}
                           color="primary.100"
                           aria-label="Copy Clipboard"
+                          h={4}
+                          w={4}
+                          _hover={{
+                            color: 'white',
+                          }}
                         />
-                      </Td>
+                      </Td> */}
                       <Td>{item.points}</Td>
                       <Td>{formatDateData(new Date(item.updatedAt))}</Td>
                     </Tr>
