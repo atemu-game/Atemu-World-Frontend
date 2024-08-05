@@ -134,7 +134,6 @@ const Text: ComponentStyleConfig = {
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
       fontSize: { lg: '52px', base: '32px' },
-
       fontWeight: 'semibold',
       textAlign: 'center',
       lineHeight: 'normal',

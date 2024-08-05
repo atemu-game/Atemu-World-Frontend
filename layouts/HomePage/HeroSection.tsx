@@ -55,8 +55,20 @@ const HeroSection = () => {
         width={578}
         alt="Tester Art"
       />
+      <Image
+        src="/assets/arts/common/home_art_intro.svg"
+        width={1269}
+        height={721}
+        alt="Home Art"
+        style={{ position: 'absolute', bottom: '-100%', left: 20, zIndex: -1 }}
+      />
       <VStack position="absolute" right={10} bottom={-20}>
-        <Text variant="gradient_text" fontSize="32px" fontWeight="semibold">
+        <Text
+          variant="gradient_text"
+          fontSize="32px"
+          fontWeight="semibold"
+          textTransform="uppercase"
+        >
           OG Collection is launching soon
         </Text>
         <Icon as={UnionIcon} height={4} w="auto" />

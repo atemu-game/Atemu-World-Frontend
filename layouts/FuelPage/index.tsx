@@ -38,8 +38,6 @@ const FuelPage = () => {
   useEffect(() => {
     if (!socketFuelApi || !socketFuelApi.active) {
       connectSocketFuel();
-    } else if (socketFuelApi && socketFuelApi.active) {
-      // socketFuelApi.red
     }
   }, []);
   useEffect(() => {
