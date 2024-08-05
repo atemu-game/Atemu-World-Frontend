@@ -34,8 +34,9 @@ const nextConfig = {
     },
 
     env: {
-        PUBLIC_NEXT_API: process.env.PUBLIC_NEXT_API || 'http://localhost:8088',
-        PUBLIC_NEXT_SOCKET_PORT: process.env.PUBLIC_NEXT_SOCKET_PORT || 'http://localhost:8000'
+        PUBLIC_NEXT_API: process.env.PUBLIC_NEXT_API || 'http://localhost:8000',
+        PUBLIC_SOCKET_BLITZ: process.env.PUBLIC_SOCKET_BLITZ || 'http://localhost:5050',
+        PUBLIC_SOCKET_FUEL: process.env.PUBLIC_SOCKET_FUEL || 'http://localhost:5051',
     }
 };
 

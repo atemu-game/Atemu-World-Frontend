@@ -1,4 +1,3 @@
-import { disconnectSocket, socketAPI } from '@/config/socketConfig';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 import { Button, HStack, Spinner, Text } from '@chakra-ui/react';

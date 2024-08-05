@@ -17,12 +17,17 @@ import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 
 import LoadingConnectWallet from '@/components/Animation/LoadingConnectWallet';
 import ModalInviteCode from '@/components/InviteCode/ModalInviteCode';
+import { cairo, Contract, Provider } from 'starknet';
+import { ABIS } from '@/abis';
+import { CONTRACT_ADDRESS } from '@/utils/constants';
+import systemConfig from '@/config/systemConfig';
 
 const Header = () => {
   const { userAddress, prevConnector, isLoading, verifySignature } = useAuth();
   const { connectors, connect } = useConnect();
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { handleClearEventLog } = useCreatorAccount();
+
+  const { handleClearEventLog, handleSetPoint } = useCreatorAccount();
   const {
     address: addressWallet,
     status: statusWallet,
@@ -30,7 +35,17 @@ const Header = () => {
   } = useAccount();
 
   const dispatch = useDispatch();
+  const getUserPoint = async (userAddress: string) => {
+    const contractBlizt = new Contract(
+      ABIS.bliztABI,
+      CONTRACT_ADDRESS.BLIZT_POINT,
+      new Provider({ nodeUrl: systemConfig().RPC })
+    );
 
+    const data = await contractBlizt.getUserPoint(userAddress);
+    const fomatPoint = Number(cairo.uint256(data).low.toString());
+    handleSetPoint(fomatPoint);
+  };
   useEffect(() => {
     const handleChangeWallet = async () => {
       if (
@@ -42,6 +57,7 @@ const Header = () => {
         dispatch(setUserLoading(true));
         handleClearEventLog();
         await verifySignature(account);
+        await getUserPoint(addressWallet);
         dispatch(setUserLoading(false));
       } else if (
         addressWallet &&
@@ -52,6 +68,7 @@ const Header = () => {
         dispatch(setUserLoading(true));
         handleClearEventLog();
         await verifySignature(account);
+        await getUserPoint(addressWallet);
         dispatch(setUserLoading(false));
       }
     };
@@ -80,7 +97,7 @@ const Header = () => {
       top={0}
       zIndex={99}
       background="body"
-      backgroundImage={`url('./assets/arts/banner.svg')`}
+      backgroundImage={`url('./assets/arts/bg/bg_body.svg')`}
       borderBottom="1px solid"
       borderBottomColor="primary.100"
     >
@@ -104,7 +121,7 @@ const Header = () => {
         </Link>
 
         <Text
-          fontSize="24px"
+          fontSize="20px"
           fontWeight={600}
           textTransform="uppercase"
           variant="gradient_text"
@@ -126,7 +143,7 @@ const Header = () => {
             md: 'inline-flex',
           }}
         >
-          Invite
+          Invite Code
         </Button>
         <ModalInviteCode isOpen={isOpen} onClose={onClose} />
         {userAddress ? (

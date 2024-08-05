@@ -1,12 +1,5 @@
 'use client';
-import {
-  Box,
-  Text,
-  HStack,
-  VStack,
-  Skeleton,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Text, HStack, VStack, Skeleton } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import SettingRpc from './SettingRpc';
 import MonitorTrade from './MonitorTrade';
@@ -18,14 +11,13 @@ import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { useBlock } from '@starknet-react/core';
 import { BlockNumber, num } from 'starknet';
 
-import { BliztEvent } from '@/utils/constants';
-import { socketAPI } from '@/config/socketConfig';
 import { useQuery } from 'react-query';
 import { axiosHandler } from '@/config/axiosConfig';
 import Card from '@/components/Card';
 import { colors } from '@/themes';
 import { convertHex } from '@/utils/convertHex';
 import { formatBalance } from '@/utils/formatAddress';
+import { connectSocketBlitz, socketBlitzApi } from '@/config/socketBlitzConfig';
 
 export interface UserWalletProps {
   payerAddress: string;
@@ -43,6 +35,7 @@ export interface UserWalletProps {
 const BliztPage = () => {
   const { userAddress } = useAuth();
   const { point, balance, handleSetBalance } = useCreatorAccount();
+
   const {
     data: userWallet,
     isLoading: isLoadingWallet,
@@ -79,6 +72,10 @@ const BliztPage = () => {
   useEffect(() => {
     const handleChangeWallet = async () => {
       if (userAddress) {
+        if (!socketBlitzApi || !socketBlitzApi.active) {
+          await connectSocketBlitz();
+        }
+
         await refetchWallet();
         await refetchBalancePayer();
       }
@@ -156,6 +153,7 @@ const BliztPage = () => {
                 display="flex"
                 alignItems="center"
                 flexWrap="wrap"
+                gap={4}
               >
                 <Box>
                   <Text

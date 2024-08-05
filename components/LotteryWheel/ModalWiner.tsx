@@ -1,4 +1,4 @@
-import { Modal, ModalBody, ModalOverlay } from '@chakra-ui/react';
+import { Modal, ModalBody, ModalOverlay, Text } from '@chakra-ui/react';
 import React from 'react';
 interface ModalWinerProps {
   isOpen: boolean;
@@ -15,7 +15,9 @@ const ModalWiner = ({
   return (
     <Modal isOpen={true} onClose={onClose}>
       <ModalOverlay />
-      <ModalBody></ModalBody>
+      <ModalBody>
+        <Text>Modal Winer</Text>
+      </ModalBody>
     </Modal>
   );
 };

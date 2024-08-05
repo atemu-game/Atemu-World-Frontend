@@ -20,7 +20,9 @@ const RequireConnectWallet = () => {
         bgRepeat="no-repeat"
         backgroundSize="cover"
       >
-        <Text variant="title">Please connect your wallet to continue</Text>
+        <Text variant="title" textAlign="center">
+          Please connect your wallet to continue
+        </Text>
         <ConnectWallet
           sx={{
             borderColor: 'secondary.100',

@@ -3,6 +3,7 @@ import {
   Button,
   HStack,
   Input,
+  InputGroup,
   Modal,
   ModalBody,
   ModalContent,
@@ -11,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import ConnectWallet from '../ConnectWallet';
+import CopyClipBoard from '../CopyClipboard/CopyClipBoard';
 interface IProps {
   isOpen: boolean;
   onClose: () => void;
@@ -31,11 +33,16 @@ const ModalInviteCode = ({ isOpen, onClose }: IProps) => {
             Invite code
           </Text>
           <Text mb={6}>Valid invite code will boost your Blitz x2</Text>
-          <Input
-            variant="primary"
-            value={userAddress ? '' : 'Please Connect To View'}
-            mb={6}
-          />
+          <HStack>
+            <InputGroup>
+              <Input
+                variant="primary"
+                readOnly={userAddress ? false : true}
+                value={userAddress ? '' : 'Please Connect To View'}
+                mb={6}
+              />
+            </InputGroup>
+          </HStack>
 
           {userAddress ? (
             <HStack>

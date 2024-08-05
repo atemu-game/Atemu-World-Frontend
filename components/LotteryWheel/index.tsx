@@ -7,12 +7,12 @@ import { ellipseMiddle } from '@/utils/formatAddress';
 interface IProps {
   dataSeries: any;
   totalPoint: number;
-
   timer: number;
   winner?: string;
 }
-const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
+const LotteryWheel = ({ dataSeries, timer, totalPoint }: IProps) => {
   const trigger = useRef(null);
+  let chart: any;
   const radToDeg = (r: number) => (r * 180) / Math.PI;
   const findWinner = (data: any) => {
     //random Here
@@ -33,7 +33,6 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
     }
     return -1;
   };
-  let chart: any;
 
   const findTheWinner = () => {
     if (chart) {
@@ -118,6 +117,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
       }, animationSpeed);
     }
   };
+
   const updateCircle = (newTimer: number) => {
     if (chart) {
       if (chart.customOverlay) {
@@ -150,9 +150,9 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       chart = Highcharts.chart('chart-wheel', {
         chart: {
-          // animation: {
-          //   duration: 500,
-          // },
+          animation: {
+            duration: 500,
+          },
           backgroundColor: 'transparent',
           margin: [0, 0, 0, 0],
           spacingTop: 0,
@@ -220,7 +220,8 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
           },
         },
         tooltip: {
-          pointFormat: 'Point Percentage: <b>{point.percentage:.1f}%</b>',
+          enabled: false,
+          // pointFormat: 'Point Percentage: <b>{point.percentage:.1f}%</b>',
         },
         title: {
           // text: totalPoint,
@@ -248,13 +249,14 @@ const LotteryWheel = ({ dataSeries, totalPoint, timer }: IProps) => {
             type: 'pie',
             size: '100%',
             dataLabels: {
-              distance: -50,
+              enabled: false,
+              // distance: -50,
             },
             innerSize: '70%',
             data: dataSeries.map((item: any, index: number) => {
               return {
-                name: ellipseMiddle(item.address, 3, 3),
-                y: item.percentage,
+                name: ellipseMiddle(item.user.address, 3, 3),
+                y: (item.stakedAmount / totalPoint) * 100,
                 color:
                   colors.secondary[
                     (index * 100) as keyof typeof colors.secondary

@@ -15,7 +15,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
         <Flex
           width="full"
           flexDirection="column"
-          background={`url('./assets/arts/banner.svg')`}
+          background={`url('./assets/arts/bg/bg_body.svg')`}
           backgroundSize="cover"
           backgroundPosition="center"
           backgroundRepeat="no-repeat"

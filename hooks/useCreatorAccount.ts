@@ -1,11 +1,11 @@
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from './useTypedSelector';
 import {
-  connectSocket,
-  socketAPI,
+  connectSocketBlitz,
+  socketBlitzApi,
   startMint,
   stopMint,
-} from '@/config/socketConfig';
+} from '@/config/socketBlitzConfig';
 import {
   clearEventLog,
   resetCreator,
@@ -23,12 +23,6 @@ export const useCreatorAccount = () => {
   const creatorAccount = useTypedSelector(state => state.creatorAccount);
   const dispatch = useDispatch();
   const handleStartMint = async () => {
-    if (!socketAPI) {
-      connectSocket();
-    }
-    if (socketAPI && socketAPI.connected == false) {
-      socketAPI.connect();
-    }
     dispatch(setLoadingMint(true));
     await startMint(creatorAccount.currentRPC);
     dispatch(setLoadingMint(false));

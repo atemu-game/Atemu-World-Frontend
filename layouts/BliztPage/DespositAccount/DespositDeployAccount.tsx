@@ -19,7 +19,7 @@ import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { CallData, RpcProvider, uint256 } from 'starknet';
 import { axiosHandler } from '@/config/axiosConfig';
 import systemConfig from '@/config/systemConfig';
-import Card from '@/components/Card';
+
 import { ellipseMiddle } from '@/utils/formatAddress';
 
 interface IProps {
@@ -35,7 +35,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
     isClosable: false,
   });
   const [isLoading, setIsLoading] = useState(false);
-
+  const initialRef = React.useRef(null);
   return (
     <>
       <Button
@@ -57,6 +57,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
         isCentered
         size="lg"
         variant="primary"
+        initialFocusRef={initialRef}
       >
         <ModalOverlay />
 
@@ -82,6 +83,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                 <Text
                   textOverflow="ellipsis"
                   maxWidth={{ lg: 'full', base: '300px' }}
+                  ref={initialRef}
                 >
                   {ellipseMiddle(userWallet.payerAddress, 24, 24)}
                   <CopyClipBoard
