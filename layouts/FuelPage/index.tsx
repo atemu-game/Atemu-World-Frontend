@@ -6,6 +6,7 @@ import {
   Grid,
   HStack,
   Image,
+  Spinner,
   Text,
   VStack,
 } from '@chakra-ui/react';
@@ -13,7 +14,6 @@ import React, { useEffect, useState } from 'react';
 import CurrentPlayer from './CurrentPlayer';
 import YourEntries from './YourEntries';
 
-import LotteryWheel from '@/components/LotteryWheel';
 import Card from '@/components/Card';
 
 import { useCountdown } from '@/hooks/useCountDown';
@@ -23,6 +23,7 @@ import { FuelEvents } from '@/utils/constants';
 import LotteryWheelTest from '@/components/LotteryWheel/test';
 
 const FuelPage = () => {
+  const [isLoadingPool, setIsLoadingPool] = useState(true);
   const [listPlayer, setListPlayer] = useState([]);
   const [currentPool, setCurrentPool] = useState<any>(undefined);
 
@@ -31,15 +32,17 @@ const FuelPage = () => {
 
   const [winer, setWiner] = useState(undefined);
 
-  const [minutes, seconds] = useCountdown(
-    new Date(currentPool && currentPool.endAt).getDate()
-  );
+  const [minutes, seconds] = useCountdown(currentPool && currentPool.endAt);
 
   useEffect(() => {
-    if (!socketFuelApi || !socketFuelApi.active) {
+    if (
+      !socketFuelApi ||
+      !socketFuelApi.active ||
+      (!currentPool && socketFuelApi)
+    ) {
       connectSocketFuel();
     }
-  }, []);
+  });
   useEffect(() => {
     if (socketFuelApi && socketFuelApi.active) {
       try {
@@ -52,6 +55,7 @@ const FuelPage = () => {
         });
         socketFuelApi.on(FuelEvents.CURRENT_POOL, data => {
           setCurrentPool(() => data);
+          setIsLoadingPool(false);
         });
         socketFuelApi.on(FuelEvents.CURRENT_JOINED_POOL, data => {
           setListPlayer(() => data);
@@ -62,9 +66,17 @@ const FuelPage = () => {
       } catch (error) {
         console.log('Error Data', error);
       }
+      return () => {
+        socketFuelApi.off(FuelEvents.TOTAL_ONLINE);
+        socketFuelApi.off(FuelEvents.TOTAL_POINT);
+        socketFuelApi.off(FuelEvents.CURRENT_JOINED_POOL);
+        socketFuelApi.off(FuelEvents.WINNER);
+        socketFuelApi.off('disconnect');
+        socketFuelApi.off('error');
+      };
     }
   }, [socketFuelApi]);
-  console.log('Current Pool', currentPool);
+
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
@@ -79,11 +91,17 @@ const FuelPage = () => {
             flexWrap={{ lg: 'nowrap', base: 'wrap-reverse' }}
           >
             <Box minWidth={{ lg: '325px', base: 'full' }} height="full">
-              <CurrentPlayer
-                listPlayer={listPlayer}
-                watching={totalOnline}
-                totalPoint={totalPoint}
-              />
+              {!isLoadingPool && currentPool ? (
+                <CurrentPlayer
+                  listPlayer={listPlayer}
+                  watching={totalOnline}
+                  totalPoint={totalPoint}
+                />
+              ) : (
+                <VStack minH="500px" justifyContent="center">
+                  <Spinner size="lg" />
+                </VStack>
+              )}
             </Box>
 
             <Box
@@ -126,25 +144,28 @@ const FuelPage = () => {
               </HStack>
 
               <VStack>
-                {/* {listPlayer && totalPoint && (
-                  <LotteryWheel
-                    totalPoint={totalPoint}
-                    dataSeries={listPlayer}
-                    timer={5}
-                  />
-                )} */}
-                {listPlayer && totalPoint && (
+                {!isLoadingPool && listPlayer && totalPoint ? (
                   <LotteryWheelTest
                     dataSeries={listPlayer}
                     totalPoint={totalPoint}
                     timer={45}
                   />
+                ) : (
+                  <VStack height="full" justifyContent="center">
+                    <Spinner size="lg" />
+                  </VStack>
                 )}
               </VStack>
             </Box>
           </Flex>
 
-          {currentPool && <YourEntries currentId={currentPool.id} />}
+          {!isLoadingPool && currentPool ? (
+            <YourEntries currentId={currentPool.id} />
+          ) : (
+            <Card padding={4} minH="200px" as={VStack} justifyContent="center">
+              <Spinner size="lg" />
+            </Card>
+          )}
         </Flex>
         <Flex flexDirection="column" gap={4} width="380px" height="100%">
           <Card>

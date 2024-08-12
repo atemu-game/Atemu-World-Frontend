@@ -109,10 +109,10 @@ const LotteryWheelTest = ({ dataSeries, totalPoint, timer }: IProps) => {
           ) {
             const nextWinner = findWinner(chart.series[0].data);
             if (currentWinner == nextWinner) {
-              chart.setTitle({
-                text:
-                  'The winner is ' + chart.series[0].data[currentWinner] + '!',
-              });
+              // chart.setTitle({
+              //   text:
+              //     'The winner is ' + chart.series[0].data[currentWinner] + '!',
+              // });
               foundPossibleWinner = false;
             } else {
               currentWinner = -1;
@@ -213,6 +213,7 @@ const LotteryWheelTest = ({ dataSeries, totalPoint, timer }: IProps) => {
           },
         },
         accessibility: {
+          enabled: false,
           point: {
             valueSuffix: '%',
           },
@@ -222,13 +223,7 @@ const LotteryWheelTest = ({ dataSeries, totalPoint, timer }: IProps) => {
         },
         title: {
           // text: totalPoint,
-          text: timer,
-          verticalAlign: 'middle',
-          floating: true,
-          style: {
-            fontSize: '68px',
-            color: colors.primary[100],
-          },
+          enabled: false,
         },
         series: [
           {
@@ -290,6 +285,11 @@ const LotteryWheelTest = ({ dataSeries, totalPoint, timer }: IProps) => {
         })
         .add();
       setChart(() => chart);
+    }
+  };
+  useEffect(() => {
+    handleDrawChart();
+    if (dataSeries.length > 3 && trigger.current) {
       const countdown = setInterval(() => {
         if (trigger.current && chart.series != null) {
           if (timer > 0) {
@@ -305,10 +305,7 @@ const LotteryWheelTest = ({ dataSeries, totalPoint, timer }: IProps) => {
         }
       }, 1000);
     }
-  };
-  useEffect(() => {
-    handleDrawChart();
-  }, [trigger.current]);
+  }, [trigger.current, dataSeries]);
 
   return (
     <>
