@@ -1,3 +1,4 @@
+import { axiosHandler } from '@/config/axiosConfig';
 import { useAuth } from '@/hooks/useAuth';
 import { WinerProps } from '@/utils/constants';
 import { ellipseMiddle } from '@/utils/formatAddress';
@@ -12,6 +13,8 @@ import {
   ModalContent,
   ModalFooter,
   Button,
+  ModalCloseButton,
+  useToast,
 } from '@chakra-ui/react';
 
 import React from 'react';
@@ -22,10 +25,41 @@ interface ModalWinerProps {
 }
 const ModalWiner = ({ isOpen, onClose, dataWiner }: ModalWinerProps) => {
   const { userAddress } = useAuth();
+  const toast = useToast();
+  const handleClaim = (poolId: string, poolContract: string) => {
+    const claimPromise = new Promise((resolve, reject) => {
+      if (userAddress) {
+        try {
+          const data = axiosHandler.post('claim-reward', {
+            poolId,
+            poolContract,
+          });
+          return resolve(data);
+        } catch (error) {
+          reject(error);
+        }
+      }
+    });
+    toast.promise(claimPromise, {
+      success: {
+        title: 'Claim Success',
+        description: 'You have claimed the reward',
+      },
+      error: error => ({
+        title: 'Claimed Error',
+        description: error.message,
+      }),
+      loading: {
+        title: 'Claim pending',
+        description: 'Please wait.....',
+      },
+    });
+  };
   return (
     <Modal isOpen={isOpen} onClose={onClose} variant="primary" isCentered>
       <ModalOverlay />
       <ModalContent>
+        <ModalCloseButton top="5%" right="5%" />
         <ModalBody>
           <Text variant="title" textAlign="center">
             Congratulations!
@@ -60,6 +94,19 @@ const ModalWiner = ({ isOpen, onClose, dataWiner }: ModalWinerProps) => {
             </Box>
           </HStack>
           <HStack>
+            {/* {
+              <Button
+                onClick={() =>
+                  handleClaim(
+                    dataWiner.winner.poolId,
+                    dataWiner.winner.poolContract
+                  )
+                }
+                variant="primary"
+              >
+                Claim Reward
+              </Button>
+            } */}
             <Button onClick={onClose} variant="primary">
               Close
             </Button>

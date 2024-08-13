@@ -7,6 +7,7 @@ import {
   HStack,
   Icon,
   Image,
+  Skeleton,
   Spinner,
   Text,
   Tooltip,
@@ -34,16 +35,8 @@ const FuelPage = () => {
 
   const [totalPoint, setTotalPoint] = useState(0);
   const [totalOnline, setTotalOnline] = useState(0);
-  const testWiner: WinerProps = {
-    cardId: '123',
-    cardContract: '321321321',
-    cardCollection: '321321',
-    amountOfCards: 4,
-    winner: {
-      address: '0x123123123',
-    },
-  };
-  const [winner, setWinner] = useState<WinerProps | undefined>(testWiner);
+
+  const [winner, setWinner] = useState<WinerProps | undefined>(undefined);
 
   const [days, hours, minutes, seconds] = useCountdown(currentPool?.endAt);
 
@@ -163,29 +156,42 @@ const FuelPage = () => {
 
                 <Card variant="content_secondary" px={2}>
                   <HStack>
-                    {new Date(currentPool?.endAt).getTime() >
-                    new Date().getTime() ? (
+                    {!isLoadingPool && currentPool ? (
                       <>
-                        <DateTimeDisplay
-                          value={minutes}
-                          type={'M'}
-                          style={{
-                            fontWeight: 'bold',
-                            bg: 'secondary.400',
-                          }}
-                        />
-                        <p>:</p>
-                        <DateTimeDisplay
-                          value={seconds}
-                          type={'S'}
-                          style={{
-                            fontWeight: 'bold',
-                            bg: 'secondary.400',
-                          }}
-                        />
+                        {new Date(currentPool?.endAt).getTime() >
+                        new Date().getTime() ? (
+                          <>
+                            <DateTimeDisplay
+                              value={minutes}
+                              type={'M'}
+                              style={{
+                                fontWeight: 'bold',
+                                bg: 'secondary.400',
+                              }}
+                            />
+                            <p>:</p>
+                            <DateTimeDisplay
+                              value={seconds}
+                              type={'S'}
+                              style={{
+                                fontWeight: 'bold',
+                                bg: 'secondary.400',
+                              }}
+                            />
+                          </>
+                        ) : (
+                          <Text>Time Out</Text>
+                        )}
                       </>
                     ) : (
-                      <Text>Time Out</Text>
+                      <React.Fragment>
+                        <Skeleton>
+                          <Text>00:M</Text>
+                        </Skeleton>
+                        <Skeleton>
+                          <Text>00:S</Text>
+                        </Skeleton>
+                      </React.Fragment>
                     )}
                   </HStack>
                 </Card>
