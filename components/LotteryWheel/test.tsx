@@ -233,18 +233,27 @@ const LotteryWheelTest = ({ dataSeries, totalPoint, timer }: IProps) => {
               distance: -20,
             },
             innerSize: '70%',
-            data: dataSeries.map((item: any, index: number) => {
-              return {
-                name: ellipseMiddle(item.user.address, 3, 3),
-                y: (item.stakedAmount / totalPoint) * 100,
-                color:
-                  colors.secondary[
-                    (index * 100) as keyof typeof colors.secondary
-                  ],
-              };
-            }),
+            dataSeries:
+              dataSeries.length === 0
+                ? [
+                    {
+                      name: '',
+                      y: 100,
+                      color: '#CCCCCC', // or any color you want for the full circle
+                    },
+                  ]
+                : dataSeries.map((item: any, index: number) => {
+                    return {
+                      name: ellipseMiddle(item.user.address, 3, 3),
+                      y: (item.stakedAmount / totalPoint) * 100,
+                      color:
+                        colors.secondary[
+                          (index * 100) as keyof typeof colors.secondary
+                        ],
+                    };
+                  }),
 
-            startAngle: 360 * Math.random(),
+            startAngle: dataSeries.length === 0 ? 0 : 360 * Math.random(),
           },
         ],
         credits: {

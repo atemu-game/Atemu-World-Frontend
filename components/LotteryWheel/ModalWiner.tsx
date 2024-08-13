@@ -11,28 +11,63 @@ import {
   Text,
   Image,
   ModalContent,
-  ModalFooter,
   Button,
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/react';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 interface ModalWinerProps {
   isOpen: boolean;
   onClose: () => void;
   dataWiner: WinerProps;
+  currentPool: any;
 }
-const ModalWiner = ({ isOpen, onClose, dataWiner }: ModalWinerProps) => {
+const ModalWiner = ({
+  isOpen,
+  onClose,
+  dataWiner,
+  currentPool,
+}: ModalWinerProps) => {
   const { userAddress } = useAuth();
   const toast = useToast();
-  const handleClaim = (poolId: string, poolContract: string) => {
+
+  // State to store pool data when user is the winner
+  const [claimablePool, setClaimablePool] = useState<{
+    id: string;
+    address: string;
+  } | null>(null);
+
+  // Effect to auto-close the modal after 3 minutes
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 3 * 60 * 1000); // 3 minutes
+
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, onClose]);
+
+  // Effect to store claimable pool data when user wins
+  useEffect(() => {
+    if (userAddress === dataWiner.winner.address) {
+      setClaimablePool({
+        id: currentPool.id,
+        address: currentPool.address,
+      });
+    }
+  }, [userAddress, dataWiner, currentPool]);
+
+  const handleClaim = () => {
+    if (!claimablePool) return;
+
     const claimPromise = new Promise((resolve, reject) => {
       if (userAddress) {
         try {
           const data = axiosHandler.post('claim-reward', {
-            poolId,
-            poolContract,
+            poolId: claimablePool.id,
+            poolContract: claimablePool.address,
           });
           return resolve(data);
         } catch (error) {
@@ -46,7 +81,7 @@ const ModalWiner = ({ isOpen, onClose, dataWiner }: ModalWinerProps) => {
         description: 'You have claimed the reward',
       },
       error: error => ({
-        title: 'Claimed Error',
+        title: 'Claim Error',
         description: error.message,
       }),
       loading: {
@@ -55,6 +90,7 @@ const ModalWiner = ({ isOpen, onClose, dataWiner }: ModalWinerProps) => {
       },
     });
   };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} variant="primary" isCentered>
       <ModalOverlay />
@@ -94,19 +130,13 @@ const ModalWiner = ({ isOpen, onClose, dataWiner }: ModalWinerProps) => {
             </Box>
           </HStack>
           <HStack>
-            {/* {
-              <Button
-                onClick={() =>
-                  handleClaim(
-                    dataWiner.winner.poolId,
-                    dataWiner.winner.poolContract
-                  )
-                }
-                variant="primary"
-              >
-                Claim Reward
-              </Button>
-            } */}
+            <Button
+              onClick={handleClaim}
+              variant="primary"
+              isDisabled={!claimablePool}
+            >
+              Claim Reward
+            </Button>
             <Button onClick={onClose} variant="primary">
               Close
             </Button>
@@ -116,5 +146,4 @@ const ModalWiner = ({ isOpen, onClose, dataWiner }: ModalWinerProps) => {
     </Modal>
   );
 };
-
 export default ModalWiner;

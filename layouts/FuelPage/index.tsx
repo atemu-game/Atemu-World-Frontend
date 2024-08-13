@@ -27,6 +27,7 @@ import { FuelEvents, WinerProps } from '@/utils/constants';
 import LotteryWheelTest from '@/components/LotteryWheel/test';
 import QuestionIcon from '@/public/assets/icons/question.svg';
 import ModalWiner from '@/components/LotteryWheel/ModalWiner';
+import LotteryWheel from '@/components/LotteryWheel';
 
 const FuelPage = () => {
   const [isLoadingPool, setIsLoadingPool] = useState(true);
@@ -91,7 +92,7 @@ const FuelPage = () => {
       onOpenWiner();
     }
   }, [winner]);
-
+  console.log('first', currentPool);
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
@@ -202,16 +203,18 @@ const FuelPage = () => {
                   <>
                     {listPlayer && totalPoint ? (
                       <>
-                        <LotteryWheelTest
+                        <LotteryWheel
                           dataSeries={listPlayer}
                           totalPoint={totalPoint}
-                          timer={currentPool.endAt}
+                          endAt={currentPool.endAt}
+                          winner={winner}
                         />
                         {winner && (
                           <ModalWiner
                             isOpen={isOpenWinner}
                             onClose={onCloseWiner}
                             dataWiner={winner}
+                            currentPool={currentPool}
                           />
                         )}
                       </>
