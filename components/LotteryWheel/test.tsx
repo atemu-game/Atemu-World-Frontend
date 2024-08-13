@@ -222,7 +222,7 @@ const LotteryWheelTest = ({ dataSeries, totalPoint, timer }: IProps) => {
           pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
         },
         title: {
-          // text: totalPoint,
+          text: '',
           enabled: false,
         },
         series: [
@@ -289,24 +289,31 @@ const LotteryWheelTest = ({ dataSeries, totalPoint, timer }: IProps) => {
   };
   useEffect(() => {
     handleDrawChart();
-    if (dataSeries.length > 3 && trigger.current) {
-      const countdown = setInterval(() => {
-        if (trigger.current && chart.series != null) {
-          if (timer > 0) {
-            timer--;
-            chart.setTitle({
-              text: timer.toString(),
-            });
-            updateCircle(chart, timer);
-          } else if (timer === 0) {
-            findTheWinner(chart);
-            clearInterval(countdown);
-          }
-        }
-      }, 1000);
-    }
   }, [trigger.current, dataSeries]);
-
+  useEffect(() => {
+    if (chart) {
+      if (
+        dataSeries.length > 3 &&
+        trigger.current &&
+        new Date(timer) > new Date()
+      ) {
+        const countdown = setInterval(() => {
+          if (trigger.current && chart.series != null) {
+            if (timer > 0) {
+              timer--;
+              chart.setTitle({
+                text: timer.toString(),
+              });
+              updateCircle(chart, timer);
+            } else if (timer === 0) {
+              findTheWinner(chart);
+              clearInterval(countdown);
+            }
+          }
+        }, 1000);
+      }
+    }
+  }, [timer]);
   return (
     <>
       <Box
