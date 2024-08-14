@@ -98,14 +98,20 @@ const ModalWiner = ({
           <Text variant="title" textAlign="center">
             Congratulations!
           </Text>
-          <Text textAlign="center">
-            {userAddress === dataWiner.winner.address
-              ? `You have won this round`
-              : `${ellipseMiddle(
-                  dataWiner.winner.address,
-                  5
-                )} has won this round`}
-          </Text>
+          {userAddress === dataWiner.winner.address ? (
+            <Text textAlign="center">You have won this round</Text>
+          ) : (
+            <Text
+              color="#FFFFFFBF"
+              textAlign="center"
+              textDecoration="underline"
+            >
+              {`${ellipseMiddle(
+                dataWiner.winner.address,
+                5
+              )} has won this round`}
+            </Text>
+          )}
           <HStack mt={6} justifyContent="space-between" color="primary.100">
             <Box>
               <Text textAlign="center" fontWeight={700}>

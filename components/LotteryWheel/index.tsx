@@ -8,7 +8,7 @@ interface IProps {
   dataSeries: any;
   totalPoint: number;
   endAt: number; // Pass in the endAt time
-  winner: any; // Pass in the winner data from socket
+  winner: any;
 }
 
 const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {

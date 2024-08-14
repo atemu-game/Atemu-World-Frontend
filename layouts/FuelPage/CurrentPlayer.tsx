@@ -15,7 +15,6 @@ const CurrentPlayer = ({ listPlayer, watching, totalPoint }: IProps) => {
     <Box padding={4} minH="500px">
       <HStack justifyContent="space-between">
         <Text variant="sub_title">{listPlayer.length} players</Text>
-
         {watching && (
           <HStack color="secondary.400">
             <Text>{watching} Watching</Text>
@@ -71,6 +70,7 @@ const CurrentPlayer = ({ listPlayer, watching, totalPoint }: IProps) => {
           <VStack
             py={10}
             gap={0}
+            width="full"
             style={{
               border: '2px solid transparent',
               borderImageSlice: 2,

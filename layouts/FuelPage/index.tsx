@@ -49,8 +49,8 @@ const FuelPage = () => {
 
   useEffect(() => {
     const handleReconnection = async () => {
+      console.log('What Wrong', socketFuelApi);
       if (socketFuelApi && socketFuelApi.connected === false) {
-        // If the socket exists but is disconnected, try reconnecting.
         try {
           await socketFuelApi.connect();
           console.log('Reconnected successfully');
@@ -114,7 +114,7 @@ const FuelPage = () => {
         <Flex flexDirection="column" gap={4} width="full">
           <Flex
             as={Card}
-            gap={4}
+            rowGap={4}
             border="none"
             justifyContent="space-between"
             flexWrap={{ lg: 'nowrap', base: 'wrap-reverse' }}
@@ -148,7 +148,13 @@ const FuelPage = () => {
             >
               <HStack justifyContent="space-between">
                 <HStack>
-                  <Text variant="title">Current Round</Text>
+                  <Text
+                    color="primary.100"
+                    fontWeight={700}
+                    textTransform="uppercase"
+                  >
+                    Current Round
+                  </Text>
                   <Tooltip
                     hasArrow
                     label="Round will start when there are at least 3 participants."
