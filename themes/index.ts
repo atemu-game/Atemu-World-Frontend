@@ -24,6 +24,7 @@ export const colors = {
     500: '#844CFE',
     600: '#FFCB29',
   },
+
   body: '#0D0E13',
   gradient: {
     100: 'linear-gradient(90.73deg, #E8B77C -5.34%, #FDD969 56.57%, #B27122 116.05%)',

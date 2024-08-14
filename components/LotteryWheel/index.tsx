@@ -206,7 +206,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
                     y: (item.stakedAmount / totalPoint) * 100,
                     color:
                       colors.secondary[
-                        (index * 100) as keyof typeof colors.secondary
+                        ((index + 1) * 100) as keyof typeof colors.secondary
                       ],
                   })),
             startAngle: dataSeries.length === 0 ? 0 : 360 * Math.random(),

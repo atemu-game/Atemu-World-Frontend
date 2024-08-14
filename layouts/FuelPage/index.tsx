@@ -174,7 +174,7 @@ const FuelPage = () => {
                   </Tooltip>
                 </HStack>
 
-                <Card variant="content_secondary" px={2}>
+                <Card variant="content_secondary" px={2} boxShadow="none">
                   <HStack>
                     {!isLoadingPool && currentPool ? (
                       <>
@@ -228,14 +228,6 @@ const FuelPage = () => {
                           endAt={currentPool.endAt}
                           winner={winner}
                         />
-                        {winner && (
-                          <ModalWiner
-                            isOpen={isOpenWinner}
-                            onClose={onCloseWiner}
-                            dataWiner={winner}
-                            currentPool={currentPool}
-                          />
-                        )}
                       </>
                     ) : (
                       <Text variant="title" color="primary.100">
@@ -249,7 +241,14 @@ const FuelPage = () => {
               </VStack>
             </Box>
           </Flex>
-
+          {winner && (
+            <ModalWiner
+              isOpen={isOpenWinner}
+              onClose={onCloseWiner}
+              dataWiner={winner}
+              currentPool={currentPool}
+            />
+          )}
           {!isLoadingPool && currentPool ? (
             <YourEntries currentId={currentPool.id} />
           ) : (

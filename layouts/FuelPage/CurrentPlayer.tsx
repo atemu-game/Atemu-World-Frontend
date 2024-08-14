@@ -33,7 +33,9 @@ const CurrentPlayer = ({ listPlayer, watching, totalPoint }: IProps) => {
               justifyContent="space-between"
               borderRight="4px solid"
               borderRightColor={`${
-                colors.secondary[(index * 100) as keyof typeof colors.secondary]
+                colors.secondary[
+                  ((index + 1) * 100) as keyof typeof colors.secondary
+                ]
               }`}
             >
               <HStack width="full">
@@ -42,11 +44,11 @@ const CurrentPlayer = ({ listPlayer, watching, totalPoint }: IProps) => {
                 </Skeleton>
                 <Box flexGrow={1}>
                   <HStack justifyContent="space-between">
-                    <Text fontWeight={700} fontSize="sm">
+                    <Text fontWeight={700} fontSize="sm" color="primary.100">
                       {ellipseMiddle(player.user.address, 10, 4)}
                     </Text>
                     {totalPoint && (
-                      <Text fontWeight={700}>
+                      <Text fontWeight={700} color="primary.100">
                         {Number(
                           (player.stakedAmount / totalPoint) * 100
                         ).toFixed(2)}
@@ -56,7 +58,7 @@ const CurrentPlayer = ({ listPlayer, watching, totalPoint }: IProps) => {
                   </HStack>
                   <HStack justifyContent="space-between">
                     {/* <Text fontSize="sm">{player.stakedAmount}</Text> */}
-                    <Text fontSize="sm" color="white">
+                    <Text fontSize="sm" color="#FFFFFFBF">
                       {player.stakedAmount} Points
                     </Text>
                   </HStack>
@@ -81,7 +83,9 @@ const CurrentPlayer = ({ listPlayer, watching, totalPoint }: IProps) => {
             <Text variant="title" lineHeight="normal" mb={0}>
               Waiting
             </Text>
-            <Text textAlign="center">Min 3 users to start</Text>
+            <Text textAlign="center" color="#FFFFFFBF">
+              Min 3 users to start
+            </Text>
           </VStack>
         </Card>
       )}
