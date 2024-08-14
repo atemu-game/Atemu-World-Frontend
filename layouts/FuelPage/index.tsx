@@ -24,7 +24,7 @@ import { useCountdown } from '@/hooks/useCountDown';
 import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
 import { connectSocketFuel, socketFuelApi } from '@/config/socketFuelConfig';
 import { FuelEvents, WinerProps } from '@/utils/constants';
-import LotteryWheelTest from '@/components/LotteryWheel/test';
+
 import QuestionIcon from '@/public/assets/icons/question.svg';
 import ModalWiner from '@/components/LotteryWheel/ModalWiner';
 import LotteryWheel from '@/components/LotteryWheel';
@@ -49,7 +49,6 @@ const FuelPage = () => {
 
   useEffect(() => {
     const handleReconnection = async () => {
-      console.log('What Wrong', socketFuelApi);
       if (socketFuelApi && socketFuelApi.connected === false) {
         try {
           await socketFuelApi.connect();
@@ -220,7 +219,7 @@ const FuelPage = () => {
               <VStack height="full">
                 {!isLoadingPool && currentPool ? (
                   <>
-                    {listPlayer && totalPoint ? (
+                    {/* {listPlayer && totalPoint ? (
                       <>
                         <LotteryWheel
                           dataSeries={listPlayer}
@@ -230,10 +229,14 @@ const FuelPage = () => {
                         />
                       </>
                     ) : (
-                      <Text variant="title" color="primary.100">
-                        Wait For Joining
-                      </Text>
-                    )}
+                      <LotteryEmpty />
+                    )} */}
+                    <LotteryWheel
+                      dataSeries={listPlayer}
+                      totalPoint={totalPoint}
+                      endAt={currentPool.endAt}
+                      winner={winner}
+                    />
                   </>
                 ) : (
                   <Spinner size="lg" />

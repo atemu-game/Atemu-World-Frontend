@@ -7,7 +7,7 @@ import { ellipseMiddle } from '@/utils/formatAddress';
 interface IProps {
   dataSeries: any;
   totalPoint: number;
-  endAt: number; // Pass in the endAt time
+  endAt: number;
   winner: any;
 }
 
@@ -16,27 +16,6 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
   const [chart, setChart] = useState<any>(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [spinningInterval, setSpinningInterval] = useState<any>(null);
-
-  const radToDeg = (r: number) => (r * 180) / Math.PI;
-
-  const findWinner = (data: any) => {
-    const sliceSize = 360 / data.length;
-    const winThreshold = 360 - sliceSize;
-    let sliceBeginning;
-
-    for (let i in data) {
-      sliceBeginning = radToDeg(data[i].shapeArgs.start) + 90;
-
-      if (sliceBeginning > 360) {
-        sliceBeginning -= 360;
-      }
-
-      if (sliceBeginning > winThreshold) {
-        return i;
-      }
-    }
-    return -1;
-  };
 
   const startSpinning = (chart: any) => {
     if (trigger.current && chart.series && chart.series[0] !== undefined) {
@@ -89,30 +68,31 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
       }
     }
   };
-
-  const redrawChart = () => {
+  const updateCircle = (chart: any, newTimer: number) => {
     if (chart) {
-      chart.series[0].setData(
-        dataSeries.length === 0
-          ? [
-              {
-                name: '',
-                y: 100,
-                color: '#CCCCCC',
-              },
-            ]
-          : dataSeries.map((item: any, index: number) => ({
-              name: ellipseMiddle(item.user.address, 3, 3),
-              y: (item.stakedAmount / totalPoint) * 100,
-              color:
-                colors.secondary[
-                  (index * 100) as keyof typeof colors.secondary
-                ],
-            }))
-      );
+      if (chart.customOverlay) {
+        chart.customOverlay.destroy();
+        chart.customOverlay = undefined;
+      }
+      const centerX = chart.plotLeft + chart.plotSizeX / 2;
+      const centerY = chart.plotTop + chart.plotSizeY / 2;
+      const radius = chart.series[0].data[0].shapeArgs.r + 6;
+      const angle =
+        newTimer * dataSeries.length * ((Math.pow(Math.PI, 2) * 2) / 360);
+
+      const overlayArc = chart.renderer
+        .arc(centerX, centerY, radius, radius, 0, angle)
+        .attr({
+          fill: 'none',
+          stroke: '#DFAA6C',
+          'stroke-width': 6,
+          zIndex: 13,
+        });
+
+      chart.customOverlay = chart.renderer.g('timer-atemu').add();
+      overlayArc.add(chart.customOverlay);
     }
   };
-
   const handleDrawChart = () => {
     if (trigger.current) {
       let triangle: any;
@@ -121,20 +101,20 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
           animation: false,
           backgroundColor: 'transparent',
           events: {
-            resize: function () {
-              triangle.destroy();
-              triangle = chart.renderer
-                .path([
-                  ['M', chart.chartWidth / 2 - 10, chart.plotTop - 5],
-                  ['L', chart.chartWidth / 2 + 10, chart.plotTop - 5],
-                  ['L', chart.chartWidth / 2, chart.plotTop + 10],
-                  ['Z'],
-                ])
-                .attr({
-                  fill: colors.secondary[100],
-                })
-                .add();
-            },
+            // resize: function () {
+            //   triangle.destroy();
+            //   triangle = chart.renderer
+            //     .path([
+            //       ['M', chart.chartWidth / 2 - 10, chart.plotTop - 5],
+            //       ['L', chart.chartWidth / 2 + 10, chart.plotTop - 5],
+            //       ['L', chart.chartWidth / 2, chart.plotTop + 10],
+            //       ['Z'],
+            //     ])
+            //     .attr({
+            //       fill: colors.secondary[100],
+            //     })
+            //     .add();
+            // },
             render: function (this: any) {
               if (this.customCircles) {
                 this.customCircles.destroy();
@@ -189,7 +169,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
             type: 'pie',
             size: '100%',
             dataLabels: {
-              distance: -20,
+              enabled: false,
             },
             innerSize: '70%',
             data:
@@ -198,7 +178,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
                     {
                       name: '',
                       y: 100,
-                      color: '#CCCCCC',
+                      color: '#E8B77C1A',
                     },
                   ]
                 : dataSeries.map((item: any, index: number) => ({
@@ -236,18 +216,18 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
         },
       } as any);
 
-      triangle = chart.renderer
-        .path([
-          ['M', chart.chartWidth / 2 - 20, chart.plotTop - 10],
-          ['L', chart.chartWidth / 2 + 20, chart.plotTop - 10],
-          ['L', chart.chartWidth / 2, chart.plotTop + 20],
-          ['Z'],
-        ])
-        .attr({
-          fill: '#DFAA6C',
-          zIndex: 100,
-        })
-        .add();
+      // triangle = chart.renderer
+      //   .path([
+      //     ['M', chart.chartWidth / 2 - 20, chart.plotTop - 10],
+      //     ['L', chart.chartWidth / 2 + 20, chart.plotTop - 10],
+      //     ['L', chart.chartWidth / 2, chart.plotTop + 20],
+      //     ['Z'],
+      //   ])
+      //   .attr({
+      //     fill: '#DFAA6C',
+      //     zIndex: 100,
+      //   })
+      //   .add();
       setChart(chart);
     }
   };
@@ -273,6 +253,9 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
         startSpinning(chart);
       }
     }
+    // if (chart && dataSeries.length > 0) {
+    //   updateCircle(chart, endAt - Date.now());
+    // }
     if (chart && winner) {
       stopSpinning(chart);
     }
