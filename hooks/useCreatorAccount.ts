@@ -1,11 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from './useTypedSelector';
-import {
-  connectSocketBlitz,
-  socketBlitzApi,
-  startMint,
-  stopMint,
-} from '@/config/socketBlitzConfig';
+import { startMint, stopMint } from '@/config/socketBlitzConfig';
 import {
   clearEventLog,
   resetCreator,

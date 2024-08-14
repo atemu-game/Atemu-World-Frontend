@@ -38,7 +38,6 @@ const ModalWiner = ({
     address: string;
   } | null>(null);
 
-  // Effect to auto-close the modal after 3 minutes
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => {
@@ -49,7 +48,6 @@ const ModalWiner = ({
     }
   }, [isOpen, onClose]);
 
-  // Effect to store claimable pool data when user wins
   useEffect(() => {
     if (userAddress === dataWiner.winner.address) {
       setClaimablePool({

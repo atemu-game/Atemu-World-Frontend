@@ -48,13 +48,26 @@ const FuelPage = () => {
   } = useDisclosure();
 
   useEffect(() => {
-    if (!socketFuelApi?.active) {
-      connectSocketFuel();
-    } else if (!currentPool && !socketFuelApi?.active) {
-      connectSocketFuel();
-    }
-  }, [socketFuelApi, currentPool]);
-  useEffect(() => {
+    const handleReconnection = async () => {
+      if (socketFuelApi && socketFuelApi.connected === false) {
+        // If the socket exists but is disconnected, try reconnecting.
+        try {
+          await socketFuelApi.connect();
+          console.log('Reconnected successfully');
+        } catch (error) {
+          console.error('Failed to reconnect', error);
+        }
+      } else if (!socketFuelApi) {
+        console.log('IT Not Working');
+        try {
+          await connectSocketFuel();
+        } catch (error) {
+          console.error('Failed to connect', error);
+        }
+      }
+    };
+
+    handleReconnection();
     if (socketFuelApi && socketFuelApi.active) {
       try {
         socketFuelApi.on(FuelEvents.TOTAL_ONLINE, data => {
@@ -77,14 +90,14 @@ const FuelPage = () => {
       } catch (error) {
         console.log('Error Data', error);
       }
-      return () => {
-        socketFuelApi.off(FuelEvents.TOTAL_ONLINE);
-        socketFuelApi.off(FuelEvents.TOTAL_POINT);
-        socketFuelApi.off(FuelEvents.CURRENT_JOINED_POOL);
-        socketFuelApi.off(FuelEvents.WINNER);
-        socketFuelApi.off('disconnect');
-        socketFuelApi.off('error');
-      };
+      // return () => {
+      //   socketFuelApi.off(FuelEvents.TOTAL_ONLINE);
+      //   socketFuelApi.off(FuelEvents.TOTAL_POINT);
+      //   socketFuelApi.off(FuelEvents.CURRENT_JOINED_POOL);
+      //   socketFuelApi.off(FuelEvents.WINNER);
+      //   socketFuelApi.off('disconnect');
+      //   socketFuelApi.off('error');
+      // };
     }
   }, [socketFuelApi]);
   useEffect(() => {
@@ -92,7 +105,7 @@ const FuelPage = () => {
       onOpenWiner();
     }
   }, [winner]);
-  console.log('first', currentPool);
+
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
