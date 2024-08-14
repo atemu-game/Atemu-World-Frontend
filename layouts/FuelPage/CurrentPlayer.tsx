@@ -26,23 +26,21 @@ const CurrentPlayer = ({ listPlayer, watching, totalPoint }: IProps) => {
       {listPlayer.length > 0 ? (
         <>
           {listPlayer.map((player: any, index: number) => (
-            <HStack
-              key={index}
-              p={4}
-              mt={4}
-              justifyContent="space-between"
-              borderRight="4px solid"
-              borderRightColor={`${
-                colors.secondary[
-                  ((index + 1) * 100) as keyof typeof colors.secondary
-                ]
-              }`}
-            >
-              <HStack width="full">
+            <HStack key={index} p={4} mt={4} justifyContent="space-between">
+              <HStack width="full" gap={0}>
                 <Skeleton>
                   <Box w="52px" h="52px"></Box>
                 </Skeleton>
-                <Box flexGrow={1}>
+                <Box
+                  flexGrow={1}
+                  px={2}
+                  borderRight="4px solid"
+                  borderRightColor={`${
+                    colors.secondary[
+                      ((index + 1) * 100) as keyof typeof colors.secondary
+                    ]
+                  }`}
+                >
                   <HStack justifyContent="space-between">
                     <Text fontWeight={700} fontSize="sm" color="primary.100">
                       {ellipseMiddle(player.user.address, 10, 4)}

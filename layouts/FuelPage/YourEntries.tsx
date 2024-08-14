@@ -20,8 +20,9 @@ import React from 'react';
 import { CallData, uint256 } from 'starknet';
 interface IProps {
   currentId?: number;
+  endAt?: number;
 }
-const YourEntries = ({ currentId }: IProps) => {
+const YourEntries = ({ currentId, endAt }: IProps) => {
   const ListOption = [
     {
       value: 1,
@@ -138,6 +139,7 @@ const YourEntries = ({ currentId }: IProps) => {
             variant="primary"
             width="full"
             borderColor="secondary.100"
+            isDisabled={endAt && endAt < Date.now() ? true : false}
             onClick={() => {
               handleJoinPool();
             }}

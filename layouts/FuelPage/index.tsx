@@ -219,18 +219,6 @@ const FuelPage = () => {
               <VStack height="full">
                 {!isLoadingPool && currentPool ? (
                   <>
-                    {/* {listPlayer && totalPoint ? (
-                      <>
-                        <LotteryWheel
-                          dataSeries={listPlayer}
-                          totalPoint={totalPoint}
-                          endAt={currentPool.endAt}
-                          winner={winner}
-                        />
-                      </>
-                    ) : (
-                      <LotteryEmpty />
-                    )} */}
                     <LotteryWheel
                       dataSeries={listPlayer}
                       totalPoint={totalPoint}
