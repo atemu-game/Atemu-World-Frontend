@@ -1,4 +1,3 @@
-import { ChakraNextImage } from '@/components/Image/ChakraNextImage';
 import {
   Box,
   Flex,
@@ -47,19 +46,19 @@ const HeroSection = () => {
           <br /> Where Strategy Meets Legends and Your Cards fuel Battles
         </Text>
       </Flex>
-      <ChakraNextImage
-        src="/assets/arts/banner/home_banner.svg"
-        width={1374.8}
-        height={773.3}
-        aria-label=""
-        alt="Picture Atemu"
-      />
-      {/* <ChakraImage
-        src="/assets/arts/banner/home_banner.svg"
+      {/*      
+      //   href="/assets/arts/common/banner_hero.gif"
+      //   width={1374.8}
+      //   height={773.3}
+      //   aria-label=""
+      //   alt="Picture Atemu"
+      // /> */}
+      <ChakraImage
+        src="/assets/arts/common/banner_hero.gif"
         aria-label=""
         width="100%"
         alt="Picture Atemu"
-      /> */}
+      />
 
       <Image
         src="/assets/arts/common/tester_art.svg"
