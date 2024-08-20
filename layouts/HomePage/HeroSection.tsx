@@ -1,9 +1,16 @@
-import { ChakraNextImage } from '@/components/Image/ChakraNextImage';
-import { Box, Flex, Icon, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Icon,
+  Text,
+  VStack,
+  Image as ChakraImage,
+} from '@chakra-ui/react';
 import React from 'react';
 import LogoLongIcon from '@/public/assets/logo/atemu_logo_long.svg';
 import UnionIcon from '@/public/assets/arts/common/union_art.svg';
 import Image from 'next/image';
+
 const HeroSection = () => {
   return (
     <Box position="relative">
@@ -39,11 +46,17 @@ const HeroSection = () => {
           <br /> Where Strategy Meets Legends and Your Cards fuel Battles
         </Text>
       </Flex>
-      <ChakraNextImage
-        src="/assets/arts/banner/home_banner.svg"
-        width={1374.8}
-        height={773.3}
+      {/*      
+      //   href="/assets/arts/common/banner_hero.gif"
+      //   width={1374.8}
+      //   height={773.3}
+      //   aria-label=""
+      //   alt="Picture Atemu"
+      // /> */}
+      <ChakraImage
+        src="/assets/arts/common/banner_hero.gif"
         aria-label=""
+        width="100%"
         alt="Picture Atemu"
       />
 

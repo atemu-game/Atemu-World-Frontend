@@ -19,14 +19,14 @@ const HowToPlay = () => {
   ];
   return (
     <Box width="full" position="relative">
-      <Box position="absolute" right={0} height="100%">
+      <Box position="absolute" right={0} height="100%" width="40%">
         <Image
           src="/assets/arts/common/home_art_blitz.svg"
           height={1998}
           width={709}
           style={{
             position: 'sticky',
-            top: '100px',
+            top: '-100px',
             right: '0px',
             zIndex: -2,
           }}
@@ -45,8 +45,8 @@ const HowToPlay = () => {
         </Text>
         <Card width="full" variant="shadow" padding={4}>
           <Box
-            padding="80px"
-            minH="600px"
+            padding="60px"
+            minH="500px"
             style={{
               border: '2px solid transparent',
               borderImageSlice: 2,
@@ -55,7 +55,7 @@ const HowToPlay = () => {
             }}
             position="relative"
           >
-            <VStack spacing={4}>
+            <VStack spacing={4} gap={0}>
               {BliztPointSection.map((item, index) => (
                 <Box key={`${index}-box`}>
                   <Text
@@ -68,7 +68,7 @@ const HowToPlay = () => {
                   </Text>
                 </Box>
               ))}
-              {/* <Button variant="primary">Enter</Button> */}
+
               <Box
                 position="relative"
                 height="300px"
@@ -97,7 +97,7 @@ const HowToPlay = () => {
                 <Box
                   position="absolute"
                   width="fit-content"
-                  top="80%"
+                  top="65%"
                   left="30%"
                 >
                   <Text
@@ -107,8 +107,8 @@ const HowToPlay = () => {
                     _after={{
                       content: "''",
                       position: 'absolute',
-                      width: '200px',
-                      top: '-120px',
+                      width: '180px',
+                      top: '-100px',
                       height: '2px',
                       left: '30%',
                       background: 'primary.100',

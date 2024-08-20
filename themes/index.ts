@@ -24,6 +24,7 @@ export const colors = {
     500: '#844CFE',
     600: '#FFCB29',
   },
+
   body: '#0D0E13',
   gradient: {
     100: 'linear-gradient(90.73deg, #E8B77C -5.34%, #FDD969 56.57%, #B27122 116.05%)',
@@ -124,7 +125,7 @@ const Button: ComponentStyleConfig = {
 const Text: ComponentStyleConfig = {
   variants: {
     title: {
-      fontSize: '1.5rem',
+      fontSize: { md: '1.5rem', base: '1rem' },
       fontWeight: 800,
       textTransform: 'uppercase',
       color: 'primary.100',
@@ -209,6 +210,7 @@ const Input: ComponentStyleConfig = {
         borderImageSource: `linear-gradient(90.73deg, #E8B77C -5.34%, #FDD969 51.67%, #B27122 116.05%)`,
         color: 'primary.300',
         fontWeight: 'bold',
+        fontSize: 'sm',
         _placeholder: {
           color: 'primary.300',
         },
