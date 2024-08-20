@@ -5,42 +5,68 @@ import {
   Flex,
   Grid,
   HStack,
+  Icon,
   Image,
+  Skeleton,
+  Spinner,
   Text,
+  Tooltip,
+  useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import CurrentPlayer from './CurrentPlayer';
 import YourEntries from './YourEntries';
 
-import LotteryWheel from '@/components/LotteryWheel';
 import Card from '@/components/Card';
 
 import { useCountdown } from '@/hooks/useCountDown';
 import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
 import { connectSocketFuel, socketFuelApi } from '@/config/socketFuelConfig';
-import { FuelEvents } from '@/utils/constants';
-import LotteryWheelTest from '@/components/LotteryWheel/test';
+import { FuelEvents, WinerProps } from '@/utils/constants';
+
+import QuestionIcon from '@/public/assets/icons/question.svg';
+import ModalWiner from '@/components/LotteryWheel/ModalWiner';
+import LotteryWheel from '@/components/LotteryWheel';
 
 const FuelPage = () => {
+  const [isLoadingPool, setIsLoadingPool] = useState(true);
   const [listPlayer, setListPlayer] = useState([]);
   const [currentPool, setCurrentPool] = useState<any>(undefined);
 
   const [totalPoint, setTotalPoint] = useState(0);
   const [totalOnline, setTotalOnline] = useState(0);
 
-  const [winer, setWiner] = useState(undefined);
+  const [winner, setWinner] = useState<WinerProps | undefined>(undefined);
 
-  const [minutes, seconds] = useCountdown(
-    new Date(currentPool && currentPool.endAt).getDate()
-  );
+  const [days, hours, minutes, seconds] = useCountdown(currentPool?.endAt);
+
+  const {
+    isOpen: isOpenWinner,
+    onOpen: onOpenWiner,
+    onClose: onCloseWiner,
+  } = useDisclosure();
 
   useEffect(() => {
-    if (!socketFuelApi || !socketFuelApi.active) {
-      connectSocketFuel();
-    }
-  }, []);
-  useEffect(() => {
+    const handleReconnection = async () => {
+      if (socketFuelApi && socketFuelApi.connected === false) {
+        try {
+          await socketFuelApi.connect();
+          console.log('Reconnected successfully');
+        } catch (error) {
+          console.error('Failed to reconnect', error);
+        }
+      } else if (!socketFuelApi) {
+        console.log('IT Not Working');
+        try {
+          await connectSocketFuel();
+        } catch (error) {
+          console.error('Failed to connect', error);
+        }
+      }
+    };
+
+    handleReconnection();
     if (socketFuelApi && socketFuelApi.active) {
       try {
         socketFuelApi.on(FuelEvents.TOTAL_ONLINE, data => {
@@ -48,10 +74,11 @@ const FuelPage = () => {
         });
         socketFuelApi.on(FuelEvents.WINNER, data => {
           console.log('Now Winer', data);
-          setWiner(() => data);
+          setWinner(() => data);
         });
         socketFuelApi.on(FuelEvents.CURRENT_POOL, data => {
           setCurrentPool(() => data);
+          setIsLoadingPool(false);
         });
         socketFuelApi.on(FuelEvents.CURRENT_JOINED_POOL, data => {
           setListPlayer(() => data);
@@ -62,9 +89,22 @@ const FuelPage = () => {
       } catch (error) {
         console.log('Error Data', error);
       }
+      // return () => {
+      //   socketFuelApi.off(FuelEvents.TOTAL_ONLINE);
+      //   socketFuelApi.off(FuelEvents.TOTAL_POINT);
+      //   socketFuelApi.off(FuelEvents.CURRENT_JOINED_POOL);
+      //   socketFuelApi.off(FuelEvents.WINNER);
+      //   socketFuelApi.off('disconnect');
+      //   socketFuelApi.off('error');
+      // };
     }
   }, [socketFuelApi]);
-  console.log('Current Pool', currentPool);
+  useEffect(() => {
+    if (winner) {
+      onOpenWiner();
+    }
+  }, [winner]);
+
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
@@ -73,17 +113,23 @@ const FuelPage = () => {
         <Flex flexDirection="column" gap={4} width="full">
           <Flex
             as={Card}
-            gap={4}
+            rowGap={4}
             border="none"
             justifyContent="space-between"
             flexWrap={{ lg: 'nowrap', base: 'wrap-reverse' }}
           >
             <Box minWidth={{ lg: '325px', base: 'full' }} height="full">
-              <CurrentPlayer
-                listPlayer={listPlayer}
-                watching={totalOnline}
-                totalPoint={totalPoint}
-              />
+              {!isLoadingPool && currentPool ? (
+                <CurrentPlayer
+                  listPlayer={listPlayer}
+                  watching={totalOnline}
+                  totalPoint={totalPoint}
+                />
+              ) : (
+                <VStack minH="500px" justifyContent="center">
+                  <Spinner size="lg" />
+                </VStack>
+              )}
             </Box>
 
             <Box
@@ -100,51 +146,107 @@ const FuelPage = () => {
               backgroundSize="cover"
             >
               <HStack justifyContent="space-between">
-                <Text variant="title">Current Round</Text>
+                <HStack>
+                  <Text
+                    color="primary.100"
+                    fontWeight={700}
+                    textTransform="uppercase"
+                  >
+                    Current Round
+                  </Text>
+                  <Tooltip
+                    hasArrow
+                    label="Round will start when there are at least 3 participants."
+                    bg="primary.100"
+                    color="black"
+                    fontWeight="bold"
+                  >
+                    <VStack>
+                      <Icon
+                        as={QuestionIcon}
+                        cursor="pointer"
+                        color="primary.100"
+                        h={6}
+                        w={6}
+                      />
+                    </VStack>
+                  </Tooltip>
+                </HStack>
 
-                <Card variant="content_secondary" px={2}>
+                <Card variant="content_secondary" px={2} boxShadow="none">
                   <HStack>
-                    <DateTimeDisplay
-                      value={minutes}
-                      type={'M'}
-                      style={{
-                        fontWeight: 'bold',
-                        bg: 'secondary.400',
-                      }}
-                    />
-                    <p>:</p>
-                    <DateTimeDisplay
-                      value={seconds}
-                      type={'S'}
-                      style={{
-                        fontWeight: 'bold',
-                        bg: 'secondary.400',
-                      }}
-                    />
+                    {!isLoadingPool && currentPool ? (
+                      <>
+                        {new Date(currentPool?.endAt).getTime() >
+                        new Date().getTime() ? (
+                          <>
+                            <DateTimeDisplay
+                              value={minutes}
+                              type={'M'}
+                              style={{
+                                fontWeight: 'bold',
+                                bg: 'secondary.400',
+                              }}
+                            />
+                            <p>:</p>
+                            <DateTimeDisplay
+                              value={seconds}
+                              type={'S'}
+                              style={{
+                                fontWeight: 'bold',
+                                bg: 'secondary.400',
+                              }}
+                            />
+                          </>
+                        ) : (
+                          <Text>Time Out</Text>
+                        )}
+                      </>
+                    ) : (
+                      <React.Fragment>
+                        <Skeleton>
+                          <Text>00:M</Text>
+                        </Skeleton>
+                        <Skeleton>
+                          <Text>00:S</Text>
+                        </Skeleton>
+                      </React.Fragment>
+                    )}
                   </HStack>
                 </Card>
               </HStack>
 
-              <VStack>
-                {/* {listPlayer && totalPoint && (
-                  <LotteryWheel
-                    totalPoint={totalPoint}
-                    dataSeries={listPlayer}
-                    timer={5}
-                  />
-                )} */}
-                {listPlayer && totalPoint && (
-                  <LotteryWheelTest
-                    dataSeries={listPlayer}
-                    totalPoint={totalPoint}
-                    timer={45}
-                  />
+              <VStack height="full">
+                {!isLoadingPool && currentPool ? (
+                  <>
+                    <LotteryWheel
+                      dataSeries={listPlayer}
+                      totalPoint={totalPoint}
+                      endAt={currentPool.endAt}
+                      winner={winner}
+                    />
+                  </>
+                ) : (
+                  <Spinner size="lg" />
                 )}
               </VStack>
             </Box>
           </Flex>
-
-          {currentPool && <YourEntries currentId={currentPool.id} />}
+          {winner && (
+            <ModalWiner
+              isOpen={isOpenWinner}
+              onClose={onCloseWiner}
+              dataWiner={winner}
+              currentPool={currentPool}
+            />
+          )}
+          {!isLoadingPool && currentPool ? (
+            <YourEntries currentId={currentPool.id} />
+          ) : (
+            <Card padding={4} minH="200px" as={VStack} justifyContent="center">
+              <Spinner size="lg" />
+            </Card>
+          )}
         </Flex>
         <Flex flexDirection="column" gap={4} width="380px" height="100%">
           <Card>

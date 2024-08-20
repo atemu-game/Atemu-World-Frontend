@@ -37,7 +37,6 @@ const ProviderSocket = ({ children }: PropsWithChildren) => {
           handleSetBalance(data);
         });
         socketBlitzApi.on(BliztEvent.BLIZT_TRANSACTION, data => {
-          console.log('What Wrong Data', data);
           handleSetTransaction(
             data.transactionHash,
             data.status,

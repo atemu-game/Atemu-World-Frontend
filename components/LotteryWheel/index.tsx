@@ -1,124 +1,74 @@
-import React, { useEffect, useRef } from 'react';
-import Highcharts, { pad } from 'highcharts';
-
+import React, { useEffect, useRef, useState } from 'react';
+import Highcharts from 'highcharts';
 import { Box } from '@chakra-ui/react';
 import { colors } from '@/themes';
 import { ellipseMiddle } from '@/utils/formatAddress';
+
 interface IProps {
   dataSeries: any;
   totalPoint: number;
-  timer: number;
-  winner?: string;
+  endAt: number;
+  winner: any;
 }
-const LotteryWheel = ({ dataSeries, timer, totalPoint }: IProps) => {
+
+const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
   const trigger = useRef(null);
-  let chart: any;
-  const radToDeg = (r: number) => (r * 180) / Math.PI;
-  const findWinner = (data: any) => {
-    //random Here
-    const sliceSize = 360 / data.length;
-    const winThreshold = 360 - sliceSize;
-    let sliceBeginning;
+  const [chart, setChart] = useState<any>(null);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [spinningInterval, setSpinningInterval] = useState<any>(null);
 
-    for (let i in data) {
-      sliceBeginning = radToDeg(data[i].shapeArgs.start) + 90;
-
-      if (sliceBeginning > 360) {
-        sliceBeginning -= 360;
-      }
-
-      if (sliceBeginning > winThreshold) {
-        return i;
-      }
-    }
-    return -1;
-  };
-
-  const findTheWinner = () => {
-    if (chart) {
-      let strengthSlider = 0;
-      let dragSlider = 0;
-      let lengthSlider = 10;
-      let animationSlider = 25;
-      let t;
-      chart.setTitle({
-        text: 'Spinning...',
-      });
-      let physics = {
-        force: 0,
-        angleVel: 0,
-        angle: 0,
-        prevAngle: 0, // only used to calculate winner
-        strength: 0.003 + strengthSlider / 10000, // tweakable
-        drag: 0.98 + dragSlider / 1000, // tweakable
-        threshold: 2 + lengthSlider / 10, // tweakable
-        targ: 0,
-        isActive: false,
+  const startSpinning = (chart: any) => {
+    if (trigger.current && chart.series && chart.series[0] !== undefined) {
+      let startAngle = chart.series[0].options.startAngle;
+      const spin = () => {
+        startAngle += 5;
+        if (startAngle > 360) {
+          startAngle -= 360;
+        }
+        chart.series[0].update({ startAngle });
       };
 
-      // the current winner at which the wheel changes direction.
-      let currentWinner = -1,
-        foundPossibleWinner = false;
-
-      // How many degrees to spin for each iteration
-      let diff = 25 + Math.random() * 10,
-        startAngle = chart.series[0].options.startAngle;
-
-      const animationSpeed = Math.abs(animationSlider);
-      t = setInterval(() => {
-        // Animation loop
-        if (!physics.isActive) {
-          startAngle += diff;
-          if (startAngle > 360) {
-            startAngle -= 360;
-          }
-          diff *= 0.98;
-          chart.series[0].update({ startAngle });
-
-          if (diff < physics.threshold) {
-            physics.isActive = true;
-
-            physics.targ = startAngle;
-            physics.angleVel = physics.threshold * 0.98;
-            physics.angle = startAngle;
-            chart.setTitle({
-              text: 'Waiting ...',
-            });
-          }
-        } else {
-          // spring physics
-          physics.prevAngle = physics.angle;
-          physics.force = physics.targ - physics.angle;
-          physics.force *= physics.strength;
-          physics.angleVel *= physics.drag;
-          physics.angleVel += physics.force;
-          physics.angle += physics.angleVel;
-          chart.series[0].update({ startAngle: physics.angle });
-
-          if (physics.prevAngle >= physics.angle && currentWinner < 0) {
-            currentWinner = Number(findWinner(chart.series[0].data));
-            foundPossibleWinner = true;
-          } else if (
-            physics.prevAngle <= physics.angle &&
-            foundPossibleWinner
-          ) {
-            const nextWinner = findWinner(chart.series[0].data);
-            if (currentWinner == nextWinner) {
-              chart.setTitle({
-                text: '',
-              });
-              foundPossibleWinner = false;
-            } else {
-              currentWinner = -1;
-              foundPossibleWinner = false;
-            }
-          }
-        }
-      }, animationSpeed);
+      setIsSpinning(true);
+      const interval = setInterval(spin, 25);
+      setSpinningInterval(interval);
     }
   };
 
-  const updateCircle = (newTimer: number) => {
+  const stopSpinning = (chart: any) => {
+    if (spinningInterval) {
+      clearInterval(spinningInterval);
+      setSpinningInterval(null);
+      setIsSpinning(false);
+    }
+
+    if (chart && winner) {
+      const winnerIndex = dataSeries.findIndex(
+        (item: any) => item.user.address === winner.address
+      );
+
+      if (winnerIndex !== -1) {
+        const sliceSize = 360 / dataSeries.length;
+        const targetAngle = 360 - sliceSize * winnerIndex;
+        let startAngle = chart.series[0].options.startAngle;
+
+        const slowSpin = () => {
+          if (startAngle >= targetAngle - 5 && startAngle <= targetAngle + 5) {
+            // eslint-disable-next-line no-use-before-define
+            clearInterval(slowSpinInterval);
+            chart.setTitle({
+              text: `The winner is ${ellipseMiddle(winner.address, 3, 3)}!`,
+            });
+          } else {
+            startAngle += (targetAngle - startAngle) * 0.05;
+            chart.series[0].update({ startAngle });
+          }
+        };
+
+        const slowSpinInterval = setInterval(slowSpin, 25);
+      }
+    }
+  };
+  const updateCircle = (chart: any, newTimer: number) => {
     if (chart) {
       if (chart.customOverlay) {
         chart.customOverlay.destroy();
@@ -127,7 +77,8 @@ const LotteryWheel = ({ dataSeries, timer, totalPoint }: IProps) => {
       const centerX = chart.plotLeft + chart.plotSizeX / 2;
       const centerY = chart.plotTop + chart.plotSizeY / 2;
       const radius = chart.series[0].data[0].shapeArgs.r + 6;
-      const angle = newTimer * dataSeries.length * (Math.pow(Math.PI, 2) / 360);
+      const angle =
+        newTimer * dataSeries.length * ((Math.pow(Math.PI, 2) * 2) / 360);
 
       const overlayArc = chart.renderer
         .arc(centerX, centerY, radius, radius, 0, angle)
@@ -142,52 +93,39 @@ const LotteryWheel = ({ dataSeries, timer, totalPoint }: IProps) => {
       overlayArc.add(chart.customOverlay);
     }
   };
-  useEffect(() => {
+  const handleDrawChart = () => {
     if (trigger.current) {
-      // Create the chart
       let triangle: any;
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      chart = Highcharts.chart('chart-wheel', {
+      let chart = Highcharts.chart('chart-wheel', {
         chart: {
-          animation: {
-            duration: 500,
-          },
+          animation: false,
           backgroundColor: 'transparent',
-          margin: [0, 0, 0, 0],
-          spacingTop: 0,
-          spacingBottom: 0,
-          spacingLeft: 0,
-          spacingRight: 0,
-
           events: {
-            resize: function () {
-              triangle.destroy(); // Prevent arrow misplacement
-              triangle = chart.renderer
-                .path([
-                  ['M', chart.chartWidth / 2 - 10, chart.plotTop - 5],
-                  ['L', chart.chartWidth / 2 + 10, chart.plotTop - 5],
-                  ['L', chart.chartWidth / 2, chart.plotTop + 10],
-                  ['Z'],
-                ])
-                .attr({
-                  fill: colors.secondary[100],
-                })
-                .add();
-            },
+            // resize: function () {
+            //   triangle.destroy();
+            //   triangle = chart.renderer
+            //     .path([
+            //       ['M', chart.chartWidth / 2 - 10, chart.plotTop - 5],
+            //       ['L', chart.chartWidth / 2 + 10, chart.plotTop - 5],
+            //       ['L', chart.chartWidth / 2, chart.plotTop + 10],
+            //       ['Z'],
+            //     ])
+            //     .attr({
+            //       fill: colors.secondary[100],
+            //     })
+            //     .add();
+            // },
             render: function (this: any) {
               if (this.customCircles) {
                 this.customCircles.destroy();
                 this.customCircles = undefined;
               }
-              //Declare data
               let ren = this.renderer,
                 centerX = this.plotLeft + this.plotSizeX / 2,
                 centerY = this.plotTop + this.plotSizeY / 2,
                 radius = [this.series[0].data[0].shapeArgs.r + 6];
               this.customCircles = this.renderer.g('customCircles').add();
 
-              //Render custom circles
               radius.forEach(rad => {
                 ren
                   .circle(centerX, centerY, rad)
@@ -199,7 +137,6 @@ const LotteryWheel = ({ dataSeries, timer, totalPoint }: IProps) => {
                   .add(this.customCircles);
               });
 
-              // Cover the inner border
               ren
                 .circle(
                   centerX,
@@ -215,56 +152,44 @@ const LotteryWheel = ({ dataSeries, timer, totalPoint }: IProps) => {
           },
         },
         accessibility: {
+          enabled: false,
           point: {
             valueSuffix: '%',
           },
         },
         tooltip: {
-          enabled: false,
-          // pointFormat: 'Point Percentage: <b>{point.percentage:.1f}%</b>',
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
         },
         title: {
-          // text: totalPoint,
-          text: timer,
-          verticalAlign: 'middle',
-          floating: true,
-          style: {
-            fontSize: '68px',
-            color: colors.primary[100],
-          },
+          text: '',
+          enabled: false,
         },
         series: [
           {
-            states: {
-              hover: {
-                halo: {
-                  attributes: {
-                    fill: 'none',
-                    // 'stroke-width': 1,
-                    // stroke: 'white',
-                  },
-                },
-              },
-            },
             type: 'pie',
             size: '100%',
             dataLabels: {
               enabled: false,
-              // distance: -50,
             },
             innerSize: '70%',
-            data: dataSeries.map((item: any, index: number) => {
-              return {
-                name: ellipseMiddle(item.user.address, 3, 3),
-                y: (item.stakedAmount / totalPoint) * 100,
-                color:
-                  colors.secondary[
-                    (index * 100) as keyof typeof colors.secondary
-                  ],
-              };
-            }),
-
-            startAngle: 360 * Math.random(),
+            data:
+              dataSeries.length === 0
+                ? [
+                    {
+                      name: '',
+                      y: 100,
+                      color: '#E8B77C1A',
+                    },
+                  ]
+                : dataSeries.map((item: any, index: number) => ({
+                    name: ellipseMiddle(item.user.address, 3, 3),
+                    y: (item.stakedAmount / totalPoint) * 100,
+                    color:
+                      colors.secondary[
+                        ((index + 1) * 100) as keyof typeof colors.secondary
+                      ],
+                  })),
+            startAngle: dataSeries.length === 0 ? 0 : 360 * Math.random(),
           },
         ],
         credits: {
@@ -291,38 +216,50 @@ const LotteryWheel = ({ dataSeries, timer, totalPoint }: IProps) => {
         },
       } as any);
 
-      // Create the arrow at the top.
-      triangle = chart.renderer
-        .path([
-          ['M', chart.chartWidth / 2 - 20, chart.plotTop - 10],
-          ['L', chart.chartWidth / 2 + 20, chart.plotTop - 10],
-          ['L', chart.chartWidth / 2, chart.plotTop + 20],
-          ['Z'],
-        ])
-        .attr({
-          fill: '#DFAA6C',
-          zIndex: 100,
-        })
-        .add();
+      // triangle = chart.renderer
+      //   .path([
+      //     ['M', chart.chartWidth / 2 - 20, chart.plotTop - 10],
+      //     ['L', chart.chartWidth / 2 + 20, chart.plotTop - 10],
+      //     ['L', chart.chartWidth / 2, chart.plotTop + 20],
+      //     ['Z'],
+      //   ])
+      //   .attr({
+      //     fill: '#DFAA6C',
+      //     zIndex: 100,
+      //   })
+      //   .add();
+      setChart(chart);
     }
+  };
 
-    const countdown = setInterval(() => {
-      if (timer > 0) {
-        timer--;
-        chart.setTitle({
-          text: timer.toString(),
-        });
-        updateCircle(timer);
+  useEffect(() => {
+    handleDrawChart();
+  }, [trigger.current]);
+
+  useEffect(() => {
+    if (chart) {
+      handleDrawChart();
+    }
+  }, [dataSeries]);
+
+  useEffect(() => {
+    if (chart && !isSpinning && dataSeries.length >= 3) {
+      const timeToSpin = endAt - Date.now();
+      if (timeToSpin > 0) {
+        setTimeout(() => {
+          startSpinning(chart);
+        }, timeToSpin);
       } else {
-        findTheWinner();
-        clearInterval(countdown);
+        startSpinning(chart);
       }
-    }, 1000);
-
-    return () => {
-      clearInterval(countdown);
-    };
-  }, [timer]);
+    }
+    // if (chart && dataSeries.length > 0) {
+    //   updateCircle(chart, endAt - Date.now());
+    // }
+    if (chart && winner) {
+      stopSpinning(chart);
+    }
+  }, [endAt, chart, dataSeries, winner]);
 
   return (
     <Box

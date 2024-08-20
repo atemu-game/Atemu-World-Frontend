@@ -21,7 +21,7 @@ export enum RPC_PROVIDER {
   TESTNET = 'https://starknet-sepolia.reddio.com/rpc/v0_7',
 }
 
-///BLizt
+///BLizt Status
 export type BliztSatus =
   | 'starting'
   | 'started'
@@ -49,4 +49,12 @@ export type TXRType = 'success' | 'rejected' | 'error' | 'reverted';
 export enum STARK_SCAN {
   LINK_TX = 'https://sepolia.starkscan.co/tx',
   LINK_ACCOUNT = 'https://sepolia.starkscan.co/contract',
+}
+
+export interface WinerProps {
+  winner: any;
+  cardId: string;
+  cardContract: string;
+  cardCollection: any;
+  amountOfCards: number;
 }

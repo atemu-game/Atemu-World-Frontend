@@ -20,8 +20,9 @@ import React from 'react';
 import { CallData, uint256 } from 'starknet';
 interface IProps {
   currentId?: number;
+  endAt?: number;
 }
-const YourEntries = ({ currentId }: IProps) => {
+const YourEntries = ({ currentId, endAt }: IProps) => {
   const ListOption = [
     {
       value: 1,
@@ -107,14 +108,18 @@ const YourEntries = ({ currentId }: IProps) => {
               />
             </Box>
 
-            <Box width={{ md: 'auto', base: 'full' }}>
+            <Box
+              width={{ md: 'auto', base: 'full' }}
+              opacity={0.3}
+              cursor="not-allowed"
+            >
               <HStack justifyContent="space-between" mb={4}>
                 <Text color="primary.100" fontWeight="bold">
                   Number of rounds
                 </Text>
                 <Button variant="secondary">Max</Button>
               </HStack>
-              <NumberSpinder />
+              {/* <NumberSpinder /> */}
             </Box>
           </Grid>
 
@@ -134,6 +139,7 @@ const YourEntries = ({ currentId }: IProps) => {
             variant="primary"
             width="full"
             borderColor="secondary.100"
+            isDisabled={endAt && endAt < Date.now() ? true : false}
             onClick={() => {
               handleJoinPool();
             }}

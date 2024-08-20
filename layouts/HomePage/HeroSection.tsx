@@ -47,19 +47,19 @@ const HeroSection = () => {
           <br /> Where Strategy Meets Legends and Your Cards fuel Battles
         </Text>
       </Flex>
-      {/* <ChakraNextImage
+      <ChakraNextImage
         src="/assets/arts/banner/home_banner.svg"
         width={1374.8}
         height={773.3}
         aria-label=""
         alt="Picture Atemu"
-      /> */}
-      <ChakraImage
+      />
+      {/* <ChakraImage
         src="/assets/arts/banner/home_banner.svg"
         aria-label=""
         width="100%"
         alt="Picture Atemu"
-      />
+      /> */}
 
       <Image
         src="/assets/arts/common/tester_art.svg"
