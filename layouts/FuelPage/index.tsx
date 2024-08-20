@@ -49,9 +49,10 @@ const FuelPage = () => {
 
   useEffect(() => {
     const handleReconnection = async () => {
-      if (socketFuelApi && socketFuelApi.connected === false) {
+      if (!socketFuelApi) {
         try {
-          await socketFuelApi.connect();
+          // console.log('Attempting to reconnect...');
+          await connectSocketFuel();
           console.log('Reconnected successfully');
         } catch (error) {
           console.error('Failed to reconnect', error);
@@ -68,6 +69,8 @@ const FuelPage = () => {
 
     handleReconnection();
     if (socketFuelApi && socketFuelApi.active) {
+      // socketFuelApi.connect();
+      console.log('Reconnect ???', currentPool);
       try {
         socketFuelApi.on(FuelEvents.TOTAL_ONLINE, data => {
           setTotalOnline(() => data);
@@ -89,22 +92,25 @@ const FuelPage = () => {
       } catch (error) {
         console.log('Error Data', error);
       }
-      // return () => {
-      //   socketFuelApi.off(FuelEvents.TOTAL_ONLINE);
-      //   socketFuelApi.off(FuelEvents.TOTAL_POINT);
-      //   socketFuelApi.off(FuelEvents.CURRENT_JOINED_POOL);
-      //   socketFuelApi.off(FuelEvents.WINNER);
-      //   socketFuelApi.off('disconnect');
-      //   socketFuelApi.off('error');
-      // };
     }
+    return () => {
+      if (socketFuelApi) {
+        // socketFuelApi.off(FuelEvents.TOTAL_ONLINE);
+        // socketFuelApi.off(FuelEvents.TOTAL_POINT);
+        // socketFuelApi.off(FuelEvents.CURRENT_JOINED_POOL);
+        // socketFuelApi.off(FuelEvents.WINNER);
+        // socketFuelApi.off('disconnect');
+        // socketFuelApi.off('error');
+        // socketFuelApi.disconnect();
+      }
+    };
   }, [socketFuelApi]);
   useEffect(() => {
     if (winner) {
       onOpenWiner();
     }
   }, [winner]);
-
+  console.log('Current Pool', currentPool);
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
