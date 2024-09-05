@@ -32,15 +32,17 @@ const ListPage = ({ sx }: IProps) => {
       icon: BlitzIcon,
       label: 'Blitz',
     },
-    {
-      link: '/fuel',
-      icon: FuelIcon,
-      label: 'Fuel',
-    },
+
     {
       link: '/leaderboard',
       icon: LeaderboardIcon,
       label: 'Leaderboard',
+    },
+    {
+      link: '/fuel',
+      icon: FuelIcon,
+      label: 'Fuel',
+      isDisabled: true,
     },
     {
       link: '/spin-of-fate',
