@@ -1,11 +1,4 @@
-import {
-  Box,
-  Flex,
-  Icon,
-  Text,
-  VStack,
-  Image as ChakraImage,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Icon, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import LogoLongIcon from '@/public/assets/logo/atemu_logo_long.svg';
 import UnionIcon from '@/public/assets/arts/common/union_art.svg';
@@ -72,14 +65,22 @@ const HeroSection = () => {
         width={578}
         alt="Tester Art"
       />
-      <Image
-        src="/assets/arts/common/home_art_intro.svg"
-        width={1269}
-        height={721}
-        alt="Home Art"
-        style={{ position: 'absolute', bottom: '-100%', left: 20, zIndex: -1 }}
-      />
-      <VStack position="absolute" right={10} bottom={-20}>
+      <Center>
+        <Image
+          src="/assets/arts/common/home_art_intro.svg"
+          width={1269}
+          height={721}
+          alt="Home Art"
+          priority={true}
+          style={{
+            position: 'absolute',
+            bottom: '-80%',
+
+            zIndex: -1,
+          }}
+        />
+      </Center>
+      <VStack position="absolute" right={10} bottom={'-15%'}>
         <Text
           variant="gradient_text"
           fontSize="32px"

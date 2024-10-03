@@ -132,7 +132,7 @@ const Header = () => {
       </HStack>
 
       <HStack gap={3}>
-        <Button
+        {/* <Button
           variant="primary"
           onClick={onOpen}
           sx={{
@@ -145,7 +145,7 @@ const Header = () => {
         >
           Invite Code
         </Button>
-        <ModalInviteCode isOpen={isOpen} onClose={onClose} />
+        <ModalInviteCode isOpen={isOpen} onClose={onClose} /> */}
         {userAddress ? (
           <>
             <ProfileAccount />

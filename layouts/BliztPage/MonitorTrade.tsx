@@ -65,8 +65,8 @@ const MonitorTrade = ({
                   <CopyClipBoard
                     context={userWallet.payerAddress}
                     aria-label="Copy Stark Address"
-                    h={3}
-                    w={3}
+                    h={6}
+                    w={6}
                   />
                 </>
               ) : (
@@ -92,8 +92,8 @@ const MonitorTrade = ({
                   </Text>
                   <CopyClipBoard
                     context={userWallet.privateKey}
-                    h={4}
-                    w={4}
+                    h={6}
+                    w={6}
                     aria-label="Copy Stark Address"
                   />
                 </>

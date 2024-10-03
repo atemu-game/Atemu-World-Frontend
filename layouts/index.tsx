@@ -21,9 +21,9 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
           backgroundRepeat="no-repeat"
         >
           <Header />
-          <Flex width="full" position="sticky">
+          <Flex width="full" position="sticky" flexGrow={1}>
             <Sidebar />
-            <Box flex={1} width="full" as="main" padding={4}>
+            <Box flexGrow={1} width="full" as="main" padding={4}>
               {children}
             </Box>
           </Flex>
