@@ -26,7 +26,6 @@ import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
 import QuestionIcon from '@/public/assets/icons/question.svg';
 import ModalWiner from '@/components/LotteryWheel/ModalWiner';
 import LotteryWheel from '@/components/LotteryWheel';
-import useFuelSocketData from '@/hooks/useFuelSocket';
 import { useSelector } from 'react-redux';
 import { TypeRootState } from '@/redux/store';
 
@@ -71,7 +70,7 @@ const FuelPage = () => {
             justifyContent="space-between"
             flexWrap={{ lg: 'nowrap', base: 'wrap-reverse' }}
           >
-            <Box minWidth={{ lg: '325px', base: 'full' }} height="full">
+            <Box minWidth={{ lg: '325px', base: 'full' }}>
               {!isLoadingPool && currentPool && totalOnline && totalPoint ? (
                 <CurrentPlayer
                   listPlayer={listPlayer}
@@ -201,7 +200,7 @@ const FuelPage = () => {
             </Card>
           )}
         </Flex>
-        <Flex flexDirection="column" gap={4} width="380px" height="100%">
+        <Flex flexDirection="column" gap={4} width="380px">
           <Card>
             <Box padding={4}>
               <Text mb={5} variant="sub_title">

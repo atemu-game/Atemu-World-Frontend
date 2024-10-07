@@ -65,7 +65,7 @@ const ModalWiner = ({
     const claimPromise = new Promise((resolve, reject) => {
       if (userAddress) {
         try {
-          const data = axiosHandler.post('claim-reward', {
+          const data = axiosHandler.post('/fuel/claim-reward', {
             poolId: claimablePool.id,
             poolContract: claimablePool.address,
           });
