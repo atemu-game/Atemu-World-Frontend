@@ -14,7 +14,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import CurrentPlayer from './CurrentPlayer';
 import YourEntries from './YourEntries';
 
@@ -22,23 +22,23 @@ import Card from '@/components/Card';
 
 import { useCountdown } from '@/hooks/useCountDown';
 import DateTimeDisplay from '@/components/TimeReminder/DateTimePlay';
-import { connectSocketFuel, socketFuelApi } from '@/config/socketFuelConfig';
-import { FuelEvents, WinerProps } from '@/utils/constants';
 
 import QuestionIcon from '@/public/assets/icons/question.svg';
 import ModalWiner from '@/components/LotteryWheel/ModalWiner';
 import LotteryWheel from '@/components/LotteryWheel';
+import useFuelSocketData from '@/hooks/useFuelSocket';
+import { useSelector } from 'react-redux';
+import { TypeRootState } from '@/redux/store';
 
 const FuelPage = () => {
-  const [isLoadingPool, setIsLoadingPool] = useState(true);
-  const [listPlayer, setListPlayer] = useState([]);
-  const [currentPool, setCurrentPool] = useState<any>(undefined);
-
-  const [totalPoint, setTotalPoint] = useState(0);
-  const [totalOnline, setTotalOnline] = useState(0);
-
-  const [winner, setWinner] = useState<WinerProps | undefined>(undefined);
-
+  const {
+    totalOnline,
+    winner,
+    currentPool,
+    listPlayer,
+    totalPoint,
+    isLoadingPool,
+  } = useSelector((state: TypeRootState) => state.socketFuel);
   const [days, hours, minutes, seconds] = useCountdown(currentPool?.endAt);
 
   const {
@@ -47,70 +47,6 @@ const FuelPage = () => {
     onClose: onCloseWiner,
   } = useDisclosure();
 
-  useEffect(() => {
-    const handleReconnection = async () => {
-      if (!socketFuelApi) {
-        try {
-          // console.log('Attempting to reconnect...');
-          await connectSocketFuel();
-          console.log('Reconnected successfully');
-        } catch (error) {
-          console.error('Failed to reconnect', error);
-        }
-      } else if (!socketFuelApi) {
-        console.log('IT Not Working');
-        try {
-          await connectSocketFuel();
-        } catch (error) {
-          console.error('Failed to connect', error);
-        }
-      }
-    };
-
-    handleReconnection();
-    if (socketFuelApi && socketFuelApi.active) {
-      // socketFuelApi.connect();
-      console.log('Reconnect ???', currentPool);
-      try {
-        socketFuelApi.on(FuelEvents.TOTAL_ONLINE, data => {
-          setTotalOnline(() => data);
-        });
-        socketFuelApi.on(FuelEvents.WINNER, data => {
-          console.log('Now Winer', data);
-          setWinner(() => data);
-        });
-        socketFuelApi.on(FuelEvents.CURRENT_POOL, data => {
-          setCurrentPool(() => data);
-          setIsLoadingPool(false);
-        });
-        socketFuelApi.on(FuelEvents.CURRENT_JOINED_POOL, data => {
-          setListPlayer(() => data);
-        });
-        socketFuelApi.on(FuelEvents.TOTAL_POINT, data => {
-          setTotalPoint(() => data);
-        });
-      } catch (error) {
-        console.log('Error Data', error);
-      }
-    }
-    return () => {
-      if (socketFuelApi) {
-        // socketFuelApi.off(FuelEvents.TOTAL_ONLINE);
-        // socketFuelApi.off(FuelEvents.TOTAL_POINT);
-        // socketFuelApi.off(FuelEvents.CURRENT_JOINED_POOL);
-        // socketFuelApi.off(FuelEvents.WINNER);
-        // socketFuelApi.off('disconnect');
-        // socketFuelApi.off('error');
-        // socketFuelApi.disconnect();
-      }
-    };
-  }, [socketFuelApi]);
-  useEffect(() => {
-    if (winner) {
-      onOpenWiner();
-    }
-  }, [winner]);
-  console.log('Current Pool', currentPool);
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
@@ -125,7 +61,7 @@ const FuelPage = () => {
             flexWrap={{ lg: 'nowrap', base: 'wrap-reverse' }}
           >
             <Box minWidth={{ lg: '325px', base: 'full' }} height="full">
-              {!isLoadingPool && currentPool ? (
+              {!isLoadingPool && currentPool && totalOnline && totalPoint ? (
                 <CurrentPlayer
                   listPlayer={listPlayer}
                   watching={totalOnline}
@@ -223,7 +159,7 @@ const FuelPage = () => {
               </HStack>
 
               <VStack height="full">
-                {!isLoadingPool && currentPool ? (
+                {!isLoadingPool && currentPool && totalPoint ? (
                   <>
                     <LotteryWheel
                       dataSeries={listPlayer}
@@ -266,7 +202,9 @@ const FuelPage = () => {
                   <Text>Prize Pool </Text>
                 </Box>
                 <Box>
-                  <Text fontWeight="bold">{listPlayer.length}/15</Text>
+                  {listPlayer && (
+                    <Text fontWeight="bold">{listPlayer.length}/15</Text>
+                  )}
                   <Text>Participants </Text>
                 </Box>
                 <Box>
