@@ -18,9 +18,8 @@ const PageDrawer = () => {
       <IconButton
         onClick={onOpen}
         aria-label=""
-        variant="primary"
-        border="none"
-        icon={<Icon as={MenuIcon} h={8} w={8} />}
+        variant="icon_primary"
+        icon={<Icon as={MenuIcon} h={4} w={4} />}
         height={8}
         w={8}
       />
@@ -41,6 +40,8 @@ const PageDrawer = () => {
               sx={{
                 flexDirection: 'row',
                 width: 'full',
+                justifyContent: 'flex-start',
+                pl: 4,
                 gap: 4,
                 onClick: onClose,
               }}

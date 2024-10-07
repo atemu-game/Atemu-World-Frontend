@@ -32,6 +32,7 @@ const ProviderFuelSocket = ({ children }: { children: React.ReactNode }) => {
         });
 
         socketFuelApi.on(FuelEvents.WINNER, (data: any) => {
+          console.log('winner', data);
           dispatch(setWinner(data));
         });
 

@@ -14,7 +14,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CurrentPlayer from './CurrentPlayer';
 import YourEntries from './YourEntries';
 
@@ -46,12 +46,23 @@ const FuelPage = () => {
     onOpen: onOpenWiner,
     onClose: onCloseWiner,
   } = useDisclosure();
-
+  useEffect(() => {
+    if (winner) {
+      onOpenWiner();
+    }
+  }, [winner]);
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
 
-      <Grid gridTemplateColumns={{ lg: '3fr 1fr', base: '1fr 1fr' }} gap={4}>
+      <Grid
+        gridTemplateColumns={{
+          lg: '3fr 1fr',
+          md: '1fr ',
+          base: '1fr 1fr',
+        }}
+        gap={4}
+      >
         <Flex flexDirection="column" gap={4} width="full">
           <Flex
             as={Card}
@@ -174,7 +185,7 @@ const FuelPage = () => {
               </VStack>
             </Box>
           </Flex>
-          {winner && (
+          {isOpenWinner && (
             <ModalWiner
               isOpen={isOpenWinner}
               onClose={onCloseWiner}

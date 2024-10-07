@@ -1,15 +1,11 @@
 import React from 'react';
-import HomeIcon from '@/public/assets/arts/sidebar/home.svg';
 
-import FuelIcon from '@/public/assets/arts/sidebar/fuel.svg';
-import BlitzIcon from '@/public/assets/arts/sidebar/blitz.svg';
-import LeaderboardIcon from '@/public/assets/arts/sidebar/leaderboard.svg';
-import SpinIcon from '@/public/assets/arts/sidebar/spin.svg';
 import { usePathname } from 'next/navigation';
 
 import { Box, BoxProps, Icon, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { colors } from '@/themes';
+import Image from 'next/image';
 
 interface ListPageProps {
   link: string;
@@ -24,28 +20,28 @@ const ListPage = ({ sx }: IProps) => {
   const ListPage: ListPageProps[] = [
     {
       link: '/',
-      icon: HomeIcon,
+      icon: '/assets/arts/sidebar/home.svg',
       label: 'Home',
     },
     {
       link: '/blitz',
-      icon: BlitzIcon,
+      icon: '/assets/arts/sidebar/blitz.svg',
       label: 'Blitz',
     },
     {
       link: '/fuel',
-      icon: FuelIcon,
+      icon: '/assets/arts/sidebar/fuel.svg',
       label: 'Fuel',
       // isDisabled: true,
     },
     {
       link: '/leaderboard',
-      icon: LeaderboardIcon,
+      icon: '/assets/arts/sidebar/leaderboard.svg',
       label: 'Leaderboard',
     },
     {
       link: '/spin-of-fate',
-      icon: SpinIcon,
+      icon: '/assets/arts/sidebar/spin.svg',
       label: 'Spin Of Fate',
       isDisabled: true,
     },
@@ -78,7 +74,12 @@ const ListPage = ({ sx }: IProps) => {
                 opacity={0.5}
                 {...sx}
               >
-                <Icon as={item.icon} height={12} width={12} />
+                <Image
+                  src={item.icon}
+                  alt={item.label}
+                  height={48}
+                  width={48}
+                />
                 <Text fontWeight={700}>{item.label}</Text>
               </Box>
             ) : (
@@ -107,7 +108,12 @@ const ListPage = ({ sx }: IProps) => {
                   }}
                   {...sx}
                 >
-                  <Icon as={item.icon} height={12} width={12} />
+                  <Image
+                    src={item.icon}
+                    alt={item.label}
+                    height={48}
+                    width={48}
+                  />
                   <Text fontWeight={700}>{item.label}</Text>
                 </Box>
               </Link>

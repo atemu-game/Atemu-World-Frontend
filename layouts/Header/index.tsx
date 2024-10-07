@@ -138,7 +138,7 @@ const Header = () => {
         </Link>
 
         <Text
-          fontSize="20px"
+          fontSize={{ md: '20px', base: 'md' }}
           fontWeight={600}
           textTransform="uppercase"
           variant="gradient_text"

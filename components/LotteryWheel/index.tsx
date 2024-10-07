@@ -237,7 +237,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
   }, [trigger.current]);
 
   useEffect(() => {
-    if (chart) {
+    if (chart && dataSeries.length > 0) {
       handleDrawChart();
     }
   }, [dataSeries]);

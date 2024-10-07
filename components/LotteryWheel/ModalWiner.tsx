@@ -1,7 +1,7 @@
 import { axiosHandler } from '@/config/axiosConfig';
 import { useAuth } from '@/hooks/useAuth';
 import { WinerProps } from '@/utils/constants';
-import { ellipseMiddle } from '@/utils/formatAddress';
+import { ellipseMiddle, formattedContractAddress } from '@/utils/formatAddress';
 import {
   Box,
   HStack,
@@ -49,13 +49,15 @@ const ModalWiner = ({
   }, [isOpen, onClose]);
 
   useEffect(() => {
-    if (userAddress === dataWiner.winner.address) {
+    if (!userAddress) return;
+    const formatAddress = formattedContractAddress(userAddress);
+    if (formatAddress == dataWiner.winner.address) {
       setClaimablePool({
         id: currentPool.id,
         address: currentPool.address,
       });
     }
-  }, [userAddress, dataWiner, currentPool]);
+  }, [userAddress, dataWiner]);
 
   const handleClaim = () => {
     if (!claimablePool) return;
@@ -98,7 +100,8 @@ const ModalWiner = ({
           <Text variant="title" textAlign="center">
             Congratulations!
           </Text>
-          {userAddress === dataWiner.winner.address ? (
+          {userAddress &&
+          formattedContractAddress(userAddress) == dataWiner.winner.address ? (
             <Text textAlign="center">You have won this round</Text>
           ) : (
             <Text

@@ -110,6 +110,16 @@ const Button: ComponentStyleConfig = {
         opacity: 0.5,
       },
     },
+    icon_primary: {
+      border: '1px solid ',
+      borderColor: 'primary.100',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      svg: {
+        color: 'primary.100',
+      },
+    },
     secondary: {
       color: 'primary.300',
       cursor: 'pointer',
