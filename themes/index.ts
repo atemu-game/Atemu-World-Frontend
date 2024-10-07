@@ -181,9 +181,10 @@ const Menu: ComponentStyleConfig = {
         display: 'flex',
         fontWeight: 'bold',
         gap: 4,
-        _hover: {
-          color: 'white',
-        },
+        transition: 'all 0.4s',
+        // _hover: {
+        //   color: 'white',
+        // },
       },
       command: {
         opacity: '0.8',

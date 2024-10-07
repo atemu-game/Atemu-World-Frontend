@@ -46,6 +46,7 @@ const HeroSection = () => {
         style={{
           width: '100%',
         }}
+        unoptimized
         height={773.3}
         aria-label=""
         alt="Picture Atemu"

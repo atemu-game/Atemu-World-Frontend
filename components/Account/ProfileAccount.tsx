@@ -23,11 +23,9 @@ import { ellipseMiddle } from '@/utils/formatAddress';
 
 import { useAuth } from '@/hooks/useAuth';
 import { useBalanceCustom } from '@/hooks/useBalanceCustom';
-import { Contract, Provider, cairo } from 'starknet';
-import { ABIS } from '@/abis';
+
 import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
-import systemConfig from '@/config/systemConfig';
 
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
@@ -113,6 +111,9 @@ const ProfileAccount = () => {
                 <Text>Referral Link</Text>
               </MenuItem>
               <MenuItem
+                _hover={{
+                  color: 'primary.100',
+                }}
                 onClick={() => {
                   disconnectWallet();
                 }}

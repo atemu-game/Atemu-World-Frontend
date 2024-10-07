@@ -2,7 +2,7 @@
 import { useAccount, useConnect, useDisconnect } from '@starknet-react/core';
 import { useTypedSelector } from './useTypedSelector';
 import { deleteCookie, setCookie } from '@/utils/cookie';
-import { ACCESS_TOKEN } from '@/utils/constants';
+import { ACCESS_TOKEN, USER_ADDRESS } from '@/utils/constants';
 import { axiosHandlerNoBearer } from '@/config/axiosConfig';
 import { useDispatch } from 'react-redux';
 import {
@@ -52,10 +52,19 @@ export const useAuth = () => {
           }
         );
         dispatch(setUserAdress(addressWallet));
+        const date = new Date();
+        const expiresAt = new Date(
+          date.getTime() + 1 * 24 * 60 * 60 * 1000
+        ).toUTCString();
         setCookie({
-          expires: '1d',
+          expires: expiresAt,
           key: ACCESS_TOKEN,
           value: dataToken.data.token,
+        });
+        setCookie({
+          expires: expiresAt,
+          key: USER_ADDRESS,
+          value: account.address,
         });
         dispatch(setUserLoading(false));
       }

@@ -64,7 +64,11 @@ const BliztPage = () => {
 
   const { status } = useCreatorAccount();
 
-  const { data: dataBlock, isLoading: isLoadingBlock } = useBlock({
+  const {
+    data: dataBlock,
+    isLoading: isLoadingBlock,
+    isError: isErrorBlock,
+  } = useBlock({
     refetchInterval: 10_000,
     blockIdentifier: 'latest' as BlockNumber,
   });
@@ -166,7 +170,7 @@ const BliztPage = () => {
                   <Text>Status</Text>
                 </Box>
                 <Box>
-                  {!isLoadingBlock && dataBlock ? (
+                  {!isLoadingBlock && dataBlock && !isErrorBlock ? (
                     <Text fontWeight="bold" color="primary.100">
                       {(dataBlock as any).block_number}
                     </Text>
@@ -177,7 +181,7 @@ const BliztPage = () => {
                   <Text>Current Block</Text>
                 </Box>
                 <Box>
-                  {!isLoadingBlock && dataBlock ? (
+                  {!isLoadingBlock && dataBlock && !isErrorBlock ? (
                     <Text fontWeight="bold" color="primary.100">
                       {formatBalance(
                         num.getDecimalString(
@@ -195,7 +199,7 @@ const BliztPage = () => {
 
                 <Box>
                   {!isLoadingWallet && userWallet ? (
-                    <>{userWallet.deployHash && <MintTransfer />}</>
+                    <> {userWallet.deployHash && <MintTransfer />}</>
                   ) : (
                     <Skeleton>Loading Content Information Wallet</Skeleton>
                   )}
