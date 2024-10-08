@@ -50,6 +50,7 @@ const FuelPage = () => {
       onOpenWiner();
     }
   }, [winner]);
+
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
@@ -71,7 +72,10 @@ const FuelPage = () => {
             flexWrap={{ lg: 'nowrap', base: 'wrap-reverse' }}
           >
             <Box minWidth={{ lg: '325px', base: 'full' }}>
-              {!isLoadingPool && currentPool && totalOnline && totalPoint ? (
+              {!isLoadingPool &&
+              currentPool &&
+              totalOnline &&
+              totalPoint != undefined ? (
                 <CurrentPlayer
                   listPlayer={listPlayer}
                   watching={totalOnline}
@@ -169,7 +173,7 @@ const FuelPage = () => {
               </HStack>
 
               <VStack height="full">
-                {!isLoadingPool && currentPool && totalPoint ? (
+                {!isLoadingPool && currentPool && totalPoint != undefined ? (
                   <>
                     <LotteryWheel
                       dataSeries={listPlayer}
@@ -192,7 +196,7 @@ const FuelPage = () => {
               currentPool={currentPool}
             />
           )}
-          {!isLoadingPool && currentPool ? (
+          {!isLoadingPool && currentPool && currentPool.address ? (
             <YourEntries currentId={currentPool.id} />
           ) : (
             <Card padding={4} minH="200px" as={VStack} justifyContent="center">
