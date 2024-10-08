@@ -159,6 +159,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
           },
         },
         tooltip: {
+          enabled: totalPoint ? true : false,
           pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>',
         },
         title: {

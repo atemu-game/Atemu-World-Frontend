@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import AccountJazzicon from '../Avatar/AvatarJazzicon';
 import {
   Box,
@@ -15,7 +15,7 @@ import {
 import CopyClipBoard from '../CopyClipboard/CopyClipBoard';
 
 import LinkIcon from '@/public/assets/icons/link.svg';
-import SettingIcon from '@/public/assets/icons/setting.svg';
+import HistoryIcon from '@/public/assets/icons/history.svg';
 
 import QuestIcon from '@/public/assets/icons/quest.svg';
 import LogoutIcon from '@/public/assets/icons/logout.svg';
@@ -26,7 +26,14 @@ import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 
 import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
+import { useRouter } from 'next/navigation';
 
+interface IProps {
+  icon: any;
+  text: string;
+  isDisabled?: boolean;
+  onClick?: () => void;
+}
 const ProfileAccount = () => {
   const { userAddress, disconnectWallet } = useAuth();
   const { balance, isLoading } = useBalanceCustom({
@@ -34,7 +41,33 @@ const ProfileAccount = () => {
     token: CONTRACT_ADDRESS.ETH,
   });
   const { point } = useCreatorAccount();
-
+  const { push } = useRouter();
+  const ListProfile: IProps[] = [
+    {
+      icon: HistoryIcon,
+      text: 'History Fuel',
+      onClick: () => {
+        push('/history');
+      },
+    },
+    {
+      icon: QuestIcon,
+      text: 'Quest Programs',
+      isDisabled: true,
+    },
+    {
+      icon: LinkIcon,
+      text: 'Referral Link',
+      isDisabled: true,
+    },
+    {
+      icon: LogoutIcon,
+      text: 'Disconnect',
+      onClick: () => {
+        disconnectWallet();
+      },
+    },
+  ];
   return (
     <>
       <Button
@@ -58,78 +91,60 @@ const ProfileAccount = () => {
 
       {userAddress && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>
-          <MenuButton as={Button} variant="primary">
-            {userAddress && ellipseMiddle(userAddress, 5, 5)}
-          </MenuButton>
-          <MenuList minW="300px">
-            <Box
-              px={4}
-              py={5}
-              style={{
-                border: '2px solid transparent',
-                borderImageSlice: 2,
-                borderImageSource: ` linear-gradient(90.73deg, rgba(232, 183, 124, 0.5) -5.34%, rgba(253, 217, 105, 0.5) 51.67%, rgba(178, 113, 34, 0.5) 116.05%)`,
-              }}
-            >
-              <HStack my={6} color="primary.100">
-                <AccountJazzicon
-                  address={userAddress}
-                  sx={{
-                    height: '3rem',
-                    width: '3rem',
+          {({ isOpen, onClose }) => (
+            <>
+              <MenuButton as={Button} variant="primary">
+                {userAddress && ellipseMiddle(userAddress, 5, 5)}
+              </MenuButton>
+              <MenuList minW="300px">
+                <Box
+                  px={4}
+                  pb={4}
+                  style={{
+                    border: '2px solid transparent',
+                    borderImageSlice: 2,
+                    borderImageSource: ` linear-gradient(90.73deg, rgba(232, 183, 124, 0.5) -5.34%, rgba(253, 217, 105, 0.5) 51.67%, rgba(178, 113, 34, 0.5) 116.05%)`,
                   }}
-                />
-                <Text>{ellipseMiddle(userAddress, 10, 10)}</Text>
-                <CopyClipBoard
-                  context={userAddress}
-                  aria-label="Copy Current userAddress"
-                />
-              </HStack>
-              <MenuItem
-                display={{
-                  base: 'block',
-                  md: 'none',
-                }}
-              ></MenuItem>
-              <MenuItem
-                display={{
-                  base: 'block',
-                  md: 'none',
-                }}
-                as={Button}
-              ></MenuItem>
-              <MenuItem isDisabled>
-                <Icon as={SettingIcon} />
-                <Text>Profile Setting</Text>
-              </MenuItem>
-              <MenuItem isDisabled>
-                <Icon as={QuestIcon} />
-                <Text>Quest Programs</Text>
-              </MenuItem>
-              <MenuItem isDisabled>
-                <Icon as={LinkIcon} />
-                <Text>Referral Link</Text>
-              </MenuItem>
-              <MenuItem
-                _hover={{
-                  color: 'primary.100',
-                }}
-                onClick={() => {
-                  disconnectWallet();
-                }}
-              >
-                <Icon as={LogoutIcon} />
-                <Text>Disconnect</Text>
-              </MenuItem>
-            </Box>
-          </MenuList>
+                >
+                  <HStack my={6} color="primary.100">
+                    <AccountJazzicon
+                      address={userAddress}
+                      sx={{
+                        height: '3rem',
+                        width: '3rem',
+                      }}
+                    />
+                    <Text>{ellipseMiddle(userAddress, 10, 10)}</Text>
+                    <CopyClipBoard
+                      context={userAddress}
+                      aria-label="Copy Current userAddress"
+                    />
+                  </HStack>
+
+                  {ListProfile.map((item, index) => (
+                    <MenuItem
+                      key={index}
+                      _hover={{
+                        color: 'primary.100',
+                      }}
+                      onClick={() => {
+                        onClose();
+                        item.onClick && item.onClick();
+                      }}
+                      isDisabled={item.isDisabled}
+                    >
+                      <Icon as={item.icon} />
+                      <Text>{item.text}</Text>
+                    </MenuItem>
+                  ))}
+                </Box>
+              </MenuList>
+            </>
+          )}
         </Menu>
       )}
     </>
   );
 };
-// Account Information
-// Profile Setting
-// Language
-// Logout
+
 export default ProfileAccount;

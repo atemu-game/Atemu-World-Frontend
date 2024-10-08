@@ -47,9 +47,9 @@ const ProviderFuelSocket = ({ children }: { children: React.ReactNode }) => {
         socketFuelApi.on(FuelEvents.TOTAL_POINT, (data: number) => {
           dispatch(setTotalPoint(data));
         });
-        // socketFuelApi.on(FuelEvents.CREATE_POOL_TX_HASH, (data: any) => {
-        //   dispatch(setCurrentPool(data));
-        // });
+        socketFuelApi.on(FuelEvents.CREATE_POOL_TX_HASH, (data: any) => {
+          dispatch(setWinner(null));
+        });
       }
     };
 
