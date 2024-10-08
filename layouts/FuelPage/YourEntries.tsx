@@ -25,8 +25,8 @@ interface IProps {
 const YourEntries = ({ currentId, endAt }: IProps) => {
   const ListOption = [
     {
-      value: 1,
-      label: '1',
+      value: 10,
+      label: '10',
     },
     {
       value: 50,

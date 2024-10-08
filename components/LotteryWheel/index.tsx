@@ -158,7 +158,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
           },
         },
         tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+          pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>',
         },
         title: {
           text: '',
@@ -203,8 +203,8 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
             borderRadius: 0,
             borderWidth: '0',
             dataLabels: {
-              enabled: true,
-              format: `<b>{point.name}</b><br>{point.percentage:.1f} %`,
+              enabled: false,
+              format: `<br>{point.percentage:.1f} %`,
               distance: -50,
               filter: {
                 property: 'percentage',

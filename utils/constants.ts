@@ -41,9 +41,10 @@ export enum BliztEvent {
 export enum FuelEvents {
   TOTAL_ONLINE = 'TOTAL_ONLINE',
   CURRENT_POOL = 'CURRENT_POOL',
-  CURRENT_JOINED_POOL = 'CURRENT_JOINED_POOL',
-  WINNER = 'WINNER',
   TOTAL_POINT = 'TOTAL_POINT',
+  CURRENT_JOINED_POOL = 'CURRENT_JOINED_POOL',
+  CREATE_POOL_TX_HASH = 'CREATE_POOL_TX_HASH',
+  WINNER = 'WINNER',
 }
 
 export type TXRType = 'success' | 'rejected' | 'error' | 'reverted';
