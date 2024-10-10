@@ -54,23 +54,26 @@ const Header = () => {
     const handleChangeWallet = async () => {
       const accessToken = getCookie(ACCESS_TOKEN);
       const prevAddress = getCookie(USER_ADDRESS);
+      // if (
+      //   addressWallet &&
+      //   addressWallet !== userAddress &&
+      //   prevConnector != null &&
+      //   account
+      // ) {
+      //   dispatch(setUserLoading(true));
+      //   handleClearEventLog();
+      //   await verifySignature(account);
+      //   await getUserPoint(addressWallet);
+      //   dispatch(setUserLoading(false));
+      // } else
+
       if (
-        addressWallet &&
-        addressWallet !== userAddress &&
-        prevConnector != null &&
-        account
-      ) {
-        dispatch(setUserLoading(true));
-        handleClearEventLog();
-        await verifySignature(account);
-        await getUserPoint(addressWallet);
-        dispatch(setUserLoading(false));
-      } else if (
         addressWallet &&
         account &&
         account.address !== addressWallet &&
         userAddress != null
       ) {
+        console.log('RUn logic 2');
         dispatch(setUserLoading(true));
         handleClearEventLog();
         await verifySignature(account);
@@ -82,6 +85,7 @@ const Header = () => {
         prevAddress !== addressWallet &&
         account
       ) {
+        console.log('RUn logic 3');
         dispatch(setUserLoading(true));
         handleClearEventLog();
         await verifySignature(account);

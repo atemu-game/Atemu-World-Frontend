@@ -18,7 +18,12 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
   const [spinningInterval, setSpinningInterval] = useState<any>(null);
 
   const startSpinning = (chart: any) => {
-    if (trigger.current && chart.series && chart.series[0] !== undefined) {
+    if (
+      trigger.current &&
+      chart &&
+      chart.series &&
+      chart.series[0] !== undefined
+    ) {
       let startAngle = chart.series[0].options.startAngle;
       const spin = () => {
         startAngle += 5;

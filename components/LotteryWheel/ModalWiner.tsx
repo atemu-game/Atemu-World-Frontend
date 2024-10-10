@@ -40,25 +40,27 @@ const ModalWiner = ({
   const [claimablePool, setClaimablePool] = useState<{
     id: string;
     address: string;
+    cardId: string;
   } | null>(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, 3 * 60 * 1000); // 3 minutes
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     const timer = setTimeout(() => {
+  //       onClose();
+  //     }, 3 * 60 * 1000); // 3 minutes
 
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen, onClose]);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isOpen, onClose]);
 
   useEffect(() => {
     if (!userAddress) return;
     const formatAddress = formattedContractAddress(userAddress);
-    if (formatAddress == dataWiner.winner.address) {
+    if (dataWiner && formatAddress == dataWiner.winner.address) {
       setClaimablePool({
         id: currentPool.id,
         address: currentPool.address,
+        cardId: dataWiner.winner.cardId,
       });
     }
   }, [userAddress, dataWiner]);
@@ -83,14 +85,15 @@ const ModalWiner = ({
           }
         );
         const response = data.data;
-
+        console.log('Claim', claimablePool);
+        console.log('response', response);
         const txHas = await account.execute([
           {
             contractAddress: CONTRACT_ADDRESS.FUEL,
             entrypoint: 'claimReward',
             calldata: CallData.compile({
               poolId: response.poolId,
-              cardId: response.cardId,
+              cardId: 1,
               amountCards: response.amountOfCards,
               proof: response.proof,
             }),
@@ -128,7 +131,8 @@ const ModalWiner = ({
             Congratulations!
           </Text>
           {userAddress &&
-          formattedContractAddress(userAddress) == dataWiner.winner.address ? (
+          claimablePool &&
+          formattedContractAddress(userAddress) == claimablePool.address ? (
             <Text textAlign="center">You have won this round</Text>
           ) : (
             <Text
@@ -136,10 +140,11 @@ const ModalWiner = ({
               textAlign="center"
               textDecoration="underline"
             >
-              {`${ellipseMiddle(
-                dataWiner.winner.address,
-                5
-              )} has won this round`}
+              {claimablePool &&
+                `${ellipseMiddle(
+                  claimablePool?.address,
+                  5
+                )} has won this round`}
             </Text>
           )}
           <HStack mt={6} justifyContent="space-between" color="primary.100">
@@ -152,7 +157,11 @@ const ModalWiner = ({
                 alt=""
                 height="174px"
               />
-              <Text fontWeight={300}>Trading Card #{dataWiner.cardId}</Text>
+              {claimablePool && (
+                <Text fontWeight={300}>
+                  Trading Card #{claimablePool.cardId}
+                </Text>
+              )}
             </Box>
 
             <Box textAlign="center">

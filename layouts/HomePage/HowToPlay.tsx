@@ -1,14 +1,22 @@
 import Card from '@/components/Card';
-import { Box, Button, Icon, Link, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Divider,
+  Icon,
+  Link,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import Image from 'next/image';
 import React from 'react';
 import UnionIcon from '@/public/assets/arts/common/union_art.svg';
 import FadeInVisible from '@/components/Animation/FadeInVisible';
+import { convertHex } from '@/utils/convertHex';
 const HowToPlay = () => {
   const BliztPointSection = [
     'Earn Blitz Points by playing Blitz',
     'Boost your earnings: Invite friends for multiplier bonuses',
-    'Use Blitz Points to:',
   ];
 
   const AtemuDifferentSection = [
@@ -43,7 +51,12 @@ const HowToPlay = () => {
         >
           Your gateway to the Atemu Realm. Stack your points and build your deck
         </Text>
-        <Card width="full" variant="shadow" padding={4}>
+        <Card
+          width="full"
+          variant="shadow"
+          padding={4}
+          bg={convertHex('#1E1E1E', 0.5)}
+        >
           <Box
             padding="60px"
             minH="500px"
@@ -75,7 +88,32 @@ const HowToPlay = () => {
                 width="full"
                 userSelect="none"
               >
-                <Box position="absolute" width="fit-content" top="40%">
+                <VStack textAlign="center">
+                  <Text
+                    textAlign="center"
+                    fontSize="24px"
+                    fontWeight="medium"
+                    color=" #FFFFFFBF"
+                    textShadow="0px 0px 2px #1E1E1E"
+                  >
+                    3.Use Blitz Points to:
+                  </Text>
+                  <Divider
+                    h={48}
+                    borderWidth={1}
+                    orientation="vertical"
+                    borderColor="primary.100"
+                  />
+                  <Text position="relative" color="primary.100" fontSize="20px">
+                    Join the Fuel - Wheel Of Fortune to Spin for rare OG cards
+                  </Text>
+                </VStack>
+                <Box
+                  position="absolute"
+                  width="fit-content"
+                  bottom="30%"
+                  left="5%"
+                >
                   <Text
                     position="relative"
                     color="primary.100"
@@ -83,22 +121,23 @@ const HowToPlay = () => {
                     _after={{
                       content: "''",
                       position: 'absolute',
-                      width: '200px',
+                      width: '400px',
                       top: '-80px',
                       height: '2px',
                       left: '50%',
                       background: 'primary.100',
-                      transform: 'rotate(-35deg)',
+                      transform: 'rotate(-20deg)',
                     }}
                   >
                     Enter tournaments with big prize pools
                   </Text>
                 </Box>
+
                 <Box
                   position="absolute"
                   width="fit-content"
-                  top="65%"
-                  left="30%"
+                  bottom="30%"
+                  right="5%"
                 >
                   <Text
                     position="relative"
@@ -107,36 +146,12 @@ const HowToPlay = () => {
                     _after={{
                       content: "''",
                       position: 'absolute',
-                      width: '180px',
-                      top: '-100px',
-                      height: '2px',
-                      left: '30%',
-                      background: 'primary.100',
-                      transform: 'rotate(-90deg)',
-                    }}
-                  >
-                    Join the Fuel - Wheel Of Fortune to Spin for rare OG cards
-                  </Text>
-                </Box>
-                <Box
-                  position="absolute"
-                  width="fit-content"
-                  top="40%"
-                  right={0}
-                >
-                  <Text
-                    position="relative"
-                    color="primary.100"
-                    fontSize="20px"
-                    _after={{
-                      content: "''",
-                      position: 'absolute',
-                      width: '200px',
+                      width: '400px',
                       top: '-80px',
                       height: '2px',
                       right: '50%',
                       background: 'primary.100',
-                      transform: 'rotate(35deg)',
+                      transform: 'rotate(20deg)',
                     }}
                   >
                     Buy exclusive Atemu items

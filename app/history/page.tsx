@@ -1,7 +1,8 @@
+import HistoryPage from '@/layouts/HistoryPage';
 import React from 'react';
 
-const HistoryPage = () => {
-  return <div>HistoryPage</div>;
+const History = () => {
+  return <HistoryPage />;
 };
 
-export default HistoryPage;
+export default History;

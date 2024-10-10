@@ -1,5 +1,7 @@
+'use client';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { connectSocketFuel, socketFuelApi } from '@/config/socketFuelConfig';
 import { FuelEvents } from '@/utils/constants';
 import {
@@ -18,7 +20,6 @@ const ProviderFuelSocket = ({ children }: { children: React.ReactNode }) => {
       if (!socketFuelApi || !socketFuelApi.active) {
         try {
           await connectSocketFuel();
-          console.log('Fuel Socket connected');
         } catch (error) {
           console.error('Failed to connect to Fuel socket', error);
           return;
