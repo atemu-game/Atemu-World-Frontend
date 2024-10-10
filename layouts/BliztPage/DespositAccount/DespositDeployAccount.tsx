@@ -35,7 +35,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
     isClosable: false,
   });
   const [isLoading, setIsLoading] = useState(false);
-  const initialRef = React.useRef(null);
+
   return (
     <>
       <Button
@@ -57,7 +57,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
         isCentered
         size="lg"
         variant="primary"
-        initialFocusRef={initialRef}
+        autoFocus={false}
       >
         <ModalOverlay />
 
@@ -83,20 +83,19 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                 <Text
                   textOverflow="ellipsis"
                   maxWidth={{ lg: 'full', base: '300px' }}
-                  ref={initialRef}
                 >
                   {ellipseMiddle(userWallet.payerAddress, 24, 24)}
-                  <CopyClipBoard
-                    ml={3}
-                    color="primary.100"
-                    context={
-                      userWallet.payerAddress ? userWallet.payerAddress : ''
-                    }
-                    h={5}
-                    w={5}
-                    aria-label="Copy Stark Address"
-                  />
                 </Text>
+                <CopyClipBoard
+                  ml={3}
+                  color="primary.100"
+                  context={
+                    userWallet.payerAddress ? userWallet.payerAddress : ''
+                  }
+                  h={5}
+                  w={5}
+                  aria-label="Copy Address"
+                />
               </HStack>
               <Text>Estimated ETH to deposit</Text>
               <HStack justifyContent="space-between">
@@ -158,7 +157,7 @@ const DespositDeployAccount = ({ userWallet, refetchWallet }: IProps) => {
                           })
                           .catch(res => {
                             setIsLoading(() => false);
-                            console.log('Error', res);
+
                             rejects(res);
                           });
                       }

@@ -13,6 +13,7 @@ import {
 import { userSlice } from './user/user-slice';
 import sessionStorage from 'redux-persist/es/storage/session';
 import { creatorSlice } from './creatorAccount/creator-slice';
+import { socketFuelSlice } from './fuel/fuel-slice';
 
 const persistConfig = {
   key: 'atemu',
@@ -24,6 +25,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userSlice.reducer,
   creatorAccount: creatorSlice.reducer,
+  socketFuel: socketFuelSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

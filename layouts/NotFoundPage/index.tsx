@@ -1,9 +1,14 @@
 'use client';
-
-import { Center } from '@chakra-ui/react';
+import { Center, Text } from '@chakra-ui/react';
 
 const NotFoundPage = () => {
-  return <Center color="white">Page Not Found Data</Center>;
+  return (
+    <Center height="full" color="white">
+      <Text fontWeight="bold" fontSize="2xl">
+        Page Not Found Data
+      </Text>
+    </Center>
+  );
 };
 
 export default NotFoundPage;

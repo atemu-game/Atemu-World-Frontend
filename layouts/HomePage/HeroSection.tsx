@@ -1,11 +1,4 @@
-import {
-  Box,
-  Flex,
-  Icon,
-  Text,
-  VStack,
-  Image as ChakraImage,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Icon, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import LogoLongIcon from '@/public/assets/logo/atemu_logo_long.svg';
 import UnionIcon from '@/public/assets/arts/common/union_art.svg';
@@ -16,8 +9,8 @@ const HeroSection = () => {
     <Box position="relative">
       <Flex
         position="absolute"
-        top={100}
-        left={20}
+        top={{ md: 100, base: '60%' }}
+        left={{ md: 20, base: 0 }}
         flexDir="column"
         zIndex="modal"
         textAlign="center"
@@ -28,7 +21,7 @@ const HeroSection = () => {
           fontWeight="bold"
           color="primary.400"
           textTransform="uppercase"
-          mb="34px"
+          mb={{ md: '34px', base: '1rem' }}
           style={{
             textShadow:
               '-1px -1px 0 #B27122, 1px -1px 0 #B27122, -1px 1px 0 #B27122, 1px 1px 0 #B27122',
@@ -46,17 +39,16 @@ const HeroSection = () => {
           <br /> Where Strategy Meets Legends and Your Cards fuel Battles
         </Text>
       </Flex>
-      {/*      
-      //   href="/assets/arts/common/banner_hero.gif"
-      //   width={1374.8}
-      //   height={773.3}
-      //   aria-label=""
-      //   alt="Picture Atemu"
-      // /> */}
-      <ChakraImage
+      <Image
         src="/assets/arts/common/banner_hero.gif"
+        width={1374.8}
+        priority={true}
+        style={{
+          width: '100%',
+        }}
+        unoptimized
+        height={773.3}
         aria-label=""
-        width="100%"
         alt="Picture Atemu"
       />
 
@@ -68,17 +60,26 @@ const HeroSection = () => {
         width={578}
         alt="Tester Art"
       />
-      <Image
-        src="/assets/arts/common/home_art_intro.svg"
-        width={1269}
-        height={721}
-        alt="Home Art"
-        style={{ position: 'absolute', bottom: '-100%', left: 20, zIndex: -1 }}
-      />
-      <VStack position="absolute" right={10} bottom={-20}>
+      <Center>
+        <Image
+          src="/assets/arts/common/home_art_intro.svg"
+          width={1269}
+          height={721}
+          alt="Home Art"
+          priority={true}
+          style={{
+            position: 'absolute',
+            bottom: '-80%',
+
+            zIndex: -1,
+          }}
+        />
+      </Center>
+      <VStack position="absolute" right={{ md: 10, base: 0 }} bottom={'-15%'}>
         <Text
           variant="gradient_text"
           fontSize="32px"
+          display={{ md: 'block', base: 'none' }}
           fontWeight="semibold"
           textTransform="uppercase"
         >

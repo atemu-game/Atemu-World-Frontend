@@ -17,14 +17,18 @@ const CopyClipBoard = ({ context, w, h, ...rest }: CopyClipBoardProps) => {
   const { onCopy, hasCopied } = useClipboard(context);
 
   return (
-    <Tooltip label={hasCopied ? 'COPIED' : 'COPY'} placement="right">
+    <Tooltip
+      label={hasCopied ? 'COPIED' : 'COPY'}
+      placement="right"
+      autoFocus={false}
+    >
       <IconButton
         variant="unstyled"
         minWidth="unset"
         height="auto"
         cursor="pointer"
         transition="all 0.4s ease-in-out"
-        color={hasCopied ? 'white' : 'inherit'}
+        color={hasCopied ? 'green' : 'inherit'}
         onClick={e => {
           e.preventDefault();
           onCopy();

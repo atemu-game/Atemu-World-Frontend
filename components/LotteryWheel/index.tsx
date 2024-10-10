@@ -76,6 +76,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
       }
       const centerX = chart.plotLeft + chart.plotSizeX / 2;
       const centerY = chart.plotTop + chart.plotSizeY / 2;
+      console.log(chart.series[0].data[0].shapeArgs.r);
       const radius = chart.series[0].data[0].shapeArgs.r + 6;
       const angle =
         newTimer * dataSeries.length * ((Math.pow(Math.PI, 2) * 2) / 360);
@@ -101,20 +102,20 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
           animation: false,
           backgroundColor: 'transparent',
           events: {
-            // resize: function () {
-            //   triangle.destroy();
-            //   triangle = chart.renderer
-            //     .path([
-            //       ['M', chart.chartWidth / 2 - 10, chart.plotTop - 5],
-            //       ['L', chart.chartWidth / 2 + 10, chart.plotTop - 5],
-            //       ['L', chart.chartWidth / 2, chart.plotTop + 10],
-            //       ['Z'],
-            //     ])
-            //     .attr({
-            //       fill: colors.secondary[100],
-            //     })
-            //     .add();
-            // },
+            resize: function () {
+              triangle.destroy();
+              triangle = chart.renderer
+                .path([
+                  ['M', chart.chartWidth / 2 - 10, chart.plotTop - 5],
+                  ['L', chart.chartWidth / 2 + 10, chart.plotTop - 5],
+                  ['L', chart.chartWidth / 2, chart.plotTop + 10],
+                  ['Z'],
+                ])
+                .attr({
+                  fill: colors.secondary[100],
+                })
+                .add();
+            },
             render: function (this: any) {
               if (this.customCircles) {
                 this.customCircles.destroy();
@@ -158,7 +159,8 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
           },
         },
         tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+          enabled: totalPoint ? true : false,
+          pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>',
         },
         title: {
           text: '',
@@ -203,8 +205,8 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
             borderRadius: 0,
             borderWidth: '0',
             dataLabels: {
-              enabled: true,
-              format: `<b>{point.name}</b><br>{point.percentage:.1f} %`,
+              enabled: false,
+              format: `<br>{point.percentage:.1f} %`,
               distance: -50,
               filter: {
                 property: 'percentage',
@@ -216,18 +218,18 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
         },
       } as any);
 
-      // triangle = chart.renderer
-      //   .path([
-      //     ['M', chart.chartWidth / 2 - 20, chart.plotTop - 10],
-      //     ['L', chart.chartWidth / 2 + 20, chart.plotTop - 10],
-      //     ['L', chart.chartWidth / 2, chart.plotTop + 20],
-      //     ['Z'],
-      //   ])
-      //   .attr({
-      //     fill: '#DFAA6C',
-      //     zIndex: 100,
-      //   })
-      //   .add();
+      triangle = chart.renderer
+        .path([
+          ['M', chart.chartWidth / 2 - 20, chart.plotTop - 10],
+          ['L', chart.chartWidth / 2 + 20, chart.plotTop - 10],
+          ['L', chart.chartWidth / 2, chart.plotTop + 20],
+          ['Z'],
+        ])
+        .attr({
+          fill: '#DFAA6C',
+          zIndex: 100,
+        })
+        .add();
       setChart(chart);
     }
   };
@@ -237,7 +239,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
   }, [trigger.current]);
 
   useEffect(() => {
-    if (chart) {
+    if (chart && dataSeries) {
       handleDrawChart();
     }
   }, [dataSeries]);
@@ -253,7 +255,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
         startSpinning(chart);
       }
     }
-    // if (chart && dataSeries.length > 0) {
+    // if (chart && endAt - Date.now() > 0) {
     //   updateCircle(chart, endAt - Date.now());
     // }
     if (chart && winner) {

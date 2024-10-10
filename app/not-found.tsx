@@ -1,7 +1,7 @@
 import NotFoundPage from '@/layouts/NotFoundPage';
 import { Metadata } from 'next';
 export const metadata: Metadata = {
-  title: 'Atemu | NotFound',
+  title: 'Not Found | Atemu',
   description:
     'Collect, Battle & Conquer in the Fully On-Chain Strategy Card Game on @Starknet🎮 .Powered by RYG Labs.',
 };
