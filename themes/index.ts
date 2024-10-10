@@ -110,6 +110,16 @@ const Button: ComponentStyleConfig = {
         opacity: 0.5,
       },
     },
+    icon_primary: {
+      border: '1px solid ',
+      borderColor: 'primary.100',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      svg: {
+        color: 'primary.100',
+      },
+    },
     secondary: {
       color: 'primary.300',
       cursor: 'pointer',
@@ -181,9 +191,10 @@ const Menu: ComponentStyleConfig = {
         display: 'flex',
         fontWeight: 'bold',
         gap: 4,
-        _hover: {
-          color: 'white',
-        },
+        transition: 'all 0.4s',
+        // _hover: {
+        //   color: 'white',
+        // },
       },
       command: {
         opacity: '0.8',

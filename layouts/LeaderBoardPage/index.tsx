@@ -119,12 +119,10 @@ const LeaderPage = () => {
                       {item.mappingAddress ? (
                         <>
                           <Td as={HStack} fontWeight="bold">
-                            <Text color="primary.100">
-                              {item.mappingAddress.address}
-                            </Text>
+                            <Text color="primary.100">{item.address}</Text>
 
                             <CopyClipBoard
-                              context={item.mappingAddress.address}
+                              context={item.address}
                               color="primary.100"
                               aria-label="Copy Clipboard"
                               h={4}

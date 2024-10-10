@@ -13,12 +13,14 @@ export enum CONTRACT_ADDRESS {
   FUEL = '0x028858c6f12ae346f9d03895caa473480ea4bc59b1e63b614ea9582310c998e0',
 }
 
-export const ACCESS_TOKEN = 'ACCESS_TOKEN';
+export const ACCESS_TOKEN = 'ATEMU_ACCESS_TOKEN';
+export const USER_ADDRESS = 'ATEMU_USER_ADDRESS';
 
 export enum RPC_PROVIDER {
   MAINET = 'https://starknet-mainnet.public.blastapi.io/rpc/v0_7',
+  TESTNET = 'https://starknet-sepolia.public.blastapi.io/rpc/v0_7',
   // TESTNET = 'https://free-rpc.nethermind.io/sepolia-juno/v0_7',
-  TESTNET = 'https://starknet-sepolia.reddio.com/rpc/v0_7',
+  // TESTNET = 'https://starknet-sepolia.reddio.com/rpc/v0_7',
 }
 
 ///BLizt Status
@@ -39,9 +41,10 @@ export enum BliztEvent {
 export enum FuelEvents {
   TOTAL_ONLINE = 'TOTAL_ONLINE',
   CURRENT_POOL = 'CURRENT_POOL',
-  CURRENT_JOINED_POOL = 'CURRENT_JOINED_POOL',
-  WINNER = 'WINNER',
   TOTAL_POINT = 'TOTAL_POINT',
+  CURRENT_JOINED_POOL = 'CURRENT_JOINED_POOL',
+  CREATE_POOL_TX_HASH = 'CREATE_POOL_TX_HASH',
+  WINNER = 'WINNER',
 }
 
 export type TXRType = 'success' | 'rejected' | 'error' | 'reverted';

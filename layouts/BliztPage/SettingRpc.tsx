@@ -36,7 +36,9 @@ const SettingRpc = () => {
     queryKey: 'default-rpc',
     queryFn: async () => {
       const { data } = await axiosHandlerNoBearer.get('/system/defaultRPC');
-      setCurrentRPC(() => data.data.value[0]);
+      if (data.data.value.length > 0) {
+        setCurrentRPC(() => data.data.value[0]);
+      }
       return data.data;
     },
   });

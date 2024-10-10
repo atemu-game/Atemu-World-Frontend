@@ -9,6 +9,7 @@ import { persistor, store } from '@/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import ProviderQueryClient from './ProviderQueryClient';
 import ProviderSocket from './ProviderSocket';
+import ProviderFuelSocket from './ProviderFuelSocket';
 
 const ProviderApp = ({ children }: PropsWithChildren) => {
   return (
@@ -18,7 +19,9 @@ const ProviderApp = ({ children }: PropsWithChildren) => {
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <ProviderSocket>
-                <DefaultLayout>{children}</DefaultLayout>
+                <ProviderFuelSocket>
+                  <DefaultLayout>{children}</DefaultLayout>
+                </ProviderFuelSocket>
               </ProviderSocket>
             </PersistGate>
           </Provider>

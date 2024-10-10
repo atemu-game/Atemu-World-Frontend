@@ -19,13 +19,17 @@ import LoadingConnectWallet from '@/components/Animation/LoadingConnectWallet';
 import ModalInviteCode from '@/components/InviteCode/ModalInviteCode';
 import { cairo, Contract, Provider } from 'starknet';
 import { ABIS } from '@/abis';
-import { CONTRACT_ADDRESS } from '@/utils/constants';
+import {
+  ACCESS_TOKEN,
+  CONTRACT_ADDRESS,
+  USER_ADDRESS,
+} from '@/utils/constants';
 import systemConfig from '@/config/systemConfig';
+import { getCookie } from '@/utils/cookie';
 
 const Header = () => {
   const { userAddress, prevConnector, isLoading, verifySignature } = useAuth();
   const { connectors, connect } = useConnect();
-  const { isOpen, onClose, onOpen } = useDisclosure();
 
   const { handleClearEventLog, handleSetPoint } = useCreatorAccount();
   const {
@@ -48,6 +52,8 @@ const Header = () => {
   };
   useEffect(() => {
     const handleChangeWallet = async () => {
+      const accessToken = getCookie(ACCESS_TOKEN);
+      const prevAddress = getCookie(USER_ADDRESS);
       if (
         addressWallet &&
         addressWallet !== userAddress &&
@@ -64,6 +70,17 @@ const Header = () => {
         account &&
         account.address !== addressWallet &&
         userAddress != null
+      ) {
+        dispatch(setUserLoading(true));
+        handleClearEventLog();
+        await verifySignature(account);
+        await getUserPoint(addressWallet);
+        dispatch(setUserLoading(false));
+      } else if (
+        addressWallet &&
+        accessToken &&
+        prevAddress !== addressWallet &&
+        account
       ) {
         dispatch(setUserLoading(true));
         handleClearEventLog();
@@ -121,7 +138,7 @@ const Header = () => {
         </Link>
 
         <Text
-          fontSize="20px"
+          fontSize={{ md: '20px', base: 'md' }}
           fontWeight={600}
           textTransform="uppercase"
           variant="gradient_text"

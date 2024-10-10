@@ -1,7 +1,8 @@
 import { axiosHandler } from '@/config/axiosConfig';
 import { useAuth } from '@/hooks/useAuth';
-import { WinerProps } from '@/utils/constants';
-import { ellipseMiddle } from '@/utils/formatAddress';
+import { CONTRACT_ADDRESS, WinerProps } from '@/utils/constants';
+import { ellipseMiddle, formattedContractAddress } from '@/utils/formatAddress';
+import { ResClaimFuelRewardResult } from '@/utils/typeResponse';
 import {
   Box,
   HStack,
@@ -15,8 +16,10 @@ import {
   ModalCloseButton,
   useToast,
 } from '@chakra-ui/react';
+import { useAccount } from '@starknet-react/core';
 
 import React, { useEffect, useState } from 'react';
+import { CallData } from 'starknet';
 interface ModalWinerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -30,6 +33,7 @@ const ModalWiner = ({
   currentPool,
 }: ModalWinerProps) => {
   const { userAddress } = useAuth();
+  const { account } = useAccount();
   const toast = useToast();
 
   // State to store pool data when user is the winner
@@ -49,44 +53,69 @@ const ModalWiner = ({
   }, [isOpen, onClose]);
 
   useEffect(() => {
-    if (userAddress === dataWiner.winner.address) {
+    if (!userAddress) return;
+    const formatAddress = formattedContractAddress(userAddress);
+    if (formatAddress == dataWiner.winner.address) {
       setClaimablePool({
         id: currentPool.id,
         address: currentPool.address,
       });
     }
-  }, [userAddress, dataWiner, currentPool]);
+  }, [userAddress, dataWiner]);
 
-  const handleClaim = () => {
+  const handleClaim = async () => {
     if (!claimablePool) return;
 
-    const claimPromise = new Promise((resolve, reject) => {
-      if (userAddress) {
-        try {
-          const data = axiosHandler.post('claim-reward', {
+    if (userAddress && account) {
+      try {
+        toast({
+          title: 'Claiming reward...',
+          status: 'loading',
+          duration: 5000,
+          isClosable: true,
+          id: 'claiming-reward',
+        });
+        const data = await axiosHandler.post<ResClaimFuelRewardResult>(
+          '/fuel/claim-reward',
+          {
             poolId: claimablePool.id,
             poolContract: claimablePool.address,
-          });
-          return resolve(data);
-        } catch (error) {
-          reject(error);
-        }
+          }
+        );
+        const response = data.data;
+
+        const txHas = await account.execute([
+          {
+            contractAddress: CONTRACT_ADDRESS.FUEL,
+            entrypoint: 'claimReward',
+            calldata: CallData.compile({
+              poolId: response.poolId,
+              cardId: response.cardId,
+              amountCards: response.amountOfCards,
+              proof: response.proof,
+            }),
+          },
+        ]);
+
+        toast.closeAll();
+        toast({
+          title: 'Claim reward successfully',
+          description: `Transaction hash: ${txHas}`,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+      } catch (error: any) {
+        toast.closeAll();
+        toast({
+          title: 'Claim reward failed',
+          description: error.message,
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
       }
-    });
-    toast.promise(claimPromise, {
-      success: {
-        title: 'Claim Success',
-        description: 'You have claimed the reward',
-      },
-      error: error => ({
-        title: 'Claim Error',
-        description: error.message,
-      }),
-      loading: {
-        title: 'Claim pending',
-        description: 'Please wait.....',
-      },
-    });
+    }
   };
 
   return (
@@ -98,7 +127,8 @@ const ModalWiner = ({
           <Text variant="title" textAlign="center">
             Congratulations!
           </Text>
-          {userAddress === dataWiner.winner.address ? (
+          {userAddress &&
+          formattedContractAddress(userAddress) == dataWiner.winner.address ? (
             <Text textAlign="center">You have won this round</Text>
           ) : (
             <Text

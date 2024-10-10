@@ -9,8 +9,8 @@ const HeroSection = () => {
     <Box position="relative">
       <Flex
         position="absolute"
-        top={100}
-        left={20}
+        top={{ md: 100, base: '60%' }}
+        left={{ md: 20, base: 0 }}
         flexDir="column"
         zIndex="modal"
         textAlign="center"
@@ -21,7 +21,7 @@ const HeroSection = () => {
           fontWeight="bold"
           color="primary.400"
           textTransform="uppercase"
-          mb="34px"
+          mb={{ md: '34px', base: '1rem' }}
           style={{
             textShadow:
               '-1px -1px 0 #B27122, 1px -1px 0 #B27122, -1px 1px 0 #B27122, 1px 1px 0 #B27122',
@@ -46,16 +46,11 @@ const HeroSection = () => {
         style={{
           width: '100%',
         }}
+        unoptimized
         height={773.3}
         aria-label=""
         alt="Picture Atemu"
       />
-      {/* <ChakraImage
-        src="/assets/arts/common/banner_hero.gif"
-        aria-label=""
-        width="100%"
-        alt="Picture Atemu"
-      /> */}
 
       <Image
         src="/assets/arts/common/tester_art.svg"
@@ -80,10 +75,11 @@ const HeroSection = () => {
           }}
         />
       </Center>
-      <VStack position="absolute" right={10} bottom={'-15%'}>
+      <VStack position="absolute" right={{ md: 10, base: 0 }} bottom={'-15%'}>
         <Text
           variant="gradient_text"
           fontSize="32px"
+          display={{ md: 'block', base: 'none' }}
           fontWeight="semibold"
           textTransform="uppercase"
         >

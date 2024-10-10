@@ -176,7 +176,10 @@ const HowToPlay = () => {
         ))}
       </VStack>
       <VStack textAlign="center" width="full" gap={0} py="240px">
-        <Text width="850px" variant="title_home">
+        <Text
+          width={{ lg: '850px', md: '600px', base: '300px' }}
+          variant="title_home"
+        >
           Be Part of the Next Big Thing in Fully On-chain Gaming
         </Text>
         <Text mt={4} mb="40px">
