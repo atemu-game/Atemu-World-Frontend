@@ -113,6 +113,7 @@ const ListPage = ({ sx }: IProps) => {
                     alt={item.label}
                     height={48}
                     width={48}
+                    priority
                   />
                   <Text fontWeight={700}>{item.label}</Text>
                 </Box>

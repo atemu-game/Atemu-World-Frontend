@@ -40,7 +40,7 @@ const HeroSection = () => {
         </Text>
       </Flex>
       <Image
-        src="/assets/arts/common/banner_hero.gif"
+        src="/assets/arts/common/banner.png"
         width={1374.8}
         priority={true}
         style={{
