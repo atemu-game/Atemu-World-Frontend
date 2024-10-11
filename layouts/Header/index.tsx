@@ -26,6 +26,7 @@ import {
 } from '@/utils/constants';
 import systemConfig from '@/config/systemConfig';
 import { getCookie } from '@/utils/cookie';
+import { formattedContractAddress } from '@/utils/formatAddress';
 
 const Header = () => {
   const { userAddress, prevConnector, isLoading, verifySignature } = useAuth();
@@ -52,44 +53,34 @@ const Header = () => {
   };
   useEffect(() => {
     const handleChangeWallet = async () => {
+      if (!addressWallet) return;
       const accessToken = getCookie(ACCESS_TOKEN);
       const prevAddress = getCookie(USER_ADDRESS);
-      // if (
-      //   addressWallet &&
-      //   addressWallet !== userAddress &&
-      //   prevConnector != null &&
-      //   account
-      // ) {
-      //   dispatch(setUserLoading(true));
-      //   handleClearEventLog();
-      //   await verifySignature(account);
-      //   await getUserPoint(addressWallet);
-      //   dispatch(setUserLoading(false));
-      // } else
+
+      const formatedAddress = formattedContractAddress(addressWallet);
 
       if (
-        addressWallet &&
-        account &&
-        account.address !== addressWallet &&
-        userAddress != null
-      ) {
-        console.log('RUn logic 2');
-        dispatch(setUserLoading(true));
-        handleClearEventLog();
-        await verifySignature(account);
-        await getUserPoint(addressWallet);
-        dispatch(setUserLoading(false));
-      } else if (
-        addressWallet &&
-        accessToken &&
-        prevAddress !== addressWallet &&
+        formatedAddress &&
+        formatedAddress !== userAddress &&
+        prevConnector != null &&
         account
       ) {
-        console.log('RUn logic 3');
         dispatch(setUserLoading(true));
         handleClearEventLog();
         await verifySignature(account);
-        await getUserPoint(addressWallet);
+        await getUserPoint(formatedAddress);
+        dispatch(setUserLoading(false));
+      } else if (
+        formatedAddress &&
+        accessToken &&
+        prevAddress !== formatedAddress &&
+        account
+      ) {
+        console.log('logic 3');
+        dispatch(setUserLoading(true));
+        handleClearEventLog();
+        await verifySignature(account);
+        await getUserPoint(formatedAddress);
         dispatch(setUserLoading(false));
       }
     };

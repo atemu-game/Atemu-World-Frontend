@@ -16,6 +16,7 @@ import { AccountInterface } from 'starknet';
 import { useToast } from '@chakra-ui/react';
 import { resetCreator } from '@/redux/creatorAccount/creator-slice';
 import systemConfig from '@/config/systemConfig';
+import { formattedContractAddress } from '@/utils/formatAddress';
 
 export const useAuth = () => {
   const user = useTypedSelector(state => state.user);
@@ -28,13 +29,14 @@ export const useAuth = () => {
   });
   const verifySignature = async (account: AccountInterface) => {
     try {
-      if (account) {
+      if (account && addressWallet) {
         dispatch(setUserLoading(true));
+        const formattedAddress = formattedContractAddress(addressWallet);
         const { data: dataSignMessage } = await axiosHandlerNoBearer.get(
           '/authentication/getNonce',
           {
             params: {
-              address: addressWallet,
+              address: formattedAddress,
             },
           }
         );
@@ -46,12 +48,12 @@ export const useAuth = () => {
         const { data: dataToken } = await axiosHandlerNoBearer.post(
           '/authentication/token',
           {
-            address: addressWallet,
+            address: formattedAddress,
             signature: signature,
             rpc: systemConfig().RPC,
           }
         );
-        dispatch(setUserAdress(addressWallet));
+        dispatch(setUserAdress(formattedAddress));
         const date = new Date();
         const expiresAt = new Date(
           date.getTime() + 1 * 24 * 60 * 60 * 1000
@@ -64,7 +66,7 @@ export const useAuth = () => {
         setCookie({
           expires: expiresAt,
           key: USER_ADDRESS,
-          value: account.address,
+          value: formattedAddress,
         });
         dispatch(setUserLoading(false));
       }
@@ -85,13 +87,13 @@ export const useAuth = () => {
     await connect({ connector: connectors[index] });
     dispatch(setConnector(index));
 
-    if (
-      account &&
-      account.address != user.userAddress &&
-      addressWallet != user.userAddress
-    ) {
-      await verifySignature(account);
-    }
+    // if (
+    //   account &&
+    //   account.address != user.userAddress &&
+    //   addressWallet != user.userAddress
+    // ) {
+    //   await verifySignature(account);
+    // }
   };
 
   const disconnectWallet = () => {
