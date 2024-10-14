@@ -43,15 +43,15 @@ const ModalWiner = ({
     cardId: string;
   } | null>(null);
 
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     const timer = setTimeout(() => {
-  //       onClose();
-  //     }, 3 * 60 * 1000); // 3 minutes
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 3 * 60 * 1000); // 3 minutes
 
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [isOpen, onClose]);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, onClose]);
 
   useEffect(() => {
     if (!userAddress) return;
@@ -94,7 +94,7 @@ const ModalWiner = ({
             calldata: CallData.compile({
               poolId: response.poolId,
               cardId: 1,
-              amountCards: response.amountOfCards,
+              amountCards: Number(response.amountOfCards),
               proof: response.proof,
             }),
           },
@@ -132,7 +132,7 @@ const ModalWiner = ({
           </Text>
           {userAddress &&
           claimablePool &&
-          formattedContractAddress(userAddress) == claimablePool.address ? (
+          formattedContractAddress(userAddress) == dataWiner.winner.address ? (
             <Text textAlign="center">You have won this round</Text>
           ) : (
             <Text
@@ -140,9 +140,9 @@ const ModalWiner = ({
               textAlign="center"
               textDecoration="underline"
             >
-              {claimablePool &&
+              {dataWiner &&
                 `${ellipseMiddle(
-                  claimablePool?.address,
+                  dataWiner.winner.address,
                   5
                 )} has won this round`}
             </Text>

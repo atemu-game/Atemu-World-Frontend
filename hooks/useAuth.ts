@@ -86,14 +86,6 @@ export const useAuth = () => {
   const connectWallet = async (index: number) => {
     await connect({ connector: connectors[index] });
     dispatch(setConnector(index));
-
-    // if (
-    //   account &&
-    //   account.address != user.userAddress &&
-    //   addressWallet != user.userAddress
-    // ) {
-    //   await verifySignature(account);
-    // }
   };
 
   const disconnectWallet = () => {

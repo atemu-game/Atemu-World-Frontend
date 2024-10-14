@@ -47,25 +47,29 @@ const YourEntries = ({ currentId, endAt }: IProps) => {
 
   const { account } = useAccount();
   const handleJoinPool = async () => {
-    if (account && currentId) {
-      await account.execute([
-        {
-          contractAddress: CONTRACT_ADDRESS.BLIZT_POINT,
-          entrypoint: 'approve',
-          calldata: CallData.compile({
-            spender: CONTRACT_ADDRESS.FUEL,
-            amount: uint256.bnToUint256(Number(entry)),
-          }),
-        },
-        {
-          contractAddress: CONTRACT_ADDRESS.FUEL,
-          entrypoint: 'joiningPool',
-          calldata: CallData.compile({
-            poolId: uint256.bnToUint256(currentId),
-            amountPoint: uint256.bnToUint256(Number(entry)),
-          }),
-        },
-      ]);
+    try {
+      if (account && currentId) {
+        await account.execute([
+          {
+            contractAddress: CONTRACT_ADDRESS.BLIZT_POINT,
+            entrypoint: 'approve',
+            calldata: CallData.compile({
+              spender: CONTRACT_ADDRESS.FUEL,
+              amount: uint256.bnToUint256(Number(entry)),
+            }),
+          },
+          {
+            contractAddress: CONTRACT_ADDRESS.FUEL,
+            entrypoint: 'joiningPool',
+            calldata: CallData.compile({
+              poolId: uint256.bnToUint256(currentId),
+              amountPoint: uint256.bnToUint256(Number(entry)),
+            }),
+          },
+        ]);
+      }
+    } catch (error) {
+      console.log(typeof error);
     }
   };
   return (

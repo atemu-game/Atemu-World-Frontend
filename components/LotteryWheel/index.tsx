@@ -22,7 +22,9 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
       trigger.current &&
       chart &&
       chart.series &&
-      chart.series[0] !== undefined
+      Array.isArray(chart.series) &&
+      chart.series.length > 0 &&
+      chart.series[0]
     ) {
       let startAngle = chart.series[0].options.startAngle;
       const spin = () => {
@@ -60,9 +62,6 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
           if (startAngle >= targetAngle - 5 && startAngle <= targetAngle + 5) {
             // eslint-disable-next-line no-use-before-define
             clearInterval(slowSpinInterval);
-            chart.setTitle({
-              text: `The winner is ${ellipseMiddle(winner.address, 3, 3)}!`,
-            });
           } else {
             startAngle += (targetAngle - startAngle) * 0.05;
             chart.series[0].update({ startAngle });
@@ -267,7 +266,13 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
       stopSpinning(chart);
     }
   }, [endAt, chart, dataSeries, winner]);
-
+  useEffect(() => {
+    return () => {
+      if (spinningInterval) {
+        clearInterval(spinningInterval);
+      }
+    };
+  }, [spinningInterval]);
   return (
     <Box
       width={{ lg: '500px', base: '300px' }}
