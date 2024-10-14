@@ -22,6 +22,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import ModalClaimFuel from './ModalClaimFuel';
 
 const HistoryPage = () => {
   const { userAddress } = useAuth();
@@ -85,7 +86,7 @@ const HistoryPage = () => {
                       <Td>{index + 1}</Td>
                       <Td>{new Date(item.endAt).toUTCString()}</Td>
                       <Td fontWeight="bold">
-                        <HStack >
+                        <HStack>
                           <Text color="primary.100">
                             {ellipseMiddle(item.winner.address, 6, 6)}
                           </Text>
@@ -115,7 +116,7 @@ const HistoryPage = () => {
                       <Td>{item.cardId}</Td>
                       <Td>
                         {item.winner.address == userAddress ? (
-                          <Button variant="primary">Claim Data</Button>
+                          <ModalClaimFuel dataClaim={item} />
                         ) : (
                           <Text></Text>
                         )}
