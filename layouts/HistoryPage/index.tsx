@@ -51,7 +51,6 @@ const HistoryPage = () => {
     'Amount of Cards',
     'Card Collection',
     'Card ID',
-    'Action',
   ];
   useEffect(() => {
     refetch();
@@ -76,6 +75,7 @@ const HistoryPage = () => {
                     {header}
                   </Th>
                 ))}
+                {userAddress && <Th fontWeight="bold"> Action</Th>}
               </Tr>
             </Thead>
             <Tbody>
@@ -83,7 +83,7 @@ const HistoryPage = () => {
                 <>
                   {data.items.map((item: any, index: number) => (
                     <Tr key={`leaderboard-${index}`}>
-                      <Td>{index + 1}</Td>
+                      <Td>{item.id}</Td>
                       <Td>{new Date(item.endAt).toUTCString()}</Td>
                       <Td fontWeight="bold">
                         <HStack>

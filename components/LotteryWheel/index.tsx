@@ -23,8 +23,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
       chart &&
       chart.series &&
       Array.isArray(chart.series) &&
-      chart.series.length > 0 &&
-      chart.series[0]
+      chart.series.length > 0
     ) {
       let startAngle = chart.series[0].options.startAngle;
       const spin = () => {
@@ -32,7 +31,7 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
         if (startAngle > 360) {
           startAngle -= 360;
         }
-        chart.series[0].update({ startAngle });
+        if (chart && chart.series[0]) chart.series[0].update({ startAngle });
       };
 
       setIsSpinning(true);
@@ -189,11 +188,16 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
                   ]
                 : dataSeries.map((item: any, index: number) => ({
                     name: ellipseMiddle(item.user.address, 3, 3),
-                    y: (item.stakedAmount / totalPoint) * 100,
+                    y:
+                      dataSeries.length === 1
+                        ? 100
+                        : (item.stakedAmount / totalPoint) * 100,
                     color:
-                      colors.secondary[
-                        ((index + 1) * 100) as keyof typeof colors.secondary
-                      ],
+                      dataSeries.length === 1
+                        ? colors.secondary[100]
+                        : colors.secondary[
+                            ((index + 1) * 100) as keyof typeof colors.secondary
+                          ],
                   })),
             startAngle: dataSeries.length === 0 ? 0 : 360 * Math.random(),
           },

@@ -72,6 +72,7 @@ const ProfileAccount = () => {
     <>
       <Button
         variant="primary"
+        _hover={{}}
         display={{
           base: 'none',
           md: 'inline-flex',
@@ -86,7 +87,9 @@ const ProfileAccount = () => {
       {!userAddress ? (
         <Skeleton>00.000</Skeleton>
       ) : (
-        <Button variant="primary">{point} points</Button>
+        <Button variant="primary" _hover={{}}>
+          {point} points
+        </Button>
       )}
 
       {userAddress && (

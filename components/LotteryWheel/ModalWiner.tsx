@@ -19,7 +19,7 @@ import {
 import { useAccount } from '@starknet-react/core';
 
 import React, { useEffect, useState } from 'react';
-import { CallData } from 'starknet';
+import { CallData, uint256 } from 'starknet';
 interface ModalWinerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -41,6 +41,7 @@ const ModalWiner = ({
     id: string;
     address: string;
     cardId: string;
+    userAddressWiner: string;
   } | null>(null);
 
   useEffect(() => {
@@ -61,6 +62,7 @@ const ModalWiner = ({
         id: currentPool.id,
         address: currentPool.address,
         cardId: dataWiner.winner.cardId,
+        userAddressWiner: dataWiner.winner.address,
       });
     }
   }, [userAddress, dataWiner]);
@@ -85,16 +87,15 @@ const ModalWiner = ({
           }
         );
         const response = data.data;
-        console.log('Claim', claimablePool);
-        console.log('response', response);
-        const txHas = await account.execute([
+
+        const { transaction_hash } = await account.execute([
           {
             contractAddress: CONTRACT_ADDRESS.FUEL,
             entrypoint: 'claimReward',
             calldata: CallData.compile({
-              poolId: response.poolId,
-              cardId: 1,
-              amountCards: Number(response.amountOfCards),
+              poolId: uint256.bnToUint256(response.poolId),
+              cardId: uint256.bnToUint256(response.cardId),
+              amountCards: uint256.bnToUint256(response.amountOfCards),
               proof: response.proof,
             }),
           },
@@ -103,7 +104,7 @@ const ModalWiner = ({
         toast.closeAll();
         toast({
           title: 'Claim reward successfully',
-          description: `Transaction hash: ${txHas}`,
+          description: `Claim Success with transaction hash: ${transaction_hash}`,
           status: 'success',
           duration: 5000,
           isClosable: true,
@@ -132,7 +133,8 @@ const ModalWiner = ({
           </Text>
           {userAddress &&
           claimablePool &&
-          formattedContractAddress(userAddress) == dataWiner.winner.address ? (
+          formattedContractAddress(userAddress) ==
+            claimablePool.userAddressWiner ? (
             <Text textAlign="center">You have won this round</Text>
           ) : (
             <Text

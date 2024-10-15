@@ -44,15 +44,14 @@ const ModalClaimFuel = ({ dataClaim }: IProps) => {
         );
         const response = data.data;
 
-        console.log('response', response);
-        const txHas = await account.execute([
+        const { transaction_hash } = await account.execute([
           {
             contractAddress: CONTRACT_ADDRESS.FUEL,
             entrypoint: 'claimReward',
             calldata: CallData.compile({
-              poolId: uint256.bnToUint256(Number(response.poolId)),
-              cardId: uint256.bnToUint256(Number(response.cardId)),
-              amountCards: uint256.bnToUint256(Number(response.amountOfCards)),
+              poolId: uint256.bnToUint256(response.poolId),
+              cardId: uint256.bnToUint256(response.cardId),
+              amountCards: uint256.bnToUint256(response.amountOfCards),
               proof: response.proof,
             }),
           },
@@ -61,7 +60,7 @@ const ModalClaimFuel = ({ dataClaim }: IProps) => {
         toast.closeAll();
         toast({
           title: 'Claim reward successfully',
-          description: `Transaction hash: ${txHas}`,
+          description: `Claim Success with transaction hash: ${transaction_hash}`,
           status: 'success',
           duration: 5000,
           isClosable: true,

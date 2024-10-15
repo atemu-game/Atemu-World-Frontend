@@ -28,6 +28,7 @@ import ModalWiner from '@/components/LotteryWheel/ModalWiner';
 import LotteryWheel from '@/components/LotteryWheel';
 import { useSelector } from 'react-redux';
 import { TypeRootState } from '@/redux/store';
+import { useAuth } from '@/hooks/useAuth';
 
 const FuelPage = () => {
   const {
@@ -39,7 +40,7 @@ const FuelPage = () => {
     isLoadingPool,
   } = useSelector((state: TypeRootState) => state.socketFuel);
   const [days, hours, minutes, seconds] = useCountdown(currentPool?.endAt);
-
+  const { userAddress } = useAuth();
   const {
     isOpen: isOpenWinner,
     onOpen: onOpenWiner,
@@ -47,10 +48,10 @@ const FuelPage = () => {
   } = useDisclosure();
   useEffect(() => {
     if (winner) {
+      console.log('WHat problem', winner);
       onOpenWiner();
     }
   }, [winner]);
-
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
@@ -175,12 +176,21 @@ const FuelPage = () => {
               <VStack height="full">
                 {!isLoadingPool && currentPool && totalPoint != undefined ? (
                   <>
-                    <LotteryWheel
-                      dataSeries={listPlayer}
-                      totalPoint={totalPoint}
-                      endAt={currentPool.endAt}
-                      winner={winner}
-                    />
+                    {new Date(currentPool?.endAt).getTime() <
+                      new Date().getTime() &&
+                    listPlayer &&
+                    listPlayer.length < 3 ? (
+                      <Text fontWeight="bold" fontSize="lg" color="primary.100">
+                        Waiting to create new pool onchain
+                      </Text>
+                    ) : (
+                      <LotteryWheel
+                        dataSeries={listPlayer}
+                        totalPoint={totalPoint}
+                        endAt={currentPool.endAt}
+                        winner={winner}
+                      />
+                    )}
                   </>
                 ) : (
                   <Spinner size="lg" />
@@ -188,14 +198,14 @@ const FuelPage = () => {
               </VStack>
             </Box>
           </Flex>
-          {isOpenWinner && (
-            <ModalWiner
-              isOpen={isOpenWinner}
-              onClose={onCloseWiner}
-              dataWiner={winner}
-              currentPool={currentPool}
-            />
-          )}
+
+          <ModalWiner
+            isOpen={isOpenWinner}
+            onClose={onCloseWiner}
+            dataWiner={winner}
+            currentPool={currentPool}
+          />
+
           {!isLoadingPool && currentPool && currentPool.address ? (
             <YourEntries currentId={currentPool.id} />
           ) : (
@@ -222,11 +232,48 @@ const FuelPage = () => {
                   <Text>Participants </Text>
                 </Box>
                 <Box>
-                  <Text>0</Text>
+                  {listPlayer &&
+                  listPlayer.length > 0 &&
+                  listPlayer?.filter(item => item.user.address === userAddress)
+                    .length ? (
+                    <Text>
+                      {
+                        listPlayer?.filter(
+                          item => item.user.address === userAddress
+                        )[0].stakedAmount
+                      }
+                      points
+                    </Text>
+                  ) : (
+                    <Skeleton>
+                      <Text>0</Text>
+                    </Skeleton>
+                  )}
+
                   <Text>Your Entries</Text>
                 </Box>
                 <Box>
-                  <Text fontWeight="bold">20</Text>
+                  {listPlayer &&
+                  listPlayer.length > 0 &&
+                  totalPoint &&
+                  listPlayer?.filter(item => item.user.address === userAddress)
+                    .length ? (
+                    <Text fontWeight="bold">
+                      {Number(
+                        (listPlayer.filter(
+                          item => item.user.address === userAddress
+                        )[0].stakedAmount /
+                          totalPoint) *
+                          100
+                      ).toFixed(2)}
+                      %
+                    </Text>
+                  ) : (
+                    <Skeleton>
+                      <Text>0%</Text>
+                    </Skeleton>
+                  )}
+
                   <Text>Your win chances </Text>
                 </Box>
               </Grid>

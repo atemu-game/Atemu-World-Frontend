@@ -1,6 +1,5 @@
 import Card from '@/components/Card';
 import ConnectWallet from '@/components/ConnectWallet';
-import NumberSpinder from '@/components/Input/NumberSpinder';
 
 import { useAuth } from '@/hooks/useAuth';
 
@@ -44,8 +43,8 @@ const YourEntries = ({ currentId, endAt }: IProps) => {
   ];
   const [entry, setEntry] = React.useState(ListOption[0].value);
   const { userAddress } = useAuth();
-
   const { account } = useAccount();
+
   const handleJoinPool = async () => {
     try {
       if (account && currentId) {
