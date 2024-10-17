@@ -38,7 +38,7 @@ const ModalWiner = ({
 
   // State to store pool data when user is the winner
   const [claimablePool, setClaimablePool] = useState<{
-    id: string;
+    poolId: string;
     address: string;
     cardId: string;
     userAddressWiner: string;
@@ -47,6 +47,7 @@ const ModalWiner = ({
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => {
+        setClaimablePool(null);
         onClose();
       }, 3 * 60 * 1000); // 3 minutes
 
@@ -59,7 +60,7 @@ const ModalWiner = ({
     const formatAddress = formattedContractAddress(userAddress);
     if (dataWiner && formatAddress == dataWiner.winner.address) {
       setClaimablePool({
-        id: currentPool.id,
+        poolId: currentPool.id,
         address: currentPool.address,
         cardId: dataWiner.winner.cardId,
         userAddressWiner: dataWiner.winner.address,
@@ -82,7 +83,7 @@ const ModalWiner = ({
         const data = await axiosHandler.post<ResClaimFuelRewardResult>(
           '/fuel/claim-reward',
           {
-            poolId: claimablePool.id,
+            poolId: claimablePool.poolId,
             poolContract: claimablePool.address,
           }
         );
@@ -109,6 +110,7 @@ const ModalWiner = ({
           duration: 5000,
           isClosable: true,
         });
+        onClose();
       } catch (error: any) {
         toast.closeAll();
         toast({

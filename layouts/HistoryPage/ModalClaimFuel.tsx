@@ -65,6 +65,7 @@ const ModalClaimFuel = ({ dataClaim }: IProps) => {
           duration: 5000,
           isClosable: true,
         });
+        onClose();
       } catch (error: any) {
         toast.closeAll();
         toast({

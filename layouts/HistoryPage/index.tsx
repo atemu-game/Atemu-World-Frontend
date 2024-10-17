@@ -115,7 +115,8 @@ const HistoryPage = () => {
                       </Td>
                       <Td>{item.cardId}</Td>
                       <Td>
-                        {item.winner.address == userAddress ? (
+                        {item.winner.address == userAddress &&
+                        !item.isClaimed ? (
                           <ModalClaimFuel dataClaim={item} />
                         ) : (
                           <Text></Text>
