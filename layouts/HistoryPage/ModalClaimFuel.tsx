@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { useAccount } from '@starknet-react/core';
 import React from 'react';
-import { CallData, num, uint256 } from 'starknet';
+import { CallData, uint256 } from 'starknet';
 interface IProps {
   dataClaim: any;
 }
@@ -107,9 +107,11 @@ const ModalClaimFuel = ({ dataClaim }: IProps) => {
 
               <Box textAlign="center">
                 <Text>Points can be claimed:</Text>
-                <Text fontSize="6xl" fontWeight={700}>
-                  25000
-                </Text>
+                {dataClaim.totalPoints && (
+                  <Text fontSize="6xl" fontWeight={700}>
+                    {dataClaim.totalPoints}
+                  </Text>
+                )}
                 <Text>Points</Text>
               </Box>
             </HStack>

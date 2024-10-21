@@ -52,6 +52,7 @@ const FuelPage = () => {
       onOpenWiner();
     }
   }, [winner]);
+
   return (
     <Flex flexDirection="column" gap={4}>
       <Text variant="title">Fuel</Text>
@@ -227,7 +228,7 @@ const FuelPage = () => {
                 </Box>
                 <Box>
                   {listPlayer && (
-                    <Text fontWeight="bold">{listPlayer.length}/15</Text>
+                    <Text fontWeight="bold">{listPlayer.length}</Text>
                   )}
                   <Text>Participants </Text>
                 </Box>
@@ -278,28 +279,6 @@ const FuelPage = () => {
                 </Box>
               </Grid>
             </Box>
-            <Divider
-              border="1px solid transparent"
-              style={{
-                borderImageSlice: 1,
-                borderImageSource: `linear-gradient(90.73deg, rgba(232, 183, 124, 0.5) -5.34%, rgba(253, 217, 105, 0.5) 51.67%, rgba(178, 113, 34, 0.5) 116.05%)
-              `,
-              }}
-            />
-            <Grid gridTemplateColumns={'repeat(2,1fr)'} gap={4} padding={4}>
-              <Box flexGrow={1}>
-                <Text fontWeight="bold" color="primary.100">
-                  25k
-                </Text>
-                <Text>Prize Pool </Text>
-              </Box>
-              <Box flexGrow={1}>
-                <Text fontWeight="bold" color="primary.100">
-                  5/500
-                </Text>
-                <Text>Participants </Text>
-              </Box>
-            </Grid>
           </Card>
 
           <Card padding={4} flexGrow={1}>

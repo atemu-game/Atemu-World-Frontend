@@ -7,7 +7,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { ellipseMiddle } from '@/utils/formatAddress';
 import {
   Box,
-  Button,
   HStack,
   Table,
   TableContainer,
@@ -17,7 +16,6 @@ import {
   Th,
   Thead,
   Tr,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';

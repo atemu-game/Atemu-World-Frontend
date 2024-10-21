@@ -41,6 +41,7 @@ const ModalWiner = ({
     poolId: string;
     address: string;
     cardId: string;
+    totalPoints: string;
     userAddressWiner: string;
   } | null>(null);
 
@@ -64,6 +65,7 @@ const ModalWiner = ({
         address: currentPool.address,
         cardId: dataWiner.winner.cardId,
         userAddressWiner: dataWiner.winner.address,
+        totalPoints: dataWiner.winner.totalPoints,
       });
     }
   }, [userAddress, dataWiner]);
