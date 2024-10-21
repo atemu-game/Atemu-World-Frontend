@@ -60,8 +60,7 @@ const FuelPage = () => {
       <Grid
         gridTemplateColumns={{
           lg: '3fr 1fr',
-          md: '1fr ',
-          base: '1fr 1fr',
+          base: '1fr ',
         }}
         gap={4}
       >
@@ -215,7 +214,11 @@ const FuelPage = () => {
             </Card>
           )}
         </Flex>
-        <Flex flexDirection="column" gap={4} width="380px">
+        <Flex
+          flexDirection="column"
+          gap={4}
+          width={{ md: '380px', base: 'full' }}
+        >
           <Card>
             <Box padding={4}>
               <Text mb={5} variant="sub_title">

@@ -30,21 +30,21 @@ export default function Scrollbar({
 }: ScrollbarProps & Props) {
   return (
     <Box
-      overflowY="auto"
+      overflow={{ md: 'auto', base: 'none' }}
       // height="100%"
       _hover={scrollbarThumb({
         bg: '#DFAA6C',
-        width: 2,
+        width: '5px',
       })}
       sx={{
         ...(alway
           ? scrollbarThumb({
               bg: '#DFAA6C',
-              width: 2,
+              width: '5px',
             })
           : {}),
         ...scrollbarWebkit({
-          width: 2,
+          width: '5px',
           height: 2,
         }),
         '::-webkit-scrollbar-corner': {

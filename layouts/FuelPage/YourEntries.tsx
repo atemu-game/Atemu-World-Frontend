@@ -78,7 +78,10 @@ const YourEntries = ({ currentId, endAt }: IProps) => {
           <Text textTransform="uppercase" variant="sub_title" fontWeight="bold">
             Your entries
           </Text>
-          <Grid gridTemplateColumns={`repeat(2,1fr)`} gap={8}>
+          <Grid
+            gridTemplateColumns={{ md: `repeat(2,1fr)`, base: '1fr' }}
+            gap={8}
+          >
             <Box flexGrow={1}>
               <HStack
                 justifyContent="space-between"

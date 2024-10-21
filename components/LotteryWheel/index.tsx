@@ -279,8 +279,8 @@ const LotteryWheel = ({ dataSeries, totalPoint, endAt, winner }: IProps) => {
   }, [spinningInterval]);
   return (
     <Box
-      width={{ lg: '500px', base: '300px' }}
-      height={{ lg: '500px', base: '300px' }}
+      width={{ md: '500px', base: '300px' }}
+      height={{ md: '500px', base: '300px' }}
       id="chart-wheel"
       ref={trigger}
     ></Box>

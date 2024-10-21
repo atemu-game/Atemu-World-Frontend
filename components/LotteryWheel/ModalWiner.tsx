@@ -171,9 +171,9 @@ const ModalWiner = ({
             </Box>
 
             <Box textAlign="center">
-              <Text>Points can be claimed:</Text>
+              <Text>Points are claimed (auto transfer your wallet)</Text>
               <Text fontSize="6xl" fontWeight={700}>
-                25000
+                {claimablePool && claimablePool.totalPoints}
               </Text>
               <Text>Points</Text>
             </Box>

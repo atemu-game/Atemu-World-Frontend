@@ -106,7 +106,7 @@ const ModalClaimFuel = ({ dataClaim }: IProps) => {
               </Box>
 
               <Box textAlign="center">
-                <Text>Points can be claimed:</Text>
+                <Text>Points are claimed (auto transfer your wallet):</Text>
                 {dataClaim.totalPoints && (
                   <Text fontSize="6xl" fontWeight={700}>
                     {dataClaim.totalPoints}
