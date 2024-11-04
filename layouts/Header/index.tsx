@@ -1,6 +1,6 @@
 import { Box, Button, HStack, Text, useDisclosure } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import LogoIcon from '@/public/assets/logo/atemu_logo_long.svg';
+import LogoIcon from '@/public/assets/logo/atemu_logo_long.png';
 
 import ConnectWallet from '@/components/ConnectWallet';
 
@@ -27,6 +27,7 @@ import {
 import systemConfig from '@/config/systemConfig';
 import { getCookie } from '@/utils/cookie';
 import { formattedContractAddress } from '@/utils/formatAddress';
+import Image from 'next/image';
 
 const Header = () => {
   const { userAddress, prevConnector, isLoading, verifySignature } = useAuth();
@@ -129,7 +130,9 @@ const Header = () => {
         }}
       >
         <Link href="/">
-          <LogoIcon />
+          <Box height="35px" width="95px">
+            <Image src={LogoIcon} alt="Atemu" width={372} height={138} />
+          </Box>
         </Link>
 
         <Text

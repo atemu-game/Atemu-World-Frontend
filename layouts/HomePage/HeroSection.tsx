@@ -1,6 +1,6 @@
 import { Box, Center, Flex, Icon, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-import LogoLongIcon from '@/public/assets/logo/atemu_logo_long.svg';
+import LogoLongIcon from '@/public/assets/logo/atemu_logo_long.png';
 import UnionIcon from '@/public/assets/arts/common/union_art.svg';
 import Image from 'next/image';
 
@@ -15,7 +15,7 @@ const HeroSection = () => {
         zIndex="modal"
         textAlign="center"
       >
-        <Icon as={LogoLongIcon} width="full" height="138px" />
+        <Image src={LogoLongIcon} width={372} height={138} alt={'Atemu-ark'} />
         <Text
           fontSize="24px"
           fontWeight="bold"
