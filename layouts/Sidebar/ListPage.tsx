@@ -2,7 +2,7 @@ import React from 'react';
 
 import { usePathname } from 'next/navigation';
 
-import { Box, BoxProps, Icon, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { colors } from '@/themes';
 import Image from 'next/image';
@@ -20,28 +20,28 @@ const ListPage = ({ sx }: IProps) => {
   const ListPage: ListPageProps[] = [
     {
       link: '/',
-      icon: '/assets/arts/sidebar/home.svg',
+      icon: '/assets/arts/sidebar/home.jpg',
       label: 'Home',
     },
     {
       link: '/blitz',
-      icon: '/assets/arts/sidebar/blitz.svg',
+      icon: '/assets/arts/sidebar/blitz.jpg',
       label: 'Blitz',
     },
     {
       link: '/fuel',
-      icon: '/assets/arts/sidebar/fuel.svg',
+      icon: '/assets/arts/sidebar/fuel.jpg',
       label: 'Fuel',
       // isDisabled: true,
     },
     {
       link: '/leaderboard',
-      icon: '/assets/arts/sidebar/leaderboard.svg',
+      icon: '/assets/arts/sidebar/leaderboard.jpg',
       label: 'Leaderboard',
     },
     {
       link: '/spin-of-fate',
-      icon: '/assets/arts/sidebar/spin.svg',
+      icon: '/assets/arts/sidebar/spin.jpg',
       label: 'Spin Of Fate',
       isDisabled: true,
     },
@@ -108,13 +108,16 @@ const ListPage = ({ sx }: IProps) => {
                   }}
                   {...sx}
                 >
-                  <Image
-                    src={item.icon}
-                    alt={item.label}
-                    height={48}
-                    width={48}
-                    priority
-                  />
+                  <Box height="48px" width="48px">
+                    <Image
+                      src={item.icon}
+                      alt={item.label}
+                      height={150}
+                      width={150}
+                      // fill
+                      priority
+                    />
+                  </Box>
                   <Text fontWeight={700}>{item.label}</Text>
                 </Box>
               </Link>

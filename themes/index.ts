@@ -11,6 +11,7 @@ export const colors = {
     300: '#131417',
     400: '#FDD969',
     500: '#B27122',
+    600: '#E8B77C',
   },
   divider: {
     100: '#3A3A3C',
@@ -28,6 +29,7 @@ export const colors = {
   body: '#0D0E13',
   gradient: {
     100: 'linear-gradient(90.73deg, #E8B77C -5.34%, #FDD969 56.57%, #B27122 116.05%)',
+    200: 'linear-gradient(90deg, #FF9634 -15.67%, #FF5050 118.84%)',
   },
   boxShadow: {
     100: `0px 4px 16px 0px #E8B77C26 inset,

@@ -27,6 +27,7 @@ import { useBalanceCustom } from '@/hooks/useBalanceCustom';
 import { CONTRACT_ADDRESS } from '@/utils/constants';
 import { useCreatorAccount } from '@/hooks/useCreatorAccount';
 import { useRouter } from 'next/navigation';
+import ModalClaimPoint from '../InviteCode/ModalClaimPoint';
 
 interface IProps {
   icon: any;
@@ -91,7 +92,7 @@ const ProfileAccount = () => {
           {point} points
         </Button>
       )}
-
+      {/* {userAddress && <ModalClaimPoint />} */}
       {userAddress && (
         <Menu variant="profile" placement="bottom-end" closeOnSelect={false}>
           {({ isOpen, onClose }) => (
