@@ -114,14 +114,14 @@ const Header = () => {
       borderBottom="1px solid"
       borderBottomColor="primary.100"
     >
-      <Box
+      {/* <Box
         display={{
           base: 'block',
           md: 'none',
         }}
       >
         <PageDrawer />
-      </Box>
+      </Box> */}
 
       <HStack
         display={{
@@ -161,13 +161,13 @@ const Header = () => {
           Invite Code
         </Button>
         <ModalInviteCode isOpen={isOpen} onClose={onClose} /> */}
-        {userAddress ? (
+        {/* {userAddress ? (
           <>
             <ProfileAccount />
           </>
         ) : (
           <ConnectWallet />
-        )}
+        )} */}
       </HStack>
       <LoadingConnectWallet isOpen={isLoading} />
     </HStack>

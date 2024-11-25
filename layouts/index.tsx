@@ -1,5 +1,5 @@
 'use client';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Container, Flex } from '@chakra-ui/react';
 import React, { PropsWithChildren } from 'react';
 import Header from './Header';
 
@@ -22,7 +22,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
         >
           <Header />
           <Flex width="full" position="sticky" flexGrow={1}>
-            <Sidebar />
+            {/* <Sidebar /> */}
             <Box flexGrow={1} width="full" as="main" padding={4}>
               {children}
             </Box>
